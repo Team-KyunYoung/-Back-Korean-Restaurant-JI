@@ -13,15 +13,15 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class SwaggerConfig {
 
     @Bean
-    public Docket api() {
+    public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .select()
+                .apiInfo(swaggerInfo()).select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build();
     }
 
-    private ApiInfo apiInfo() {
+    private ApiInfo swaggerInfo() {
         return new ApiInfoBuilder()
                 .title("Korean Restaurant JI's SpringBoot REST API ")
                 .version("1.0.0")
