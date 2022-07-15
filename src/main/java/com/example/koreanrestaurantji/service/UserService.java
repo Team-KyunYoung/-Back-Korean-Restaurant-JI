@@ -21,9 +21,10 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public Long signUp(UserSignupRequestDto userSignupRequestDto) throws BaseException {
-
+        System.out.println(userSignupRequestDto.getUserPassword());
         userSignupRequestDto.setUserPassword(passwordEncoder.encode(userSignupRequestDto.getUserPassword()));
         boolean exitsUserCheck = userRepository.existsByUserEmail(userSignupRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.BAD_REQUEST));
+        System.out.println(userSignupRequestDto.getUserPassword());
 
         if (exitsUserCheck) {
             throw new BaseException(BaseResponseCode.DUPLICATE_EMAIL);

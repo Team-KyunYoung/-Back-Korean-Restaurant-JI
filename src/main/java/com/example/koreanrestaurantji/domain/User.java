@@ -27,7 +27,7 @@ public class User {
     private String userEmail;
 
     @ApiModelProperty(value = "비밀번호")
-    @Column(name = "user_password", nullable = false,  length = 20)
+    @Column(name = "user_password", nullable = false)
     private String userPassword;
 
     @ApiModelProperty(value = "별명")

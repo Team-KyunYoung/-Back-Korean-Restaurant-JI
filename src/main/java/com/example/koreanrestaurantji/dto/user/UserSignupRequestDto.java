@@ -12,7 +12,6 @@ import lombok.Setter;
 public class UserSignupRequestDto {
     private String userEmail;
     private String userPassword;
-    private String userName;
     private String userNickname;
 
     @Builder
