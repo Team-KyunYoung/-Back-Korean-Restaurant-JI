@@ -5,7 +5,7 @@ Swagger : http://localhost:8080/swagger-ui.html
 <br>
 
 ## :point_right: Info
-한식 전문점 '智' 웹사이트의 BackEnd 프로젝트입니다.
+한식 전문점 '智' 웹사이트의 BackEnd 프로젝트입니다. <br>
 '智'가 제공하는 음식 소개, 식당 예약, 포장 주문, 리뷰, 고객문의, 채팅 기능을 구현합니다.
 
 <br>
