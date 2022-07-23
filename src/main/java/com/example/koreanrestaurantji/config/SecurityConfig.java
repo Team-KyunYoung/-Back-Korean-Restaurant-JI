@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,13 +25,15 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .httpBasic().disable() // rest api 이므로 기본설정 사용안함. 기본설정은 비인증시 로그인폼 화면으로 리다이렉트 된다.
+                .csrf().disable() // rest api이므로 csrf 보안이 필요없으므로 disable처리.
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt token으로 인증할것이므로 세션필요없으므로 생성안함.
+                .and()
                 .authorizeRequests() // 요청에 대한 사용권한 체크(요청에 대한 권한을 지정)
                 // 인증 필요 없는 기능에 접근 할 수 있도록 설정(Controller에 정의된 url 넣으면 된다)
                 .antMatchers("/exception/**", "/item/**", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll() // For Swagger
-                .antMatchers("/user/signup/**", "/user/login/**", "/user/logout/**").permitAll() // 로그인, 회원가입은 누구나 접근 가능
-                .anyRequest().authenticated() //이 외에는 인증이 필요하도록 한다.
-                .and()
-                .csrf().disable(); // csrf에 대해 체크하기 때문에 POST가 정상적으로 수행되지 않으므로 해지 필요.
+                .antMatchers("/api/user/signup/**", "/api/user/login/**", "/api/user/logout/**").permitAll() // 로그인, 회원가입은 누구나 접근 가능
+                .anyRequest().authenticated(); //이 외에는 인증이 필요하도록 한다.
         return http.build();
     }
 }
