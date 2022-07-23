@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController //(@Controller + @ResponseBody)  Json 형태로 객체 데이터를 반환하는 컨트롤러
 @Api(tags = {"User"})  //Swagger 리소스(대표 제목) 명시
-@RequestMapping(value = "/user")  //특정 url을 요청을 수행하도록 mapping (이 클래스의 모든 mapper는 /user로 시작한다)
+@RequestMapping(value = "/api/user")  //특정 url을 요청을 수행하도록 mapping (이 클래스의 모든 mapper는 /user로 시작한다)
 @RequiredArgsConstructor //필드의 생성자를 자동 생성해주는 롬복 어노테이션(Autowired 안써도됨)
 public class UserController {
 

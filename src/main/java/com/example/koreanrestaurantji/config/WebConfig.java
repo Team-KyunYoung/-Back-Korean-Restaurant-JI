@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer { //WebMvcConfigurer를 통�
     //크로스 도메인 이슈: 브라우저에서 다른 도메인으로 URL 요청을 하는 경우 나타나는 보안문제
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") //해당 서버의 "/api/**" 요청에 해당 Class가 동작
+        registry.addMapping("/api/**") //해당 서버의 "/api/**" 요청에 해당 Class가 동작
                 .allowedOrigins("http://localhost:8080", "http://localhost:3000") // 원하는 도메인만 허용
                 .allowedMethods("*") // 원하는 HTTP 메소드만 허용 (GET, POST, PUT, DELETE, OPTIONS, ...)
                 .allowedHeaders("*") // 원하는 헤더만 허용(Http Request Header에 허용해줄 Header Name을 설정)
