@@ -32,8 +32,13 @@ public class SecurityConfig{
                 .authorizeRequests() // 요청에 대한 사용권한 체크(요청에 대한 권한을 지정)
                 // 인증 필요 없는 기능에 접근 할 수 있도록 설정(Controller에 정의된 url 넣으면 된다)
                 .antMatchers("/exception/**", "/item/**", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll() // For Swagger
-                .antMatchers("/api/user/signup/**", "/api/user/login/**", "/api/user/logout/**", "/api/user/checknickname", "/api/user/signup/emailAuth").permitAll() // 로그인, 회원가입은 누구나 접근 가능
+
+                .antMatchers("/api/user/signup/**", "/api/user/login/**", "/api/user/logout/**", "/api/user/checknickname", "/api/user/signup/emailAuth", "/api/user/delete/**").permitAll() // 로그인, 회원가입은 누구나 접근 가능,delete 나중 삭제
                 .anyRequest().authenticated(); //이 외에는 인증이 필요하도록 한다.
+//=======
+//                .and()
+//                .csrf().disable(); // csrf에 대해 체크하기 때문에 POST가 정상적으로 수행되지 않으므로 해지 필요.
+//>>>>>>> Stashed changes
         return http.build();
     }
 }
