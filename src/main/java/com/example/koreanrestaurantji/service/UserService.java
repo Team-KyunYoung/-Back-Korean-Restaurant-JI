@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     //UserSignupRequestDto에 명시된 데이터 셋 : email, nickname, pwd. 즉, signUp 함수에 이 데이터 셋이 전달된다.
     public Long signUp(UserSignupRequestDto userSignupRequestDto) throws BaseException {
@@ -25,13 +26,7 @@ public class UserService {
         // userSignupRequestDto.getUserPassword() : 전달된 userSignupRequestDto 데이터에서 getUserPassword를 통해 pwd 값만 가져온다.
         // userSignupRequestDto.setUserPassword() : 전달된 userSignupRequestDto 데이터에서 ()안의 값으로 pwd를 재설정한다.
         userSignupRequestDto.setUserPassword(passwordEncoder.encode(userSignupRequestDto.getUserPassword()));
-        // userRepository.existsByUserEmail() : userRepository에 정의된 메서드. boolean값이 리턴됨.
-        boolean exitsUserCheck = userRepository.existsByUserEmail(userSignupRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.BAD_REQUEST));
 
-        if (exitsUserCheck) { // existsByUserEmail() 결과로, 이미 존재하는 email이면 true
-            throw new BaseException(BaseResponseCode.DUPLICATE_EMAIL);
-        }
-        //없는 email이면, 아래에 db에 새 데이터 저장
         Long id;
         try {
             //userRepository.save() : jpa Repository에는 ()안의 값을 db에 insert하는 save함수가 내장되어있다.
@@ -56,4 +51,49 @@ public class UserService {
         return new UserLoginResponseDto(HttpStatus.OK);
     }
 
+    public UserLoginResponseDto nicknameCheck(String nickname) {
+        boolean exitsUserCheck = userRepository.existsByUserNickname(nickname).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+
+        if (exitsUserCheck) {
+            //존재하면 fail. 이미 있는 닉네임인것.
+            throw new BaseException(BaseResponseCode.DUPLICATE_NICKNAME);
+        }
+
+        return new UserLoginResponseDto(HttpStatus.OK);
+    }
+
+    public String signupEmailAuth(String userEmail) {
+        // userRepository.existsByUserEmail() : userRepository에 정의된 메서드. boolean값이 리턴됨.
+        boolean exitsUserCheck = userRepository.existsByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.BAD_REQUEST));
+
+        if (exitsUserCheck) { // existsByUserEmail() 결과로, 이미 존재하는 email이면 true
+            throw new BaseException(BaseResponseCode.DUPLICATE_EMAIL);
+        }
+
+        String authCode = "";
+        try {
+            authCode = emailService.sendSimpleMessage(userEmail);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        //없는 email이면, 이메일 인증
+        return authCode;
+    }
+
+    public String updateEmailAuth(String userEmail) {
+        boolean exitsUserCheck = userRepository.existsByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.BAD_REQUEST));
+
+        if (!exitsUserCheck) { // 가입된 email이 아니면,
+            throw new BaseException(BaseResponseCode.DUPLICATE_EMAIL);
+        }
+
+        String authCode = "";
+        try {
+            authCode = emailService.sendSimpleMessage(userEmail);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        //없는 email이면, 이메일 인증
+        return authCode;
+    }
 }

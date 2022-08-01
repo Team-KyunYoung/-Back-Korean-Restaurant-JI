@@ -39,4 +39,20 @@ public class UserController {
         return new BaseResponse(userService.login(userLoginDto).getStatus(), "요청 성공했습니다.", userService.login(userLoginDto));
     }
 
+    @ApiOperation(value = "닉네임 체크", notes = "닉네임 중복 여부 체크")
+    @PostMapping("/checknickname")
+    public BaseResponse<UserLoginResponseDto> nicknameCheck(@ApiParam(value = "회원가입 닉네임", required = true) @RequestBody String nickname) throws Exception {
+        return new BaseResponse(userService.nicknameCheck(nickname).getStatus(), "요청 성공했습니다.", userService.nicknameCheck(nickname));
+    }
+
+    @ApiOperation(value = "회원가입 이메일 인증", notes = "이메일 중복 여부 체크와 이메일 인증번호 전송")
+    @PostMapping("/signup/emailAuth")
+    public BaseResponse<String> signupEmailAuth(@ApiParam(value = "회원가입 이메일", required = true) @RequestBody String userEmail) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.signupEmailAuth(userEmail));
+    }
+    @ApiOperation(value = "비밀번호 찾기 이메일 인증", notes = "이메일 체크와 이메일 인증번호 전송")
+    @PostMapping("/update/emailAuth")
+    public BaseResponse<String> updateEmailAuth(@ApiParam(value = "비밀번호 찾기 이메일", required = true) @RequestBody String userEmail) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.updateEmailAuth(userEmail));
+    }
 }

@@ -19,4 +19,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     //existsByUserEmail() : ()안의 값이이 db의 useEmail 컬럼에서 있는지 없는지 조회
     Optional<Boolean> existsByUserEmail(String email);
+    Optional<Boolean> existsByUserNickname(String nickname);
 }
