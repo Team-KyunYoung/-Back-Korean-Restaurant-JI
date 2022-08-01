@@ -1,6 +1,7 @@
 package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.User;
+import com.example.koreanrestaurantji.dto.user.UserDeleteRequestDto;
 import com.example.koreanrestaurantji.dto.user.UserLoginRequestDto;
 import com.example.koreanrestaurantji.dto.user.UserLoginResponseDto;
 import com.example.koreanrestaurantji.dto.user.UserSignupRequestDto;
@@ -58,6 +59,14 @@ public class UserService {
             //존재하면 fail. 이미 있는 닉네임인것.
             throw new BaseException(BaseResponseCode.DUPLICATE_NICKNAME);
         }
+
+        return new UserLoginResponseDto(HttpStatus.OK);
+    }
+    public UserLoginResponseDto deleteUser(UserDeleteRequestDto userDeleteRequestDto){//요청받아와서 response보내기 받->리퀘스트 보->reponse
+        //삭제하려는 아이디 userRepository에서 찾기
+        User user = userRepository.findByUserEmail(userDeleteRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        userRepository.delete(user);
+        //예외 처리
 
         return new UserLoginResponseDto(HttpStatus.OK);
     }
