@@ -39,7 +39,7 @@ public class UserService {
         return id;
     }
 
-    public UserLoginResponseDto nicknameCheck(String nickname) {
+    public UserSuccessResponseDto nicknameCheck(String nickname) {
         boolean exitsUserCheck = userRepository.existsByUserNickname(nickname).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
 
         if (exitsUserCheck) {
@@ -47,7 +47,7 @@ public class UserService {
             throw new BaseException(BaseResponseCode.DUPLICATE_NICKNAME);
         }
 
-        return new UserLoginResponseDto(HttpStatus.OK);
+        return new UserSuccessResponseDto(HttpStatus.OK);
     }
 
     public String signupEmailAuth(String userEmail) {
@@ -58,13 +58,13 @@ public class UserService {
             throw new BaseException(BaseResponseCode.DUPLICATE_EMAIL);
         }
 
+        //없는 email이면, 이메일 인증
         String authCode = "";
         try {
             authCode = sendEmailUtil.sendSimpleMessage(userEmail);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        //없는 email이면, 이메일 인증
         return authCode;
     }
 
@@ -92,13 +92,13 @@ public class UserService {
             throw new BaseException(BaseResponseCode.DUPLICATE_EMAIL);
         }
 
+        //없는 email이면, 이메일 인증
         String authCode = "";
         try {
             authCode = sendEmailUtil.sendSimpleMessage(userEmail);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        //없는 email이면, 이메일 인증
         return authCode;
     }
 
@@ -120,12 +120,11 @@ public class UserService {
         return new UserSuccessResponseDto(HttpStatus.OK);
     }
 
-    public UserLoginResponseDto deleteUser(UserDeleteRequestDto userDeleteRequestDto){//요청받아와서 response보내기 받->리퀘스트 보->reponse
+    public UserSuccessResponseDto deleteUser(UserDeleteRequestDto userDeleteRequestDto){
         //삭제하려는 아이디 userRepository에서 찾기
         User user = userRepository.findByUserEmail(userDeleteRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
         userRepository.delete(user);
-        //예외 처리
 
-        return new UserLoginResponseDto(HttpStatus.OK);
+        return new UserSuccessResponseDto(HttpStatus.OK);
     }
 }
