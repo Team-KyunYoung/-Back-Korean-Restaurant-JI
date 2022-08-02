@@ -1,21 +1,21 @@
-package com.example.koreanrestaurantji.service;
+package com.example.koreanrestaurantji.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
 
+@Component //Bean Configuration 파일에 Bean을 따로 등록하지 않아도 사용할 수 있다. 빈 등록자체를 빈 클래스 자체에다가 할 수 있다는 의미
 @RequiredArgsConstructor
-@Service
-public class EmailService {
+public class SendEmailUtil {
     private final JavaMailSender emailSender;
     public static String ePw;
 
-    private MimeMessage createMessage(String to)throws Exception{
+    private MimeMessage createMessage(String to) throws Exception{
         MimeMessage  message = emailSender.createMimeMessage();
 
         ePw = createKey();
