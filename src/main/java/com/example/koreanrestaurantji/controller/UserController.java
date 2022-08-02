@@ -1,10 +1,7 @@
 package com.example.koreanrestaurantji.controller;
 
 
-import com.example.koreanrestaurantji.dto.user.UserLoginRequestDto;
-import com.example.koreanrestaurantji.dto.user.UserLoginResponseDto;
-import com.example.koreanrestaurantji.dto.user.UserSignupRequestDto;
-import com.example.koreanrestaurantji.dto.user.UserDeleteRequestDto;
+import com.example.koreanrestaurantji.dto.user.*;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.service.UserService;
@@ -12,12 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -36,17 +28,8 @@ public class UserController {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.signUp(userSignupRequestDto));
     }
 
-    @ApiOperation(value = "로그인", notes = "이메일로 로그인을 합니다.")
-    @PostMapping("/login")
-    //PostMapping : (RestAPI) 파라미터에 비밀번호가 포함되므로 PostMapping 사용             // @RequestBody : json기반의 파라미터에 사용. HTTP 요청의 바디내용을 통째로 자바객체로 변환해서 매핑된 메소드 파라미터로 전달됨.
-    public BaseResponse<UserLoginResponseDto> login(@ApiParam(value = "회원 한 명의 정보를 갖는 객체", required = true) @RequestBody UserLoginRequestDto userLoginDto) throws Exception {
-        // ^ : BaseResponse 형식으로 리턴되므로 함수 형식이 BaseResponse이며, BaseResponse<T>의 T는 data의 형식을 정의한다.
-        // 이때, T의 형식은 userService.login()의 리턴 데이터의 형식과 같아야 한다.
-        return new BaseResponse(userService.login(userLoginDto).getStatus(), "요청 성공했습니다.", userService.login(userLoginDto));
-    }
-
     @ApiOperation(value = "닉네임 체크", notes = "닉네임 중복 여부 체크")
-    @PostMapping("/checknickname")
+    @GetMapping("/checknickname")
     public BaseResponse<UserLoginResponseDto> nicknameCheck(@ApiParam(value = "회원가입 닉네임", required = true) @RequestBody String nickname) throws Exception {
         return new BaseResponse(userService.nicknameCheck(nickname).getStatus(), "요청 성공했습니다.", userService.nicknameCheck(nickname));
     }
@@ -56,11 +39,40 @@ public class UserController {
     public BaseResponse<String> signupEmailAuth(@ApiParam(value = "회원가입 이메일", required = true) @RequestBody String userEmail) throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.signupEmailAuth(userEmail));
     }
-    @ApiOperation(value = "비밀번호 찾기 이메일 인증", notes = "이메일 체크와 이메일 인증번호 전송")
-    @PostMapping("/update/emailAuth")
-    public BaseResponse<String> updateEmailAuth(@ApiParam(value = "비밀번호 찾기 이메일", required = true) @RequestBody String userEmail) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.updateEmailAuth(userEmail));
+
+    @ApiOperation(value = "로그인", notes = "이메일로 로그인을 합니다.")
+    @PostMapping("/login")
+    //PostMapping : (RestAPI) 파라미터에 비밀번호가 포함되므로 PostMapping 사용             // @RequestBody : json기반의 파라미터에 사용. HTTP 요청의 바디내용을 통째로 자바객체로 변환해서 매핑된 메소드 파라미터로 전달됨.
+    public BaseResponse<UserLoginResponseDto> login(@ApiParam(value = "회원 한 명의 정보를 갖는 객체", required = true) @RequestBody UserLoginRequestDto userLoginDto) throws Exception {
+        // ^ : BaseResponse 형식으로 리턴되므로 함수 형식이 BaseResponse이며, BaseResponse<T>의 T는 data의 형식을 정의한다.
+        // 이때, T의 형식은 userService.login()의 리턴 데이터의 형식과 같아야 한다.
+        return new BaseResponse(userService.login(userLoginDto).getStatus(), "요청 성공했습니다.", userService.login(userLoginDto));
     }
+
+    @ApiOperation(value = "사용자 정보 조회", notes = "사용자 정보 단건 조회")
+    @GetMapping("/find/{userId}")
+    public BaseResponse<UserResponseDto> findByUserId(@ApiParam(value = "회원 ID", required = true) @PathVariable Long userId) {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findByUserId(userId));
+    }
+
+    @ApiOperation(value = "비밀번호 찾기 이메일 인증", notes = "이메일 체크와 이메일 인증번호 전송")
+    @PostMapping("/find/emailAuth")
+    public BaseResponse<String> updateEmailAuth(@ApiParam(value = "비밀번호 찾기 이메일", required = true) @RequestBody String userEmail) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findEmailAuth(userEmail));
+    }
+
+    @ApiOperation(value = "닉네임 변경", notes = "사용자 닉네임을 변경합니다.")
+    @PutMapping("/update/nickname")
+    public BaseResponse<UserSuccessResponseDto> updateNickname(@ApiParam(value = "변경할 닉네임", required = true) @RequestBody UserUpdateNameRequestDto userUpdateNameDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.updateNickname(userUpdateNameDto));
+    }
+
+    @ApiOperation(value = "비밀번호 변경", notes = "사용자 비밀번호를 변경합니다.")
+    @PutMapping("/update/password")
+    public BaseResponse<UserSuccessResponseDto> updatePassword(@ApiParam(value = "변경할 패스워드", required = true) @RequestBody UserUpdatePwdRequestDto userUpdatePwdDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.updatePassword(userUpdatePwdDto));
+    }
+
     //사용자 삭제
     @ApiOperation(value = "회원 삭제", notes = "회원 정보를 폐기합니다.")
     @DeleteMapping("/delete")

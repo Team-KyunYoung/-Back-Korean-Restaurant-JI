@@ -1,15 +1,14 @@
 package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.User;
-import com.example.koreanrestaurantji.dto.user.UserDeleteRequestDto;
-import com.example.koreanrestaurantji.dto.user.UserLoginRequestDto;
-import com.example.koreanrestaurantji.dto.user.UserLoginResponseDto;
-import com.example.koreanrestaurantji.dto.user.UserSignupRequestDto;
+import com.example.koreanrestaurantji.dto.user.*;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.repository.UserRepository;
+import com.example.koreanrestaurantji.util.SendEmailUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final EmailService emailService;
+    private final SendEmailUtil sendEmailUtil;
 
     //UserSignupRequestDto에 명시된 데이터 셋 : email, nickname, pwd. 즉, signUp 함수에 이 데이터 셋이 전달된다.
     public Long signUp(UserSignupRequestDto userSignupRequestDto) throws BaseException {
@@ -40,18 +39,6 @@ public class UserService {
         return id;
     }
 
-    // return 될 데이터 셋이 UserLoginResponseDto에 명시되어 있으므로, 함수 유형이 UserLoginResponseDto.
-    //UserLoginRequestDto 명시된 데이터 셋 : email, pwd. 즉, login 함수에 이 데이터 셋이 전달된다.
-    public UserLoginResponseDto login(UserLoginRequestDto userLoginRequestDto) {
-                                                                                     //orElseThrow() : userRepository.findByUserEmail()의 값이 없으면 ()안의 함수 실행
-        User user = userRepository.findByUserEmail(userLoginRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
-        // passwordEncoder.matches() : 제출된 인코딩 되지 않은 패스워드(로그인)와 인코딩 된 패스워드(db)의 일치 여부를 확인. 반환 타입은 boolean.
-        if (!passwordEncoder.matches(userLoginRequestDto.getUserPassword(), user.getUserPassword())) //User.java에서 @Getter의 사용으로 getUserPassword() 자동 생성.
-            throw new BaseException(BaseResponseCode.INVALID_PASSWORD);
-
-        return new UserLoginResponseDto(HttpStatus.OK);
-    }
-
     public UserLoginResponseDto nicknameCheck(String nickname) {
         boolean exitsUserCheck = userRepository.existsByUserNickname(nickname).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
 
@@ -59,14 +46,6 @@ public class UserService {
             //존재하면 fail. 이미 있는 닉네임인것.
             throw new BaseException(BaseResponseCode.DUPLICATE_NICKNAME);
         }
-
-        return new UserLoginResponseDto(HttpStatus.OK);
-    }
-    public UserLoginResponseDto deleteUser(UserDeleteRequestDto userDeleteRequestDto){//요청받아와서 response보내기 받->리퀘스트 보->reponse
-        //삭제하려는 아이디 userRepository에서 찾기
-        User user = userRepository.findByUserEmail(userDeleteRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
-        userRepository.delete(user);
-        //예외 처리
 
         return new UserLoginResponseDto(HttpStatus.OK);
     }
@@ -81,7 +60,7 @@ public class UserService {
 
         String authCode = "";
         try {
-            authCode = emailService.sendSimpleMessage(userEmail);
+            authCode = sendEmailUtil.sendSimpleMessage(userEmail);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -89,7 +68,24 @@ public class UserService {
         return authCode;
     }
 
-    public String updateEmailAuth(String userEmail) {
+    // return 될 데이터 셋이 UserLoginResponseDto에 명시되어 있으므로, 함수 유형이 UserLoginResponseDto.
+    //UserLoginRequestDto 명시된 데이터 셋 : email, pwd. 즉, login 함수에 이 데이터 셋이 전달된다.
+    public UserLoginResponseDto login(UserLoginRequestDto userLoginRequestDto) {
+                                                                                     //orElseThrow() : userRepository.findByUserEmail()의 값이 없으면 ()안의 함수 실행
+        User user = userRepository.findByUserEmail(userLoginRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        // passwordEncoder.matches() : 제출된 인코딩 되지 않은 패스워드(로그인)와 인코딩 된 패스워드(db)의 일치 여부를 확인. 반환 타입은 boolean.
+        if (!passwordEncoder.matches(userLoginRequestDto.getUserPassword(), user.getUserPassword())) //User.java에서 @Getter의 사용으로 getUserPassword() 자동 생성.
+            throw new BaseException(BaseResponseCode.INVALID_PASSWORD);
+
+        return new UserLoginResponseDto(HttpStatus.OK);
+    }
+
+    public UserResponseDto findByUserId(Long userId) {
+        User user = userRepository.findByUserId(userId).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        return new UserResponseDto(user);
+    }
+
+    public String findEmailAuth(String userEmail) {
         boolean exitsUserCheck = userRepository.existsByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.BAD_REQUEST));
 
         if (!exitsUserCheck) { // 가입된 email이 아니면,
@@ -98,11 +94,38 @@ public class UserService {
 
         String authCode = "";
         try {
-            authCode = emailService.sendSimpleMessage(userEmail);
+            authCode = sendEmailUtil.sendSimpleMessage(userEmail);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         //없는 email이면, 이메일 인증
         return authCode;
+    }
+
+    public UserSuccessResponseDto updateNickname(UserUpdateNameRequestDto userUpdateNameDto) {
+        User user = userRepository.findByUserId(userUpdateNameDto.getUserId()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+
+        user.setUserNickname(userUpdateNameDto.getUserNickname());
+        userRepository.save(user);
+
+        return new UserSuccessResponseDto(HttpStatus.OK);
+    }
+
+    public UserSuccessResponseDto updatePassword(UserUpdatePwdRequestDto userUpdatePwdDto) {
+        User user = userRepository.findByUserId(userUpdatePwdDto.getUserId()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+
+        user.setUserPassword(passwordEncoder.encode(userUpdatePwdDto.getUserPassword()));
+        userRepository.save(user);
+
+        return new UserSuccessResponseDto(HttpStatus.OK);
+    }
+
+    public UserLoginResponseDto deleteUser(UserDeleteRequestDto userDeleteRequestDto){//요청받아와서 response보내기 받->리퀘스트 보->reponse
+        //삭제하려는 아이디 userRepository에서 찾기
+        User user = userRepository.findByUserEmail(userDeleteRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        userRepository.delete(user);
+        //예외 처리
+
+        return new UserLoginResponseDto(HttpStatus.OK);
     }
 }
