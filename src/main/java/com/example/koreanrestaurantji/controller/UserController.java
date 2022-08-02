@@ -11,8 +11,6 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-
 @RestController //(@Controller + @ResponseBody)  Json 형태로 객체 데이터를 반환하는 컨트롤러
 @Api(tags = {"User"})  //Swagger 리소스(대표 제목) 명시
 @RequestMapping(value = "/api/user")  //특정 url을 요청을 수행하도록 mapping (이 클래스의 모든 mapper는 /user로 시작한다)
@@ -30,7 +28,7 @@ public class UserController {
 
     @ApiOperation(value = "닉네임 체크", notes = "닉네임 중복 여부 체크")
     @GetMapping("/checknickname")
-    public BaseResponse<UserLoginResponseDto> nicknameCheck(@ApiParam(value = "회원가입 닉네임", required = true) @RequestBody String nickname) throws Exception {
+    public BaseResponse<UserSuccessResponseDto> nicknameCheck(@ApiParam(value = "회원가입 닉네임", required = true) @RequestBody String nickname) throws Exception {
         return new BaseResponse(userService.nicknameCheck(nickname).getStatus(), "요청 성공했습니다.", userService.nicknameCheck(nickname));
     }
 
@@ -77,7 +75,7 @@ public class UserController {
     @ApiOperation(value = "회원 삭제", notes = "회원 정보를 폐기합니다.")
     @DeleteMapping("/delete")
     //PostMapping : (RestAPI) 파라미터에 비밀번호가 포함되므로 PostMapping 사용             // @RequestBody : json기반의 파라미터에 사용. HTTP 요청의 바디내용을 통째로 자바객체로 변환해서 매핑된 메소드 파라미터로 전달됨.
-    public BaseResponse<UserLoginResponseDto> deleteUser(@ApiParam(value = "회원 한 명의 정보를 갖는 객체", required = true) @RequestBody UserDeleteRequestDto userDeleteRequestDto) throws Exception {
+    public BaseResponse<UserSuccessResponseDto> deleteUser(@ApiParam(value = "회원 한 명의 정보를 갖는 객체", required = true) @RequestBody UserDeleteRequestDto userDeleteRequestDto) throws Exception {
         return new BaseResponse(userService.deleteUser(userDeleteRequestDto).getStatus(), "요청 성공했습니다.", userService.deleteUser(userDeleteRequestDto));
     }
 }
