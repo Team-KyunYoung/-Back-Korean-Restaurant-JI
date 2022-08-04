@@ -27,15 +27,15 @@ public class UserController {
     }
 
     @ApiOperation(value = "닉네임 체크", notes = "닉네임 중복 여부 체크")
-    @GetMapping("/checknickname")
-    public BaseResponse<UserSuccessResponseDto> nicknameCheck(@ApiParam(value = "회원가입 닉네임", required = true) @RequestBody String nickname) throws Exception {
-        return new BaseResponse(userService.nicknameCheck(nickname).getStatus(), "요청 성공했습니다.", userService.nicknameCheck(nickname));
+    @PostMapping("/checknickname")
+    public BaseResponse<UserSuccessResponseDto> nicknameCheck(@ApiParam(value = "회원가입 닉네임", required = true) @RequestBody UserCheckNameRequestDto userCheckNameRequestDto) throws Exception {
+        return new BaseResponse(userService.nicknameCheck(userCheckNameRequestDto.getUserNickname()).getStatus(), "요청 성공했습니다.", userService.nicknameCheck(userCheckNameRequestDto.getUserNickname()));
     }
 
     @ApiOperation(value = "회원가입 이메일 인증", notes = "이메일 중복 여부 체크와 이메일 인증번호 전송")
     @PostMapping("/signup/emailAuth")
-    public BaseResponse<String> signupEmailAuth(@ApiParam(value = "회원가입 이메일", required = true) @RequestBody String userEmail) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.signupEmailAuth(userEmail));
+    public BaseResponse<String> signupEmailAuth(@ApiParam(value = "회원가입 이메일", required = true) @RequestBody UserEmailAuthRequestDto userEmailAuthRequestDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.signupEmailAuth(userEmailAuthRequestDto.getUserEmail()));
     }
 
     @ApiOperation(value = "로그인", notes = "이메일로 로그인을 합니다.")
@@ -55,8 +55,8 @@ public class UserController {
 
     @ApiOperation(value = "비밀번호 찾기 이메일 인증", notes = "이메일 체크와 이메일 인증번호 전송")
     @PostMapping("/find/emailAuth")
-    public BaseResponse<String> updateEmailAuth(@ApiParam(value = "비밀번호 찾기 이메일", required = true) @RequestBody String userEmail) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findEmailAuth(userEmail));
+    public BaseResponse<String> updateEmailAuth(@ApiParam(value = "비밀번호 찾기 이메일", required = true) @RequestBody UserEmailAuthRequestDto userEmailAuthRequestDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findEmailAuth(userEmailAuthRequestDto.getUserEmail()));
     }
 
     @ApiOperation(value = "닉네임 변경", notes = "사용자 닉네임을 변경합니다.")

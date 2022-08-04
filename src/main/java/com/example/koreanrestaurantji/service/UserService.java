@@ -40,8 +40,10 @@ public class UserService {
     }
 
     public UserSuccessResponseDto nicknameCheck(String nickname) {
+        System.out.println(nickname);
         boolean exitsUserCheck = userRepository.existsByUserNickname(nickname).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
 
+        System.out.println(exitsUserCheck);
         if (exitsUserCheck) {
             //존재하면 fail. 이미 있는 닉네임인것.
             throw new BaseException(BaseResponseCode.DUPLICATE_NICKNAME);
