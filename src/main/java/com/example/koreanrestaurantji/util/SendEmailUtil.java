@@ -24,7 +24,6 @@ public class SendEmailUtil {
         message.setSubject("[智] 이메일 인증 코드 전송드립니다." ); //제목
 
         String msg="";
-        //msg += "<img width=\"120\" height=\"36\" style=\"margin-top: 0; margin-right: 0; margin-bottom: 32px; margin-left: 0px; padding-right: 30px; padding-left: 30px;\" src=\"" alt=\"\" loading=\"lazy\">";
         msg += "<h1 style=\"font-size: 30px; padding-right: 30px; padding-left: 30px;\">이메일 코드 확인</h1>";
         msg += "<p style=\"font-size: 17px; padding-right: 30px; padding-left: 30px;\">아래 확인 코드를 인증 칸에 입력하세요.</p>";
         msg += "<div style=\"padding-right: 30px; padding-left: 30px; margin: 32px 0 40px;\"><table style=\"border-collapse: collapse; border: 0; background-color: #F4F4F4; height: 70px; table-layout: fixed; word-wrap: break-word; border-radius: 6px;\"><tbody><tr><td style=\"text-align: center; vertical-align: middle; font-size: 30px;\">";
@@ -33,7 +32,7 @@ public class SendEmailUtil {
         msg += "<a href=\"http://localhost:3000/fnq\" style=\"text-decoration: none; color: #434245;\" rel=\"noreferrer noopener\" target=\"_blank\">Team.KY Technologies, Inc</a>";
 
         message.setText(msg, "utf-8", "html"); //내용
-        message.setFrom(new InternetAddress(to,"KoreanRestaurantJI")); //보내는 사람
+        message.setFrom(new InternetAddress("KoreanRestaurantJI <koreanrestaurantji@naver.com>")); //보내는 사람
 
         return message;
     }
@@ -43,7 +42,7 @@ public class SendEmailUtil {
         StringBuffer key = new StringBuffer();
         Random rnd = new Random();
 
-        for (int i = 0; i < 5; i++) { // 인증코드 6자리
+        for (int i = 0; i < 5; i++) {
             key.append((rnd.nextInt(10)));
         }
         return key.toString();

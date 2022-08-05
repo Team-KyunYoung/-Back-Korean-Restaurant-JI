@@ -25,6 +25,8 @@ public class EmailConfig {
     private boolean startlls_required;
     @Value("${mail.smtp.socketFactory.fallback}")
     private boolean fallback;
+    @Value("${mail.smtp.host}")
+    private String host;
     @Value("${AdminMail.id}")
     private String id;
     @Value("${AdminMail.password}")
@@ -33,7 +35,7 @@ public class EmailConfig {
     @Bean
     public JavaMailSender javaMailService() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost("smtp.gmail.com");
+        javaMailSender.setHost(host);
         javaMailSender.setUsername(id);
         javaMailSender.setPassword(password);
         javaMailSender.setPort(port);
