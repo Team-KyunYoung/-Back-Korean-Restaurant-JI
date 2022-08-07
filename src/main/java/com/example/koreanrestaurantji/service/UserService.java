@@ -5,10 +5,10 @@ import com.example.koreanrestaurantji.dto.user.*;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.repository.UserRepository;
+import com.example.koreanrestaurantji.util.JwtTokenProvider;
 import com.example.koreanrestaurantji.util.SendEmailUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +18,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final SendEmailUtil sendEmailUtil;
+    private final JwtTokenProvider jwtTokenProvider;
 
     //UserSignupRequestDto에 명시된 데이터 셋 : email, nickname, pwd. 즉, signUp 함수에 이 데이터 셋이 전달된다.
     public Long signUp(UserSignupRequestDto userSignupRequestDto) throws BaseException {
@@ -77,7 +78,8 @@ public class UserService {
         if (!passwordEncoder.matches(userLoginRequestDto.getUserPassword(), user.getUserPassword())) //User.java에서 @Getter의 사용으로 getUserPassword() 자동 생성.
             throw new BaseException(BaseResponseCode.INVALID_PASSWORD);
 
-        return new UserLoginResponseDto(HttpStatus.OK);
+        String token = jwtTokenProvider.createToken(userLoginRequestDto.getUserEmail());
+        return new UserLoginResponseDto(HttpStatus.OK, token);
     }
 
     public UserResponseDto findByUserId(Long userId) {

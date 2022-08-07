@@ -4,8 +4,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @ApiModel(value = "회원 정보", description = "아이디, 이메일, 비밀번호 등 회원 정보를 가진 Class")
 @Entity(name = "user")  //JPA가 관리하는 클래스. DB 테이블과 매핑할 클래스는 @Entity를 꼭 붙여야만 매핑이 된다.
@@ -15,7 +18,7 @@ import javax.persistence.*;
 @NoArgsConstructor //파라미터가 없는 기본 생성자를 생성 (생성자는 하나 이상 작성해야 하나, 해당 어노테이션으로 퉁치기 가능)
 @AllArgsConstructor //어노테이션은 모든 필드 값을 파라미터로 받는 생성자 생성 (위 어노테이션도 그렇지만, 굳이 코드 작성할 수고를 덜어줌)
 @Table(name = "USER") //엔티티와 매핑할 테이블을 지정. (name : 매핑할 테이블 이름을 지정)
-public class User {
+public class User implements UserDetails {
 
     @ApiModelProperty(value = "아이디") //Swagger에 표시될 데이타 이름 정의
     @Id //JPA 엔티티 객체의 식별자
@@ -45,5 +48,55 @@ public class User {
         this.userNickname = userNickname;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
+    }
+
+    //해당 유저의 권한 목록
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    //비밀번호
+    @Override
+    public String getPassword() {
+        return this.userPassword;
+    }
+
+    //이메일
+    @Override
+    public String getUsername() {
+        return this.userEmail;
+    }
+
+    //계정 만료 여부
+    //  true : 만료 안됨
+    //  false : 만료
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    //계정 잠김 여부
+    //  true : 잠기지 않음
+    //  false : 잠김
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    //비밀번호 만료 여부
+    //  true : 만료 안됨
+    //  false : 만료
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    //사용자 활성화 여부
+    //  ture : 활성화
+    //  false : 비활성화
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
