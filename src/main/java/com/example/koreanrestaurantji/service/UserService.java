@@ -119,6 +119,15 @@ public class UserService {
         return new UserSuccessResponseDto(HttpStatus.OK);
     }
 
+    public UserSuccessResponseDto fineUpdatePassword(UserFindUpdatePwdRequestDto userFindUpdatePwdRequestDto) {
+        User user = userRepository.findByUserEmail(userFindUpdatePwdRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+
+        user.setUserPassword(passwordEncoder.encode(userFindUpdatePwdRequestDto.getUserPassword()));
+        userRepository.save(user);
+
+        return new UserSuccessResponseDto(HttpStatus.OK);
+    }
+
     public UserSuccessResponseDto updatePassword(UserUpdatePwdRequestDto userUpdatePwdDto) {
         SecurityContext context = SecurityContextHolder.getContext();
         String userEmail = context.getAuthentication().getName();
