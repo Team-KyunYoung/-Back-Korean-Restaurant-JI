@@ -9,6 +9,8 @@ import com.example.koreanrestaurantji.util.JwtTokenProvider;
 import com.example.koreanrestaurantji.util.SendEmailUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -82,8 +84,10 @@ public class UserService {
         return new UserLoginResponseDto(HttpStatus.OK, token);
     }
 
-    public UserResponseDto findByUserId(Long userId) {
-        User user = userRepository.findByUserId(userId).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+    public UserResponseDto findByUserId() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        String userEmail = context.getAuthentication().getName();
+        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
         return new UserResponseDto(user);
     }
 
@@ -105,7 +109,9 @@ public class UserService {
     }
 
     public UserSuccessResponseDto updateNickname(UserUpdateNameRequestDto userUpdateNameDto) {
-        User user = userRepository.findByUserId(userUpdateNameDto.getUserId()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        SecurityContext context = SecurityContextHolder.getContext();
+        String userEmail = context.getAuthentication().getName();
+        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
 
         user.setUserNickname(userUpdateNameDto.getUserNickname());
         userRepository.save(user);
@@ -114,7 +120,9 @@ public class UserService {
     }
 
     public UserSuccessResponseDto updatePassword(UserUpdatePwdRequestDto userUpdatePwdDto) {
-        User user = userRepository.findByUserId(userUpdatePwdDto.getUserId()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        SecurityContext context = SecurityContextHolder.getContext();
+        String userEmail = context.getAuthentication().getName();
+        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
 
         user.setUserPassword(passwordEncoder.encode(userUpdatePwdDto.getUserPassword()));
         userRepository.save(user);
@@ -122,9 +130,11 @@ public class UserService {
         return new UserSuccessResponseDto(HttpStatus.OK);
     }
 
-    public UserSuccessResponseDto deleteUser(UserDeleteRequestDto userDeleteRequestDto){
+    public UserSuccessResponseDto deleteUser(){
+        SecurityContext context = SecurityContextHolder.getContext();
+        String userEmail = context.getAuthentication().getName();
         //삭제하려는 아이디 userRepository에서 찾기
-        User user = userRepository.findByUserEmail(userDeleteRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
         userRepository.delete(user);
 
         return new UserSuccessResponseDto(HttpStatus.OK);
