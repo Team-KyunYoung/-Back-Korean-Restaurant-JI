@@ -49,8 +49,7 @@ public class SecurityConfig{
                 .authorizeRequests() // 요청에 대한 사용권한 체크(요청에 대한 권한을 지정)
                 // 인증 필요 없는 기능에 접근 할 수 있도록 설정(Controller에 정의된 url 넣으면 된다)
                 .antMatchers("/exception/**", "/item/**", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll() // For Swagger
-                .antMatchers("/api/user/signup/**", "/api/user/login/**", "/api/user/checknickname", "/api/user/signup/emailAuth", "/api/user/find/emailAuth").permitAll() // 로그인, 회원가입은 누구나 접근 가능
-                .antMatchers("/api/user/find/**", "/api/user/logout/**", "/api/user/update/nickname", "/api/user/update/password", "/api/user/delete/**").permitAll() // jwt 구현되면 삭제 필요. 토큰 필요한 기능들.
+                .antMatchers("/api/user/signup/**", "/api/user/login/**", "/api/user/checknickname", "/api/user/signup/emailAuth", "/api/user/find/emailAuth", "/api/user/find/update/password").permitAll() // 로그인, 회원가입은 누구나 접근 가능
                 .anyRequest().authenticated() //이 외에는 인증이 필요하도록 한다.
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
