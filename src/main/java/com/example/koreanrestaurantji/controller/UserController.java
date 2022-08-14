@@ -5,14 +5,12 @@ import com.example.koreanrestaurantji.dto.user.*;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController //(@Controller + @ResponseBody)  Json 형태로 객체 데이터를 반환하는 컨트롤러
-@Api(tags = {"User"})  //Swagger 리소스(대표 제목) 명시
+@Api(tags = {"1. User"})  //Swagger 리소스(대표 제목) 명시
 @RequestMapping(value = "/api/user")  //특정 url을 요청을 수행하도록 mapping (이 클래스의 모든 mapper는 /user로 시작한다)
 @RequiredArgsConstructor //필드의 생성자를 자동 생성해주는 롬복 어노테이션(Autowired 안써도됨)
 public class UserController {
@@ -47,10 +45,16 @@ public class UserController {
         return new BaseResponse(userService.login(userLoginDto).getStatus(), "요청 성공했습니다.", userService.login(userLoginDto));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "사용자 정보 조회", notes = "사용자 정보 단건 조회")
-    @GetMapping("/find/{userId}")
-    public BaseResponse<UserResponseDto> findByUserId(@ApiParam(value = "회원 ID", required = true) @PathVariable Long userId) {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findByUserId(userId));
+    @GetMapping("/find")
+    public BaseResponse<UserResponseDto> findByUserId() {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findByUserId());
     }
 
     @ApiOperation(value = "비밀번호 찾기 이메일 인증", notes = "이메일 체크와 이메일 인증번호 전송")
@@ -59,23 +63,40 @@ public class UserController {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findEmailAuth(userEmailAuthRequestDto.getUserEmail()));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "닉네임 변경", notes = "사용자 닉네임을 변경합니다.")
     @PutMapping("/update/nickname")
     public BaseResponse<UserSuccessResponseDto> updateNickname(@ApiParam(value = "변경할 닉네임", required = true) @RequestBody UserUpdateNameRequestDto userUpdateNameDto) throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.updateNickname(userUpdateNameDto));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "비밀번호 변경", notes = "사용자 비밀번호를 변경합니다.")
     @PutMapping("/update/password")
     public BaseResponse<UserSuccessResponseDto> updatePassword(@ApiParam(value = "변경할 패스워드", required = true) @RequestBody UserUpdatePwdRequestDto userUpdatePwdDto) throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.updatePassword(userUpdatePwdDto));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     //사용자 삭제
     @ApiOperation(value = "회원 삭제", notes = "회원 정보를 폐기합니다.")
     @DeleteMapping("/delete")
-    //PostMapping : (RestAPI) 파라미터에 비밀번호가 포함되므로 PostMapping 사용             // @RequestBody : json기반의 파라미터에 사용. HTTP 요청의 바디내용을 통째로 자바객체로 변환해서 매핑된 메소드 파라미터로 전달됨.
-    public BaseResponse<UserSuccessResponseDto> deleteUser(@ApiParam(value = "회원 한 명의 정보를 갖는 객체", required = true) @RequestBody UserDeleteRequestDto userDeleteRequestDto) throws Exception {
-        return new BaseResponse(userService.deleteUser(userDeleteRequestDto).getStatus(), "요청 성공했습니다.", userService.deleteUser(userDeleteRequestDto));
+    public BaseResponse<UserSuccessResponseDto> deleteUser() throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", userService.deleteUser());
     }
 }
