@@ -53,8 +53,8 @@ public class UserController {
     })
     @ApiOperation(value = "사용자 정보 조회", notes = "사용자 정보 단건 조회")
     @GetMapping("/find")
-    public BaseResponse<UserResponseDto> findByUserId() {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findByUserId());
+    public BaseResponse<UserResponseDto> findByUser() {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findByUser());
     }
 
     @ApiOperation(value = "비밀번호 찾기 이메일 인증", notes = "이메일 체크와 이메일 인증번호 전송")

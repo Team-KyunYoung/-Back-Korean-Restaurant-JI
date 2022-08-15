@@ -23,8 +23,8 @@ public class User implements UserDetails {
     @ApiModelProperty(value = "아이디") //Swagger에 표시될 데이타 이름 정의
     @Id //JPA 엔티티 객체의 식별자
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키를 자동으로 생성 (기본키 생성을 데이터베이스에게 위임하는 방식 = AUTO_INCREMENT)
-    @Column(name = "user_id") //객체 필드를 테이블의 컬럼에 매핑 (name : db 컬럼 명)
-    private Long userId; // JPA(백,프론트)에서 다음 변수명으로 데이타 접근 가능.
+    @Column(name = "user_number") //객체 필드를 테이블의 컬럼에 매핑 (name : db 컬럼 명)
+    private Long userNumber; // JPA(백,프론트)에서 다음 변수명으로 데이타 접근 가능.
 
     @ApiModelProperty(value = "이메일")           //unique : 중복되면 안됨.
     @Column(name = "user_email", nullable = false, unique = true,  length = 40)

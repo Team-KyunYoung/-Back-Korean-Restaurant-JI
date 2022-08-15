@@ -30,16 +30,16 @@ public class UserService {
         // userSignupRequestDto.setUserPassword() : 전달된 userSignupRequestDto 데이터에서 ()안의 값으로 pwd를 재설정한다.
         userSignupRequestDto.setUserPassword(passwordEncoder.encode(userSignupRequestDto.getUserPassword()));
 
-        Long id;
+        Long userNumber;
         try {
             //userRepository.save() : jpa Repository에는 ()안의 값을 db에 insert하는 save함수가 내장되어있다.
             //userSignupRequestDto.toEntity() : userSignupRequestDto에 @Builder로 명시된 데이터가 리턴된다.
-            //getUserId() : save()된 후 userRepository에 저장된 id값을 불러온다.
-            id = userRepository.save(userSignupRequestDto.toEntity()).getUserId();
+            //getUserNumber() : save()된 후 userRepository에 저장된 id값을 불러온다.
+            userNumber = userRepository.save(userSignupRequestDto.toEntity()).getUserNumber();
         } catch (Exception e) {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_USER);
         }
-        return id;
+        return userNumber;
     }
 
     public UserSuccessResponseDto nicknameCheck(String nickname) {
@@ -84,7 +84,7 @@ public class UserService {
         return new UserLoginResponseDto(HttpStatus.OK, token);
     }
 
-    public UserResponseDto findByUserId() {
+    public UserResponseDto findByUser() {
         SecurityContext context = SecurityContextHolder.getContext();
         String userEmail = context.getAuthentication().getName();
         User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
