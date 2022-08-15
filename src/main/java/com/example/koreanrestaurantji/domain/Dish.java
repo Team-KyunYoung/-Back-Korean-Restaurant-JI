@@ -7,7 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
-@ApiModel(value = "코스 정보", description = "전식, 본식, 후식 Dish 정보를 가진 Class")
+@ApiModel(value = "음식 정보", description = "음식 이름, 가격, 사진 등의 정보를 가진 Class")
 @Entity(name = "DISH")
 @Getter
 @NoArgsConstructor
@@ -21,15 +21,15 @@ public class Dish {
     @Column(name = "dish_number")
     private Long dishNumber;
 
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "음식 이름")
     @Column(name = "dish_name", nullable = false)
     private String dishName;
 
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "음식 이미지")
     @Column(name = "dish_photo", nullable = false)
     private String dishPhoto;
 
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "음식 가격")
     @Column(name = "dish_price", nullable = false)
     @ColumnDefault("0")
     private int dishPrice;
@@ -42,7 +42,7 @@ public class Dish {
     @Column(name = "dish_category_lower")
     private String dishCategoryLower;
 
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "음식 상세정보")
     @Column(name = "dish_description")
     private String dishDescription;
 
