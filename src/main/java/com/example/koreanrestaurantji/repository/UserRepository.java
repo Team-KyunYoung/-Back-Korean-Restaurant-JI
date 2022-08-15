@@ -16,7 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //findByUserEmail : 메서드 자체는 jpa제공. find는 db에서 data를 찾아 반환하겠다. By컬럼명: 목표 데이터
     //()안의 값: 해당 값을 db에서 by~컬럼을 조희
     Optional<User> findByUserEmail(String email);
-    Optional<User> findByUserId(Long id);
 
     //existsByUserEmail() : ()안의 값이이 db의 useEmail 컬럼에서 있는지 없는지 조회
     Optional<Boolean> existsByUserEmail(String email);
