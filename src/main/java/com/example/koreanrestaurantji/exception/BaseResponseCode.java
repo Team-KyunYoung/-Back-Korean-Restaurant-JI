@@ -25,10 +25,14 @@ public enum BaseResponseCode {
      * 404 NOT FOUND
      */
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
+    DISH_NOT_FOUND(HttpStatus.NOT_FOUND, "음식을 찾을 수 없습니다."),
+    COURSE_NOT_FOUND(HttpStatus.NOT_FOUND, "코스를 찾을 수 없습니다."),
     /**
      * 404 NOT FOUND
      */
     FAILED_TO_SAVE_USER(HttpStatus.NOT_FOUND, "사용자 등록에 실패했습니다."),
+    FAILED_TO_SAVE_DISH(HttpStatus.NOT_FOUND, "음식 등록에 실패했습니다."),
+    FAILED_TO_SAVE_COURSE(HttpStatus.NOT_FOUND, "코스 등록에 실패했습니다."),
 
     /**
      * 405 Method Not Allowed
