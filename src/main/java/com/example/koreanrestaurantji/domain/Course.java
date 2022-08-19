@@ -49,13 +49,18 @@ public class Course {
     @JoinColumn(name = "dessert_dish_number", updatable = false, referencedColumnName = "dish_number")
     private Dish dessert;
 
+    @ApiModelProperty(value = "코스 가격")
+    @Column(name = "course_price", nullable = false)
+    private int coursePrice;
+
     @Builder
-    public Course(String courseName, Dish appetizer, Dish entree1, Dish entree2, Dish entree3, Dish dessert) {
+    public Course(String courseName, Dish appetizer, Dish entree1, Dish entree2, Dish entree3, Dish dessert, int coursePrice) {
         this.courseName = courseName;
         this.appetizer = appetizer;
         this.entree1 = entree1;
         this.entree2 = entree2;
         this.entree3 = entree3;
         this.dessert = dessert;
+        this.coursePrice = coursePrice;
     }
 }
