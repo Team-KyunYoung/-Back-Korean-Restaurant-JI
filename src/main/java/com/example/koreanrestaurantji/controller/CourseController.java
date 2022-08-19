@@ -1,5 +1,6 @@
 package com.example.koreanrestaurantji.controller;
 
+import com.example.koreanrestaurantji.dto.course.CourseAllResponseDto;
 import com.example.koreanrestaurantji.dto.course.CourseCreateRequestDto;
 import com.example.koreanrestaurantji.dto.course.CourseResponseDto;
 import com.example.koreanrestaurantji.exception.BaseResponse;
@@ -29,7 +30,7 @@ public class CourseController {
 
     @ApiOperation(value = "코스 정보 전체 조회", notes = "코스 정보 전체 조회")
     @GetMapping("/find")
-    public BaseResponse<List<CourseResponseDto>> allCourse() throws Exception {
+    public BaseResponse<List<CourseAllResponseDto>> allCourse() throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), courseService.allCourse());
     }
 

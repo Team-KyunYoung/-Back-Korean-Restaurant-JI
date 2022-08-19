@@ -47,10 +47,10 @@ public class CourseService {
         return new CourseSuccessResponseDto(HttpStatus.OK);
     }
 
-    public List<CourseResponseDto> allCourse() {
+    public List<CourseAllResponseDto> allCourse() {
         return courseRepository.findAll()
                 .stream()
-                .map(CourseResponseDto::new)
+                .map(CourseAllResponseDto::new)
                 .collect(Collectors.toList());
     }
 
