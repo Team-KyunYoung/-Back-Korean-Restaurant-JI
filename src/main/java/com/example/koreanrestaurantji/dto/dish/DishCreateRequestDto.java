@@ -14,8 +14,7 @@ public class DishCreateRequestDto {
     private String dishName;
     private String dishPhoto;
     private int dishPrice;
-    private String dishCategoryUpper;
-    private String dishCategoryLower;
+    private String dishCategory;
     private String dishDescription;
 
     public Dish toEntity() {
@@ -23,8 +22,7 @@ public class DishCreateRequestDto {
                 .dishName(dishName)
                 .dishPhoto(dishPhoto)
                 .dishPrice(dishPrice)
-                .dishCategoryUpper(dishCategoryUpper)
-                .dishCategoryLower(dishCategoryLower)
+                .dishCategory(dishCategory)
                 .dishDescription(dishDescription)
                 .build();
     }

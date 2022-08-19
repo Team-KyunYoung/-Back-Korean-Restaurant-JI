@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CourseUpdateRequestDto {
     private Long courseNumber;
+    private String courseName;
     private Dish appetizer;
     private Dish entree1;
     private Dish entree2;
@@ -19,6 +20,7 @@ public class CourseUpdateRequestDto {
 
     public Course toEntity() {
         return Course.builder()
+                .courseName(courseName)
                 .appetizer(appetizer)
                 .entree1(entree1)
                 .entree2(entree2)

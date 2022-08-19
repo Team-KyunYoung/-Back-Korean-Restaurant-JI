@@ -34,25 +34,21 @@ public class Dish {
     @ColumnDefault("0")
     private int dishPrice;
 
-    @ApiModelProperty(value = "상위 카테고리")
-    @Column(name = "dish_category_upper", nullable = false)
-    private String dishCategoryUpper;
+    @ApiModelProperty(value = "음식 카테고리")
+    @Column(name = "dish_category", nullable = false)
+    private String dishCategory;
 
-    @ApiModelProperty(value = "하위 카테고리")
-    @Column(name = "dish_category_lower")
-    private String dishCategoryLower;
 
     @ApiModelProperty(value = "음식 상세정보")
     @Column(name = "dish_description")
     private String dishDescription;
 
     @Builder
-    public Dish(String dishName, String dishPhoto, int dishPrice, String dishCategoryUpper, String dishCategoryLower, String dishDescription) {
+    public Dish(String dishName, String dishPhoto, int dishPrice, String dishCategory , String dishDescription) {
         this.dishName = dishName;
         this.dishPhoto = dishPhoto;
         this.dishPrice = dishPrice;
-        this.dishCategoryUpper = dishCategoryUpper;
-        this.dishCategoryLower = dishCategoryLower;
+        this.dishCategory = dishCategory;
         this.dishDescription = dishDescription;
     }
 }

@@ -20,6 +20,10 @@ public class Course {
     @Column(name = "course_number")
     private Long courseNumber;
 
+    @ApiModelProperty(value = "코스 이름")
+    @Column(name = "course_name", nullable = false)
+    private String courseName;
+
     @ApiModelProperty(value = "음식 일련번호")
     @ManyToOne(cascade = CascadeType.MERGE, targetEntity = Dish.class)
     @JoinColumn(name = "appetizer_dish_number", updatable = false, referencedColumnName = "dish_number")
@@ -46,7 +50,8 @@ public class Course {
     private Dish dessert;
 
     @Builder
-    public Course(Dish appetizer, Dish entree1, Dish entree2, Dish entree3, Dish dessert) {
+    public Course(String courseName, Dish appetizer, Dish entree1, Dish entree2, Dish entree3, Dish dessert) {
+        this.courseName = courseName;
         this.appetizer = appetizer;
         this.entree1 = entree1;
         this.entree2 = entree2;
