@@ -10,16 +10,14 @@ public class DishResponseDto {
     private final String dishName;
     private final String dishPhoto;
     private final int dishPrice;
-    private final String dishCategoryUpper;
-    private final String dishCategoryLower;
+    private final String dishCategory;
     private final String dishDescription;
 
     public DishResponseDto(Dish dish) {
         this.dishName = dish.getDishName();
         this.dishPhoto = dish.getDishPhoto();
         this.dishPrice = dish.getDishPrice();
-        this.dishCategoryUpper = dish.getDishCategoryUpper();
-        this.dishCategoryLower = dish.getDishCategoryLower();
+        this.dishCategory = dish.getDishCategory();
         this.dishDescription = dish.getDishDescription();
     }
 }

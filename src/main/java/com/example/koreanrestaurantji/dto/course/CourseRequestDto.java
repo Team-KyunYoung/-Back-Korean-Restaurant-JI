@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 public class CourseRequestDto {
+    private String courseName;
     private Dish appetizer;
     private Dish entree1;
     private Dish entree2;
@@ -15,7 +16,8 @@ public class CourseRequestDto {
     private Dish dessert;
 
     @Builder
-    public CourseRequestDto(Dish appetizer, Dish entree1, Dish entree2, Dish entree3, Dish dessert) {
+    public CourseRequestDto(String courseName, Dish appetizer, Dish entree1, Dish entree2, Dish entree3, Dish dessert) {
+        this.courseName = courseName;
         this.appetizer = appetizer;
         this.entree1 = entree1;
         this.entree2 = entree2;
@@ -25,6 +27,7 @@ public class CourseRequestDto {
 
     public Course toEntity() {
         return Course.builder()
+                .courseName(courseName)
                 .appetizer(appetizer)
                 .entree1(entree1)
                 .entree2(entree2)

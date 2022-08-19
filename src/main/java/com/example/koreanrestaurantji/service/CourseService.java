@@ -28,7 +28,10 @@ public class CourseService {
         Dish entree3 = dishRepository.findByDishName(courseCreateRequestDto.getEntree3()).orElseThrow(() -> new BaseException(BaseResponseCode.DISH_NOT_FOUND));
         Dish dessert = dishRepository.findByDishName(courseCreateRequestDto.getDessert()).orElseThrow(() -> new BaseException(BaseResponseCode.DISH_NOT_FOUND));
 
+        System.out.println(courseCreateRequestDto.getCourseName());
+
         CourseRequestDto courseRequestDto = CourseRequestDto.builder()
+                .courseName(courseCreateRequestDto.getCourseName())
                 .appetizer(appetizer)
                 .entree1(entree1)
                 .entree2(entree2)
