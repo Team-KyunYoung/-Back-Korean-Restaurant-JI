@@ -1,7 +1,6 @@
 package com.example.koreanrestaurantji.dto.course;
 
 import com.example.koreanrestaurantji.domain.Course;
-import com.example.koreanrestaurantji.domain.Dish;
 import com.example.koreanrestaurantji.dto.dish.DishNameResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

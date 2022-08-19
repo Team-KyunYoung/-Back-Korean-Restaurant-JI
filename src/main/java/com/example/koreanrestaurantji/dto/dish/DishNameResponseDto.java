@@ -1,8 +1,5 @@
 package com.example.koreanrestaurantji.dto.dish;
 
-import com.example.koreanrestaurantji.domain.Course;
-import com.example.koreanrestaurantji.domain.Dish;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
