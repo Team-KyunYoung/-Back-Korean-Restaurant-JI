@@ -14,6 +14,7 @@ public class CourseResponseDto {
     private final Dish entree2;
     private final Dish entree3;
     private final Dish dessert;
+    private final int coursePrice;
 
     public CourseResponseDto(Course course) {
         this.courseName = course.getCourseName();
@@ -22,5 +23,6 @@ public class CourseResponseDto {
         this.entree2 = course.getEntree2();
         this.entree3 = course.getEntree3();
         this.dessert = course.getDessert();
+        this.coursePrice = course.getCoursePrice();
     }
 }

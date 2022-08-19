@@ -14,4 +14,5 @@ public class CourseCreateRequestDto {
     private String entree2;
     private String entree3;
     private String dessert;
+    private int coursePrice;
 }

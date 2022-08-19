@@ -17,6 +17,7 @@ public class CourseUpdateRequestDto {
     private Dish entree2;
     private Dish entree3;
     private Dish dessert;
+    private int coursePrice;
 
     public Course toEntity() {
         return Course.builder()
@@ -26,6 +27,7 @@ public class CourseUpdateRequestDto {
                 .entree2(entree2)
                 .entree3(entree3)
                 .dessert(dessert)
+                .coursePrice(coursePrice)
                 .build();
     }
 }

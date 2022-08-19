@@ -14,15 +14,17 @@ public class CourseRequestDto {
     private Dish entree2;
     private Dish entree3;
     private Dish dessert;
+    private int coursePrice;
 
     @Builder
-    public CourseRequestDto(String courseName, Dish appetizer, Dish entree1, Dish entree2, Dish entree3, Dish dessert) {
+    public CourseRequestDto(String courseName, Dish appetizer, Dish entree1, Dish entree2, Dish entree3, Dish dessert, int coursePrice) {
         this.courseName = courseName;
         this.appetizer = appetizer;
         this.entree1 = entree1;
         this.entree2 = entree2;
         this.entree3 = entree3;
         this.dessert = dessert;
+        this.coursePrice = coursePrice;
     }
 
     public Course toEntity() {
@@ -33,6 +35,7 @@ public class CourseRequestDto {
                 .entree2(entree2)
                 .entree3(entree3)
                 .dessert(dessert)
+                .coursePrice(coursePrice)
                 .build();
     }
 }
