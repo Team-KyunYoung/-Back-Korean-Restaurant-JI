@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class DishResponseDto {
+    private final long dishNumber;
     private final String dishName;
     private final String dishPhoto;
     private final int dishPrice;
@@ -14,6 +15,7 @@ public class DishResponseDto {
     private final String dishDescription;
 
     public DishResponseDto(Dish dish) {
+        this.dishNumber = dish.getDishNumber();
         this.dishName = dish.getDishName();
         this.dishPhoto = dish.getDishPhoto();
         this.dishPrice = dish.getDishPrice();
