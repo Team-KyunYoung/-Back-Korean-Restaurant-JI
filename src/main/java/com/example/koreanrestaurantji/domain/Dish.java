@@ -44,11 +44,6 @@ public class Dish {
     private String dishDescription;
 
     @Builder
-    public Dish(long dishNumber, String dishName) {
-        this.dishNumber = dishNumber;
-        this.dishName = dishName;
-    }
-    @Builder
     public Dish(String dishName, String dishPhoto, int dishPrice, String dishCategory , String dishDescription) {
         this.dishName = dishName;
         this.dishPhoto = dishPhoto;
