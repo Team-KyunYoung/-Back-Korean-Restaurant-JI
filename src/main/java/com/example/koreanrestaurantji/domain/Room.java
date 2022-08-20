@@ -31,12 +31,16 @@ public class Room {
     @Column(name = "room_name", nullable = false)
     private String roomName;
 
+    @ApiModelProperty(value = "객실 사진 url")
+    @Column(name = "room_img_url", nullable = false)
+    private String roomImg;
+
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     List<RoomStatus> status = new ArrayList<>();
 
     @Builder
-    public Room(String roomName, List<RoomStatus> status) {
+    public Room(String roomName, String roomImg) {
         this.roomName = roomName;
-        this.status = status;
+        this.roomImg = roomImg;
     }
 }

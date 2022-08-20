@@ -6,14 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class RoomRequestDto {
     private String roomName;
+    private String roomImg;
 
     public Room toEntity() {
         return Room.builder()
                 .roomName(roomName)
+                .roomImg(roomImg)
                 .build();
     }
 }

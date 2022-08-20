@@ -6,10 +6,14 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class RoomNameResponseDto {
+public class RoomDataResponseDto {
+    private final long roomNumber;
     private final String roomName;
+    private final String roomImg;
 
-    public RoomNameResponseDto(Room room) {
+    public RoomDataResponseDto(Room room) {
+        this.roomNumber = room.getRoomNumber();
         this.roomName = room.getRoomName();
+        this.roomImg = room.getRoomImg();
     }
 }
