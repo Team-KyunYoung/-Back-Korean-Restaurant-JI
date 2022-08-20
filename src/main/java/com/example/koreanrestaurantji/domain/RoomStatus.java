@@ -42,9 +42,14 @@ public class RoomStatus {
     private int roomRemaining;
 
     @Builder
-    public RoomStatus(String reservationDate, String reservationTime, int roomRemaining) {
+    public RoomStatus(Room room, String reservationDate, String reservationTime, int roomRemaining) {
+        this.room = room;
         this.reservationDate = reservationDate;
         this.reservationTime = reservationTime;
+        this.roomRemaining = roomRemaining;
+    }
+
+    public void setRoomRemaining(int roomRemaining) {
         this.roomRemaining = roomRemaining;
     }
 }
