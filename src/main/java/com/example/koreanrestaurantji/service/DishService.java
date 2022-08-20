@@ -1,6 +1,7 @@
 package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.Dish;
+import com.example.koreanrestaurantji.dto.course.CourseAllResponseDto;
 import com.example.koreanrestaurantji.dto.dish.DishCreateRequestDto;
 import com.example.koreanrestaurantji.dto.dish.DishResponseDto;
 import com.example.koreanrestaurantji.dto.dish.DishSuccessResponseDto;
@@ -10,6 +11,9 @@ import com.example.koreanrestaurantji.repository.DishRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,13 @@ public class DishService {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_DISH);
         }
         return new DishSuccessResponseDto(HttpStatus.OK);
+    }
+
+    public List<DishResponseDto> findAllDish() {
+        return dishRepository.findAll()
+                .stream()
+                .map(DishResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     public DishResponseDto findDish(Long number) {
