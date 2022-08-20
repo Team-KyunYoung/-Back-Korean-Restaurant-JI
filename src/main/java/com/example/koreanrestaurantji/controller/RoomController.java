@@ -2,6 +2,8 @@ package com.example.koreanrestaurantji.controller;
 
 import com.example.koreanrestaurantji.dto.room.RoomNameResponseDto;
 import com.example.koreanrestaurantji.dto.room.RoomResponseDto;
+import com.example.koreanrestaurantji.dto.room.RoomStatusDateRequestDto;
+import com.example.koreanrestaurantji.dto.room.RoomStatusTimeRequestDto;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.service.RoomService;
@@ -37,18 +39,17 @@ public class RoomController {
     }
 
     @ApiOperation(value = "특정 객실-날짜의 예약 현황 전체 조회", notes = "특정 객실-날짜의 예약 현황을 리턴합니다.")
-    @GetMapping("/find/{roomNumber}/date")
+    @PostMapping("/find/{roomNumber}/date")
     public BaseResponse<RoomResponseDto> roomStatus(@ApiParam(value = "roomNumber 객실 일련번호", required = true) @PathVariable Long roomNumber,
-                                                    @ApiParam(value = "예약 날짜", required = true) @RequestBody String reservationDate) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), roomService.roomStatus(roomNumber, reservationDate));
+                                                    @ApiParam(value = "예약 날짜", required = true) @RequestBody RoomStatusDateRequestDto roomStatusDateRequestDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), roomService.roomStatus(roomNumber, roomStatusDateRequestDto));
     }
 
     @ApiOperation(value = "특정 객실-날짜-시간의 남은 좌석 수 조회", notes = "특정 객실-날짜-시간의 남은 좌석 수를 리턴합니다.")
-    @GetMapping("/find/{roomNumber}/date/time")
-    public BaseResponse roomRemaining(@ApiParam(value = "roomNumber 객실 일련번호", required = true) @PathVariable Long roomNumber,
-                                                             @ApiParam(value = "예약 날짜", required = true) @RequestBody String reservationDate,
-                                                             @ApiParam(value = "예약 시간", required = true) @RequestBody String reservationTime) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), roomService.roomRemaining(roomNumber, reservationDate, reservationTime));
+    @PostMapping("/find/{roomNumber}/date/time")
+    public BaseResponse<String> roomRemaining(@ApiParam(value = "roomNumber 객실 일련번호", required = true) @PathVariable Long roomNumber,
+                                               @ApiParam(value = "예약 날짜", required = true) @RequestBody RoomStatusTimeRequestDto roomStatusTimeRequestDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), roomService.roomRemaining(roomNumber, roomStatusTimeRequestDto));
     }
 
     @ApiOperation(value = "객실 삭제", notes = "객실 정보를 폐기합니다.")

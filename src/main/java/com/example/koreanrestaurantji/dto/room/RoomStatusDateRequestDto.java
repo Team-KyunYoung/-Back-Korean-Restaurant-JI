@@ -1,2 +1,11 @@
-package com.example.koreanrestaurantji.dto.room;public class RoomStatusDateRequestDto {
+package com.example.koreanrestaurantji.dto.room;
+
+import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+public class RoomStatusDateRequestDto {
+    private String reservationDate;
 }

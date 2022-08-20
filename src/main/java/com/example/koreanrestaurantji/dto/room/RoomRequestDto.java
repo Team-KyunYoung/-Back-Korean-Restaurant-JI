@@ -1,6 +1,5 @@
 package com.example.koreanrestaurantji.dto.room;
 
-import com.example.koreanrestaurantji.domain.Course;
 import com.example.koreanrestaurantji.domain.Room;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
