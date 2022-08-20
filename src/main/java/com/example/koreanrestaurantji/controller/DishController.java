@@ -11,6 +11,8 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Api(tags = {"2. Dish"})
 @RequestMapping(value = "/api/dish")
@@ -23,6 +25,12 @@ public class DishController {
     @PostMapping("/create")
     public BaseResponse dishCreate(@ApiParam(value = "음식 정보를 갖는 객체", required = true) @RequestBody DishCreateRequestDto dishCreateRequestDto) throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), dishService.create(dishCreateRequestDto));
+    }
+
+    @ApiOperation(value = "음식 정보 전체 조회", notes = "음식 정보를 전부 조회합니다.")
+    @GetMapping("/find")
+    public BaseResponse<List<DishResponseDto>> findAllDish() throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), dishService.findAllDish());
     }
 
     @ApiOperation(value = "음식 정보 조회", notes = "음식 정보 단건 조회")
