@@ -20,9 +20,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final RoomStatusRepository roomStatusRepository;
 
-    public RoomSuccessResponseDto create(String roomName) {
-        RoomRequestDto roomRequestDto = new RoomRequestDto();
-        roomRequestDto.setRoomName(roomName);
+    public RoomSuccessResponseDto create(RoomRequestDto roomRequestDto) {
         try {
             roomRepository.save(roomRequestDto.toEntity());
         } catch (Exception e) {
@@ -31,10 +29,10 @@ public class RoomService {
         return new RoomSuccessResponseDto(HttpStatus.OK);
     }
 
-    public List<RoomNameResponseDto> roomAllName() {
+    public List<RoomDataResponseDto> roomAllName() {
         return roomRepository.findAll()
                 .stream()
-                .map(RoomNameResponseDto::new)
+                .map(RoomDataResponseDto::new)
                 .collect(Collectors.toList());
     }
 

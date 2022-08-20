@@ -1,9 +1,6 @@
 package com.example.koreanrestaurantji.controller;
 
-import com.example.koreanrestaurantji.dto.room.RoomNameResponseDto;
-import com.example.koreanrestaurantji.dto.room.RoomResponseDto;
-import com.example.koreanrestaurantji.dto.room.RoomStatusDateRequestDto;
-import com.example.koreanrestaurantji.dto.room.RoomStatusTimeRequestDto;
+import com.example.koreanrestaurantji.dto.room.*;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.service.RoomService;
@@ -22,13 +19,13 @@ public class RoomController {
 
     @ApiOperation(value = "객실 추가", notes = "객실 데이터를 추가 합니다.")
     @PostMapping("/create")
-    public BaseResponse createRoom(@ApiParam(value = "객실 이름", required = true) @RequestBody String roomName) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), roomService.create(roomName));
+    public BaseResponse createRoom(@ApiParam(value = "객실 이름,이미지를 담는 객체", required = true) @RequestBody RoomRequestDto roomRequestDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), roomService.create(roomRequestDto));
     }
 
     @ApiOperation(value = "객실 조희", notes = "존재하는 객실의 이름을 리턴합니다.")
     @GetMapping("/find/room")
-    public BaseResponse<RoomNameResponseDto> roomAllStatus() throws Exception {
+    public BaseResponse<RoomDataResponseDto> roomAllStatus() throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), roomService.roomAllName());
     }
 
