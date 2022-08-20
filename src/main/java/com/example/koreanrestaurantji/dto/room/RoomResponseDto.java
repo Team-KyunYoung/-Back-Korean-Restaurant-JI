@@ -4,8 +4,8 @@ import com.example.koreanrestaurantji.domain.Room;
 import com.example.koreanrestaurantji.domain.RoomStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,6 +16,7 @@ public class RoomResponseDto {
 
     public RoomResponseDto(Room room, List<RoomStatus> status){
         this.roomNumber = room.getRoomNumber();
+        List<RoomStatusResponseDto> statusList = new ArrayList<>();
         RoomStatusResponseDto roomStatusResponseDto;
         for(RoomStatus roomStatus : status) {
             roomStatusResponseDto = RoomStatusResponseDto.builder()
@@ -24,8 +25,8 @@ public class RoomResponseDto {
                     .roomRemaining(roomStatus.getRoomRemaining())
                     .build();
 
-            System.out.println(roomStatusResponseDto);
-            this.roomStatus.add(roomStatusResponseDto);
+            statusList.add(roomStatusResponseDto);
         }
+        this.roomStatus = statusList;
     }
 }

@@ -51,7 +51,9 @@ public class SecurityConfig{
                 .antMatchers("/exception/**", "/item/**", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll() // For Swagger
                 .antMatchers("/api/user/signup/**", "/api/user/login/**", "/api/user/checknickname", "/api/user/signup/emailAuth", "/api/user/find/emailAuth", "/api/user/find/update/password").permitAll() // 로그인, 회원가입은 누구나 접근 가능
                 .antMatchers("/api/dish/find/**", "/api/course/find/**").permitAll()
-                .antMatchers("/api/dish/create", "/api/dish/delete/**", "/api/course/create", "/api/course/delete/**").permitAll() //관리자만 가능하게 변경해야됨
+                .antMatchers("/api/dish/create", "/api/dish/delete/**", "/api/course/create", "/api/course/delete/**",
+                        "/api/room/create", "/api/room/delete/**" ).permitAll() //관리자만 가능하게 변경해야됨
+                .antMatchers("/api/room/find/**").permitAll() //추후 삭제
                 .anyRequest().authenticated() //이 외에는 인증이 필요하도록 한다.
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
