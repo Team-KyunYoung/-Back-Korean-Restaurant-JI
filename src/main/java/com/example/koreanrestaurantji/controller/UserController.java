@@ -87,6 +87,18 @@ public class UserController {
                     value = "로그인 성공 후 AccessToken",
                     required = true, dataType = "String", paramType = "header")
     })
+    @ApiOperation(value = "비밀번호 확인", notes = "사용자 비밀번호가 맞는지 확인합니다.")
+    @PostMapping("/verify/password")
+    public BaseResponse<UserSuccessResponseDto> verifyPassword(@ApiParam(value = "확인 할 패스워드", required = true) @RequestBody UserUpdatePwdRequestDto userUpdatePwdDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.verifyPassword(userUpdatePwdDto));
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "비밀번호 변경", notes = "사용자 비밀번호를 변경합니다.")
     @PutMapping("/update/password")
     public BaseResponse<UserSuccessResponseDto> updatePassword(@ApiParam(value = "변경할 패스워드", required = true) @RequestBody UserUpdatePwdRequestDto userUpdatePwdDto) throws Exception {
