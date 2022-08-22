@@ -128,6 +128,17 @@ public class UserService {
         return new UserSuccessResponseDto(HttpStatus.OK);
     }
 
+    public UserSuccessResponseDto verifyPassword(UserUpdatePwdRequestDto userUpdatePwdDto) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        String userEmail = context.getAuthentication().getName();
+        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+
+        if (!passwordEncoder.matches(userUpdatePwdDto.getUserPassword(), user.getUserPassword()))
+            throw new BaseException(BaseResponseCode.INVALID_PASSWORD);
+
+        return new UserSuccessResponseDto(HttpStatus.OK);
+    }
+
     public UserSuccessResponseDto updatePassword(UserUpdatePwdRequestDto userUpdatePwdDto) {
         SecurityContext context = SecurityContextHolder.getContext();
         String userEmail = context.getAuthentication().getName();
