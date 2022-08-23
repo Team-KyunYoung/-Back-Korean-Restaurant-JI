@@ -10,5 +10,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRequestDto {
-    private List<OrderDishDetailRequest> dishNumberList;
+    private List<OrderDishDetailRequest> dishOrderList;
 }

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ import java.util.List;
 @Entity(name = "ORDERS")
 @Getter
 @DynamicUpdate
+@DynamicInsert //default 값이 들어가도록 한다.
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ORDERS")
@@ -43,13 +45,14 @@ public class Orders {
     private List<OrderDish> orderDishs = new ArrayList<>();
 
     @ApiModelProperty(value = "주문 상태")
-    @Column(name = "order_status", nullable = false)
+    @Column(name = "order_status")
     @ColumnDefault("'주문완료'")
     private String orderStatus;
 
     @Builder
     public Orders(User user) {
         this.user = user;
+        this.createdDate = LocalDateTime.now();
     }
 
     public void setOrderStatus(String orderStatus) {

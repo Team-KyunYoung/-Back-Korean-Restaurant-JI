@@ -36,17 +36,15 @@ public class OrderService {
     public SuccessResponseDto create(OrderRequestDto orderRequestDto) {
         User user = findUserByToken();
 
-        OrderCreateRequestDto orderCreateRequestDto = new OrderCreateRequestDto(user);
-
         Orders orders;
         try {
-            orders = orderRepository.save(orderCreateRequestDto.toEntity());
+            orders = orderRepository.save(new Orders(user));
         } catch (Exception e) {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_ORDER);
         }
 
         try {
-            for(OrderDishDetailRequest orderDishDetailRequest : orderRequestDto.getDishNumberList()){
+            for(OrderDishDetailRequest orderDishDetailRequest : orderRequestDto.getDishOrderList()){
                 orderDishRepository.save(new OrderDish(orders,
                         findDishByDishNumber(orderDishDetailRequest.getDishNumber()),
                         orderDishDetailRequest.getOrderQuantity()));

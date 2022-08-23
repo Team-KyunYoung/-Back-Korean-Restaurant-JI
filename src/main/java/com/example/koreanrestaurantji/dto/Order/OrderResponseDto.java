@@ -5,20 +5,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class OrderResponseDto {
     private long orderNumber;
-    private LocalDateTime createdDate;
+    private String createdDate;
     List<OrderDishDetailResponse> orderDishList;
     private String orderStatus;
     private int orderPrice;
 
     public OrderResponseDto(Orders orders, List<OrderDishDetailResponse> orderDishList){
         this.orderNumber = orders.getOrderNumber();
-        this.createdDate = orders.getCreatedDate();
+        this.createdDate = orders.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.orderDishList = orderDishList;
         this.orderStatus = orders.getOrderStatus();
 

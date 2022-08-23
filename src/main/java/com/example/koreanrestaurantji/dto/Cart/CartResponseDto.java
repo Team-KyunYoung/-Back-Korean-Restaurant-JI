@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-    public class CartResponseDto {
+public class CartResponseDto {
         private long cartNumber;
         private long dishNumber;
         private String dishImage;
