@@ -58,7 +58,7 @@ public class OrderService {
 
     public List<OrderResponseDto> findOrderByUser() {
         User user = findUserByToken();
-        List<Orders> userOrdersList = orderRepository.findByUser(user);
+        List<Orders> userOrdersList = orderRepository.findByUserOrderByCreatedDateDesc(user);
         if(userOrdersList == null || userOrdersList.size() == 0)
             throw new BaseException(BaseResponseCode.ORDER_NOT_FOUND);
 
