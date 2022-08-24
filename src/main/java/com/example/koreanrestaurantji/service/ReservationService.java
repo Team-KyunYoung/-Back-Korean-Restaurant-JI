@@ -87,7 +87,7 @@ public class ReservationService {
 
     public List<ReservationResponseDto> findReservationByUser() {
         User user = findUserByToken();
-        return reservationRepository.findByUser(user)
+        return reservationRepository.findByUserOrderByReservationDateAsc(user)
                 .stream()
                 .map(ReservationResponseDto::new)
                 .collect(Collectors.toList());
