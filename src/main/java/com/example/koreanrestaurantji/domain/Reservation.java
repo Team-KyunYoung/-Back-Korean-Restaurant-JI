@@ -24,7 +24,7 @@ public class Reservation {
 
     @ApiModelProperty(value = "user")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_number", foreignKey = @ForeignKey(name = "FK_user_status"))
+    @JoinColumn(name = "user_number", foreignKey = @ForeignKey(name = "FK_user_reservation"))
     private User user;
 
     @ApiModelProperty(value = "예약 객실")
