@@ -37,6 +37,18 @@ public class OrderController {
                     value = "로그인 성공 후 AccessToken",
                     required = true, dataType = "String", paramType = "header")
     })
+    @ApiOperation(value = "장바구니에서 주문 추가", notes = "주문 데이터를 추가 합니다.")
+    @PostMapping("/create/cart")
+    public BaseResponse createOrderInCart(@ApiParam(value = "주문 정보를 갖는 객체", required = true) @RequestBody OrderRequestDto orderRequestDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), orderService.createOrderInCart(orderRequestDto));
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "주문 확인", notes = "사용자별 주문 데이터를 리턴 합니다.")
     @GetMapping("/find")
     public BaseResponse<List<OrderResponseDto>> findOrderByUser() throws Exception {

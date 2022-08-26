@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDishRepository orderDishRepository;
+    private final CartRepository cartRepository;
     private final UserRepository userRepository;
     private final DishRepository dishRepository;
 
@@ -48,6 +49,37 @@ public class OrderService {
                 orderDishRepository.save(new OrderDish(orders,
                         findDishByDishNumber(orderDishDetailRequest.getDishNumber()),
                         orderDishDetailRequest.getOrderQuantity()));
+            }
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_ORDER_DISH);
+        }
+
+        return new SuccessResponseDto(HttpStatus.OK);
+    }
+
+    public SuccessResponseDto createOrderInCart(OrderRequestDto orderRequestDto) {
+        User user = findUserByToken();
+
+        Orders orders;
+        try {
+            orders = orderRepository.save(new Orders(user));
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_ORDER);
+        }
+
+        try {
+            for(OrderDishDetailRequest orderDishDetailRequest : orderRequestDto.getDishOrderList()){
+                orderDishRepository.save(new OrderDish(orders,
+                        findDishByDishNumber(orderDishDetailRequest.getDishNumber()),
+                        orderDishDetailRequest.getOrderQuantity()));
+
+                try {
+                    cartRepository.delete(cartRepository.findByDish(findDishByDishNumber(orderDishDetailRequest.getDishNumber()))
+                            .orElseThrow(() -> new BaseException(BaseResponseCode.CART_NOT_FOUND)));
+
+                } catch (Exception e) {
+                    throw new BaseException(BaseResponseCode.BAD_REQUEST);
+                }
             }
         } catch (Exception e) {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_ORDER_DISH);
