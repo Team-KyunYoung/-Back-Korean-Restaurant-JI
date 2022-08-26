@@ -31,6 +31,8 @@ public enum BaseResponseCode {
     ROOM_STATUS_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 객실 현황 데이터가 없습니다."),
     RESERVATION_NOT_FOUND(HttpStatus.NOT_FOUND, "예약 데이터가 없습니다."),
     RESERVATION_USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 사용자의 예약 데이터가 없습니다."),
+    CART_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 장바구니 데이터가 없습니다."),
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 주문 내역이 없습니다."),
     /**
      * 404 NOT FOUND
      */
@@ -40,6 +42,9 @@ public enum BaseResponseCode {
     FAILED_TO_SAVE_ROOM(HttpStatus.NOT_FOUND, "객실 등록에 실패했습니다."),
     FAILED_TO_SAVE_ROOM_STATUS(HttpStatus.NOT_FOUND, "객실 현황 정보 등록에 실패했습니다."),
     FAILED_TO_SAVE_RESERVATION(HttpStatus.NOT_FOUND, "예약 정보 등록에 실패했습니다."),
+    FAILED_TO_SAVE_CART(HttpStatus.NOT_FOUND, "장바구니 음식 등록에 실패했습니다."),
+    FAILED_TO_SAVE_ORDER(HttpStatus.NOT_FOUND, "주문 등록에 실패했습니다."),
+    FAILED_TO_SAVE_ORDER_DISH(HttpStatus.NOT_FOUND, "주문 음식 등록에 실패했습니다."),
 
     /**
      * 405 Method Not Allowed
