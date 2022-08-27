@@ -3,6 +3,7 @@ package com.example.koreanrestaurantji.domain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -49,7 +50,7 @@ public class QuestionBoard {
     // QNA or FNQ
     @ApiModelProperty(value = "True=QNA, False=FNQ")
     @Column(name = "is_qna", nullable = false)
-    @ColumnDefault("false")
+    @ColumnDefault("true")
     private boolean isQNA;
 
     // 게시글 공개or비공개
@@ -57,4 +58,14 @@ public class QuestionBoard {
     @Column(name = "is_private", nullable = false)
     @ColumnDefault("false")
     private boolean isPrivate;
+
+    @Builder
+    public QuestionBoard(User user, String questionTitle, String questionContents, boolean isQNA, boolean isPrivate) {
+        this.user = user;
+        this.writeDate = LocalDateTime.now();
+        this.questionTitle = questionTitle;
+        this.questionContents = questionContents;
+        this.isQNA = isQNA;
+        this.isPrivate = isPrivate;
+    }
 }
