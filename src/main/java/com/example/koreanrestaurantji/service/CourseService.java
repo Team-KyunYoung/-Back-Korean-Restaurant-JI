@@ -38,6 +38,7 @@ public class CourseService {
                 .entree2(entree2)
                 .entree3(entree3)
                 .dessert(dessert)
+                .coursePrice(courseCreateRequestDto.getCoursePrice())
                 .build();
 
         try {
