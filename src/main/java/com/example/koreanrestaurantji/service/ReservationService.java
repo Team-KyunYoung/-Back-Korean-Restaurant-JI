@@ -1,8 +1,7 @@
 package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.*;
-import com.example.koreanrestaurantji.dto.course.CourseAllResponseDto;
-import com.example.koreanrestaurantji.dto.course.CourseSuccessResponseDto;
+import com.example.koreanrestaurantji.dto.SuccessResponseDto;
 import com.example.koreanrestaurantji.dto.reservation.*;
 import com.example.koreanrestaurantji.dto.room.RoomStatusRequestDto;
 import com.example.koreanrestaurantji.exception.BaseException;
@@ -47,7 +46,7 @@ public class ReservationService {
         return roomStatusRepository.findByRoomAndReservationDateAndReservationTime(room, reservationDate, reservationTime).orElseThrow(() -> new BaseException(BaseResponseCode.ROOM_STATUS_NOT_FOUND));
     }
 
-    public ReservationSuccessResponseDto create(ReservationRequestDto reservationRequestDto) {
+    public SuccessResponseDto create(ReservationRequestDto reservationRequestDto) {
         User user = findUserByToken();
         String roomName = findRoomByRoomNumber(reservationRequestDto.getReservationRoomNumber()).getRoomName();
         ReservationCreateRequestDto reservationCreateRequestDto = new ReservationCreateRequestDto(user, reservationRequestDto, roomName);
@@ -82,12 +81,12 @@ public class ReservationService {
             roomStatusRepository.save(roomStatusRequestDto.toEntity());
         }
 
-        return new ReservationSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 
     public List<ReservationResponseDto> findReservationByUser() {
         User user = findUserByToken();
-        return reservationRepository.findByUser(user)
+        return reservationRepository.findByUserOrderByReservationDateAsc(user)
                 .stream()
                 .map(ReservationResponseDto::new)
                 .collect(Collectors.toList());
@@ -122,7 +121,7 @@ public class ReservationService {
         return roomRepository.findByRoomName(roomName).orElseThrow(() -> new BaseException(BaseResponseCode.ROOM_NOT_FOUND));
     }
 
-    public ReservationSuccessResponseDto update(Long reservationNumber, ReservationUpdateRequestDto reservationUpdateRequestDto){
+    public SuccessResponseDto update(Long reservationNumber, ReservationUpdateRequestDto reservationUpdateRequestDto){
         //Reservation
         Reservation reservation = findReservationByReservationNumber(reservationNumber);
         String reservationDate = reservationUpdateRequestDto.getReservationDate();
@@ -181,10 +180,10 @@ public class ReservationService {
             roomStatusRepository.save(roomStatusRequestDto.toEntity());
         }
 
-        return new ReservationSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public ReservationSuccessResponseDto delete(Long reservationNumber){
+    public SuccessResponseDto delete(Long reservationNumber){
         Reservation reservation = findReservationByReservationNumber(reservationNumber);
         reservationRepository.delete(reservation);
 
@@ -205,6 +204,6 @@ public class ReservationService {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_ROOM_STATUS);
         }
 
-       return new ReservationSuccessResponseDto(HttpStatus.OK);
+       return new SuccessResponseDto(HttpStatus.OK);
     }
 }

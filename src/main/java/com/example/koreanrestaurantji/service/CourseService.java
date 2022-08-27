@@ -2,6 +2,7 @@ package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.Course;
 import com.example.koreanrestaurantji.domain.Dish;
+import com.example.koreanrestaurantji.dto.SuccessResponseDto;
 import com.example.koreanrestaurantji.dto.course.*;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
@@ -21,7 +22,7 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final DishRepository dishRepository;
 
-    public CourseSuccessResponseDto create(CourseCreateRequestDto courseCreateRequestDto) {
+    public SuccessResponseDto create(CourseCreateRequestDto courseCreateRequestDto) {
         Dish appetizer = dishRepository.findByDishName(courseCreateRequestDto.getAppetizer()).orElseThrow(() -> new BaseException(BaseResponseCode.DISH_NOT_FOUND));
         Dish entree1 = dishRepository.findByDishName(courseCreateRequestDto.getEntree1()).orElseThrow(() -> new BaseException(BaseResponseCode.DISH_NOT_FOUND));
         Dish entree2 = dishRepository.findByDishName(courseCreateRequestDto.getEntree2()).orElseThrow(() -> new BaseException(BaseResponseCode.DISH_NOT_FOUND));
@@ -44,7 +45,7 @@ public class CourseService {
         } catch (Exception e) {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_COURSE);
         }
-        return new CourseSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 
     public List<CourseAllResponseDto> allCourse() {
@@ -59,18 +60,18 @@ public class CourseService {
         return new CourseResponseDto(course);
     }
 
-    public CourseSuccessResponseDto update(CourseUpdateRequestDto courseUpdateRequestDto) {
+    public SuccessResponseDto update(CourseUpdateRequestDto courseUpdateRequestDto) {
         Course course = courseRepository.findByCourseNumber(courseUpdateRequestDto.getCourseNumber()).orElseThrow(() -> new BaseException(BaseResponseCode.COURSE_NOT_FOUND));
 
         courseRepository.save(courseUpdateRequestDto.toEntity());
 
-        return new CourseSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public CourseSuccessResponseDto delete(Long number){
+    public SuccessResponseDto delete(Long number){
         Course course = courseRepository.findByCourseNumber(number).orElseThrow(() -> new BaseException(BaseResponseCode.COURSE_NOT_FOUND));
         courseRepository.delete(course);
 
-        return new CourseSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 }
