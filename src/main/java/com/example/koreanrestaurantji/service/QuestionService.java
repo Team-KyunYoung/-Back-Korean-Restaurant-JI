@@ -59,14 +59,14 @@ public class QuestionService {
     }
 
     public List<QNAResponseDto> findQNAList() {
-        return questionRepository.findByIsQNAIsTrue()
+        return questionRepository.findByIsQNAIsTrueOrderByWriteDateDesc()
                 .stream()
                 .map(QNAResponseDto::new)
                 .collect(Collectors.toList());
     }
 
     public List<FNQResponseDto> findFNQList() {
-        return questionRepository.findByIsQNAIsFalse()
+        return questionRepository.findByIsQNAIsFalseOrderByWriteDateAsc()
                 .stream()
                 .map(FNQResponseDto::new)
                 .collect(Collectors.toList());

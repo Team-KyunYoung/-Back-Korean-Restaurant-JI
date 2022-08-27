@@ -13,8 +13,8 @@ import java.util.Optional;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<QuestionBoard, Long> {
-    List<QuestionBoard> findByIsQNAIsTrue();
-    List<QuestionBoard> findByIsQNAIsFalse();
+    List<QuestionBoard> findByIsQNAIsTrueOrderByWriteDateDesc();
+    List<QuestionBoard> findByIsQNAIsFalseOrderByWriteDateAsc();
     Optional<QuestionBoard> findByQuestionNumber(long questionNumber);
 
     @Transactional
