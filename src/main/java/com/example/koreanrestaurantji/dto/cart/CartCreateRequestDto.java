@@ -1,10 +1,8 @@
-package com.example.koreanrestaurantji.dto.Cart;
+package com.example.koreanrestaurantji.dto.cart;
 
 import com.example.koreanrestaurantji.domain.Cart;
 import com.example.koreanrestaurantji.domain.Dish;
-import com.example.koreanrestaurantji.domain.Reservation;
 import com.example.koreanrestaurantji.domain.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

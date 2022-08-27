@@ -1,4 +1,4 @@
-package com.example.koreanrestaurantji.dto.Cart;
+package com.example.koreanrestaurantji.dto.cart;
 
 import com.example.koreanrestaurantji.domain.Cart;
 import lombok.Getter;
