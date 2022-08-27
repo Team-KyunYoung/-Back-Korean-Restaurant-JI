@@ -36,6 +36,8 @@ public enum BaseResponseCode {
     QNA_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 게시글이 없습니다."),
     FNQ_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 게시글이 없습니다."),
     EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 게시글이 없습니다."),
+    QNA_COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 댓글이 없습니다."),
+
     /**
      * 404 NOT FOUND
      */
@@ -51,6 +53,7 @@ public enum BaseResponseCode {
     FAILED_TO_SAVE_QNA(HttpStatus.NOT_FOUND, "QNA 게시글 등록에 실패했습니다."),
     FAILED_TO_SAVE_FNQ(HttpStatus.NOT_FOUND, "FNQ 게시글 등록에 실패했습니다."),
     FAILED_TO_SAVE_EVENT(HttpStatus.NOT_FOUND, "EVENT 게시글 등록에 실패했습니다."),
+    FAILED_TO_SAVE_COMMENT(HttpStatus.NOT_FOUND, "QNA 게시글의 댓글 등록에 실패했습니다."),
 
     /**
      * 405 Method Not Allowed

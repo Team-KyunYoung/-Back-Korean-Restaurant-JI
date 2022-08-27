@@ -3,11 +3,12 @@ package com.example.koreanrestaurantji.domain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @ApiModel(value = "QNA 댓글 정보", description = "QNA 댓글 데이타를 가진 Class")
 @Entity(name = "QNA_COMMENT")
@@ -23,11 +24,6 @@ public class Comment {
     @Column(name = "comment_number")
     private Long commentNumber;
 
-    @ApiModelProperty(value = "user")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_number", foreignKey = @ForeignKey(name = "FK_user_comment"))
-    private User user;
-
     @ApiModelProperty(value = "QuestionBoard")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_number", foreignKey = @ForeignKey(name = "FK_question_comment"))
@@ -36,4 +32,15 @@ public class Comment {
     @ApiModelProperty(value = "댓글")
     @Column(name = "comment_contents")
     private String commentContents;
+
+    @ApiModelProperty(value = "작성 날짜")
+    @Column(name = "write_time", nullable = false)
+    private LocalDateTime writeDate;
+
+    @Builder
+    public Comment(QuestionBoard questionBoard, String commentContents) {
+        this.questionBoard = questionBoard;
+        this.commentContents = commentContents;
+        this.writeDate = LocalDateTime.now();
+    }
 }
