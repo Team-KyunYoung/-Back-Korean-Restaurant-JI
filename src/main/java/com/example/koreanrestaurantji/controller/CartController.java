@@ -1,7 +1,7 @@
 package com.example.koreanrestaurantji.controller;
 
-import com.example.koreanrestaurantji.dto.Cart.CartRequestDto;
-import com.example.koreanrestaurantji.dto.Cart.CartResponseDto;
+import com.example.koreanrestaurantji.dto.cart.CartRequestDto;
+import com.example.koreanrestaurantji.dto.cart.CartResponseDto;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.service.CartService;

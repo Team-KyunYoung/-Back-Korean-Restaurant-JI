@@ -23,7 +23,7 @@ public class Cart {
 
     @ApiModelProperty(value = "user")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_number", foreignKey = @ForeignKey(name = "FK_user_status"))
+    @JoinColumn(name = "user_number", foreignKey = @ForeignKey(name = "FK_user_cart"))
     private User user;
 
     @ApiModelProperty(value = "음식 일련번호")
