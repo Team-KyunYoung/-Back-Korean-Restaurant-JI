@@ -117,4 +117,16 @@ public class UserController {
     public BaseResponse<UserSuccessResponseDto> deleteUser() throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", userService.deleteUser());
     }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "로그인한 유저가 관리자인지 확인", notes = "로그인한 유저가 관리자인지 여부를 반환합니다.")
+    @GetMapping("/isadmin")
+    public BaseResponse<UserSuccessResponseDto> userAdminCheck() throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", userService.userAdminCheck());
+    }
 }

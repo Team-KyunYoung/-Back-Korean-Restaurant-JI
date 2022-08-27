@@ -160,4 +160,13 @@ public class UserService {
 
         return new SuccessResponseDto(HttpStatus.OK);
     }
+
+    public boolean userAdminCheck(){
+        SecurityContext context = SecurityContextHolder.getContext();
+        String userEmail = context.getAuthentication().getName();
+        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+
+        System.out.println(user.isRole());
+        return user.isRole();
+    }
 }
