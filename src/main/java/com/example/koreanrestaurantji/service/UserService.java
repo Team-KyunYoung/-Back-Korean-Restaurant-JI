@@ -1,6 +1,7 @@
 package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.User;
+import com.example.koreanrestaurantji.dto.SuccessResponseDto;
 import com.example.koreanrestaurantji.dto.user.*;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
@@ -42,7 +43,7 @@ public class UserService {
         return userNumber;
     }
 
-    public UserSuccessResponseDto nicknameCheck(String nickname) {
+    public SuccessResponseDto nicknameCheck(String nickname) {
         boolean exitsUserCheck = userRepository.existsByUserNickname(nickname).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
 
         if (exitsUserCheck) {
@@ -50,7 +51,7 @@ public class UserService {
             throw new BaseException(BaseResponseCode.DUPLICATE_NICKNAME);
         }
 
-        return new UserSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 
     public String signupEmailAuth(String userEmail) {
@@ -108,7 +109,7 @@ public class UserService {
         return authCode;
     }
 
-    public UserSuccessResponseDto updateNickname(UserUpdateNameRequestDto userUpdateNameDto) {
+    public SuccessResponseDto updateNickname(UserUpdateNameRequestDto userUpdateNameDto) {
         SecurityContext context = SecurityContextHolder.getContext();
         String userEmail = context.getAuthentication().getName();
         User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
@@ -116,19 +117,19 @@ public class UserService {
         user.setUserNickname(userUpdateNameDto.getUserNickname());
         userRepository.save(user);
 
-        return new UserSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public UserSuccessResponseDto fineUpdatePassword(UserFindUpdatePwdRequestDto userFindUpdatePwdRequestDto) {
+    public SuccessResponseDto fineUpdatePassword(UserFindUpdatePwdRequestDto userFindUpdatePwdRequestDto) {
         User user = userRepository.findByUserEmail(userFindUpdatePwdRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
 
         user.setUserPassword(passwordEncoder.encode(userFindUpdatePwdRequestDto.getUserPassword()));
         userRepository.save(user);
 
-        return new UserSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public UserSuccessResponseDto verifyPassword(UserUpdatePwdRequestDto userUpdatePwdDto) {
+    public SuccessResponseDto verifyPassword(UserUpdatePwdRequestDto userUpdatePwdDto) {
         SecurityContext context = SecurityContextHolder.getContext();
         String userEmail = context.getAuthentication().getName();
         User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
@@ -136,10 +137,10 @@ public class UserService {
         if (!passwordEncoder.matches(userUpdatePwdDto.getUserPassword(), user.getUserPassword()))
             throw new BaseException(BaseResponseCode.INVALID_PASSWORD);
 
-        return new UserSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public UserSuccessResponseDto updatePassword(UserUpdatePwdRequestDto userUpdatePwdDto) {
+    public SuccessResponseDto updatePassword(UserUpdatePwdRequestDto userUpdatePwdDto) {
         SecurityContext context = SecurityContextHolder.getContext();
         String userEmail = context.getAuthentication().getName();
         User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
@@ -147,16 +148,16 @@ public class UserService {
         user.setUserPassword(passwordEncoder.encode(userUpdatePwdDto.getUserPassword()));
         userRepository.save(user);
 
-        return new UserSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public UserSuccessResponseDto deleteUser(){
+    public SuccessResponseDto deleteUser(){
         SecurityContext context = SecurityContextHolder.getContext();
         String userEmail = context.getAuthentication().getName();
         //삭제하려는 아이디 userRepository에서 찾기
         User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
         userRepository.delete(user);
 
-        return new UserSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 }

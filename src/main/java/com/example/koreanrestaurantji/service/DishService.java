@@ -1,10 +1,9 @@
 package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.Dish;
-import com.example.koreanrestaurantji.dto.course.CourseAllResponseDto;
+import com.example.koreanrestaurantji.dto.SuccessResponseDto;
 import com.example.koreanrestaurantji.dto.dish.DishCreateRequestDto;
 import com.example.koreanrestaurantji.dto.dish.DishResponseDto;
-import com.example.koreanrestaurantji.dto.dish.DishSuccessResponseDto;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.repository.DishRepository;
@@ -20,13 +19,13 @@ import java.util.stream.Collectors;
 public class DishService {
     private final DishRepository dishRepository;
 
-    public DishSuccessResponseDto create(DishCreateRequestDto dishCreateRequestDto) {
+    public SuccessResponseDto create(DishCreateRequestDto dishCreateRequestDto) {
         try {
             dishRepository.save(dishCreateRequestDto.toEntity());
         } catch (Exception e) {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_DISH);
         }
-        return new DishSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 
     public List<DishResponseDto> findAllDish() {
@@ -41,10 +40,10 @@ public class DishService {
         return new DishResponseDto(dish);
     }
 
-    public DishSuccessResponseDto delete(Long number){
+    public SuccessResponseDto delete(Long number){
         Dish dish = dishRepository.findByDishNumber(number).orElseThrow(() -> new BaseException(BaseResponseCode.DISH_NOT_FOUND));
         dishRepository.delete(dish);
 
-        return new DishSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 }
