@@ -1,4 +1,4 @@
-package com.example.koreanrestaurantji.dto.Cart;
+package com.example.koreanrestaurantji.dto.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartRequestDto {
-    private long dishNumber;
-    private int cartQuantity;
+public class OrderDishDetailRequest {
+    Long dishNumber;
+    int orderQuantity;
 }
