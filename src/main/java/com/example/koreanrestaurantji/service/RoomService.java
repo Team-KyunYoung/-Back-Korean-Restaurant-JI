@@ -2,6 +2,7 @@ package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.Room;
 import com.example.koreanrestaurantji.domain.RoomStatus;
+import com.example.koreanrestaurantji.dto.SuccessResponseDto;
 import com.example.koreanrestaurantji.dto.room.*;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
@@ -20,13 +21,13 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final RoomStatusRepository roomStatusRepository;
 
-    public RoomSuccessResponseDto create(RoomRequestDto roomRequestDto) {
+    public SuccessResponseDto create(RoomRequestDto roomRequestDto) {
         try {
             roomRepository.save(roomRequestDto.toEntity());
         } catch (Exception e) {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_ROOM);
         }
-        return new RoomSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 
     public List<RoomDataResponseDto> roomAllName() {
@@ -74,10 +75,10 @@ public class RoomService {
         return roomRemaining;
     }
 
-    public RoomSuccessResponseDto delete(Long roomNumber){
+    public SuccessResponseDto delete(Long roomNumber){
         Room room = findRoomByRoomNumber(roomNumber);
         roomRepository.delete(room);
 
-        return new RoomSuccessResponseDto(HttpStatus.OK);
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 }
