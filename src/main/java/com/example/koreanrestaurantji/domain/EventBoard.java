@@ -3,6 +3,7 @@ package com.example.koreanrestaurantji.domain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -32,7 +33,7 @@ public class EventBoard {
     @Column(name = "event_title", nullable = false)
     private String eventTitle;
 
-    @ApiModelProperty(value = "이벤트 이미지")
+    @ApiModelProperty(value = "이벤트 대표 이미지")
     @Column(name = "event_image")
     private String eventImage;
 
@@ -44,4 +45,12 @@ public class EventBoard {
     @Column(name = "event_view", nullable = false)
     @ColumnDefault("0")
     private int eventView;
+
+    @Builder
+    public EventBoard(String eventTitle, String eventImage, String eventContents) {
+        this.writeDate = LocalDateTime.now();
+        this.eventTitle = eventTitle;
+        this.eventImage = eventImage;
+        this.eventContents = eventContents;
+    }
 }
