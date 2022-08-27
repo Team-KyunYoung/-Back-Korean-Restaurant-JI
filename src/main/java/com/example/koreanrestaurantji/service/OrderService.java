@@ -1,7 +1,7 @@
 package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.*;
-import com.example.koreanrestaurantji.dto.Order.*;
+import com.example.koreanrestaurantji.dto.order.*;
 import com.example.koreanrestaurantji.dto.SuccessResponseDto;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;

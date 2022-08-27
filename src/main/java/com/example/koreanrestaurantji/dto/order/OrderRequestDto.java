@@ -1,4 +1,4 @@
-package com.example.koreanrestaurantji.dto.Order;
+package com.example.koreanrestaurantji.dto.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

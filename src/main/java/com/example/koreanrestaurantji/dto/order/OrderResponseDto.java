@@ -1,10 +1,9 @@
-package com.example.koreanrestaurantji.dto.Order;
+package com.example.koreanrestaurantji.dto.order;
 
 import com.example.koreanrestaurantji.domain.Orders;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
