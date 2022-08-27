@@ -33,6 +33,11 @@ public enum BaseResponseCode {
     RESERVATION_USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 사용자의 예약 데이터가 없습니다."),
     CART_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 장바구니 데이터가 없습니다."),
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 주문 내역이 없습니다."),
+    QNA_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 게시글이 없습니다."),
+    FNQ_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 게시글이 없습니다."),
+    EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 게시글이 없습니다."),
+    QNA_COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 댓글이 없습니다."),
+
     /**
      * 404 NOT FOUND
      */
@@ -45,11 +50,15 @@ public enum BaseResponseCode {
     FAILED_TO_SAVE_CART(HttpStatus.NOT_FOUND, "장바구니 음식 등록에 실패했습니다."),
     FAILED_TO_SAVE_ORDER(HttpStatus.NOT_FOUND, "주문 등록에 실패했습니다."),
     FAILED_TO_SAVE_ORDER_DISH(HttpStatus.NOT_FOUND, "주문 음식 등록에 실패했습니다."),
+    FAILED_TO_SAVE_QNA(HttpStatus.NOT_FOUND, "QNA 게시글 등록에 실패했습니다."),
+    FAILED_TO_SAVE_FNQ(HttpStatus.NOT_FOUND, "FNQ 게시글 등록에 실패했습니다."),
+    FAILED_TO_SAVE_EVENT(HttpStatus.NOT_FOUND, "EVENT 게시글 등록에 실패했습니다."),
+    FAILED_TO_SAVE_COMMENT(HttpStatus.NOT_FOUND, "QNA 게시글의 댓글 등록에 실패했습니다."),
 
     /**
      * 405 Method Not Allowed
      */
-    METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "허용되지 않은 메서드입니다.");
+    METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "해당 사용자에게 허용되지 않은 메서드입니다.");
 
     private HttpStatus httpStatus;
     private String message;
