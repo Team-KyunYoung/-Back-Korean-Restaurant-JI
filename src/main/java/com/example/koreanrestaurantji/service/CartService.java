@@ -42,11 +42,21 @@ public class CartService {
         User user = findUserByToken();
         Dish dish = findDishByDishNumber(cartRequestDto.getDishNumber());
 
-        CartCreateRequestDto cartCreateRequestDto = new CartCreateRequestDto(user, dish, cartRequestDto.getCartQuantity());
-        try {
-            cartRepository.save(cartCreateRequestDto.toEntity());
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_CART);
+        if(cartRepository.existsByUserAndDish(user, dish)){
+            Cart cart = cartRepository.findByUserAndDish(user, dish).orElseThrow(() -> new BaseException(BaseResponseCode.CART_NOT_FOUND));
+            cart.setCartQuantity(cart.getCartQuantity() + cartRequestDto.getCartQuantity());
+            try {
+                cartRepository.save(cart);
+            } catch (Exception e) {
+                throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_CART);
+            }
+        } else {
+            CartCreateRequestDto cartCreateRequestDto = new CartCreateRequestDto(user, dish, cartRequestDto.getCartQuantity());
+            try {
+                cartRepository.save(cartCreateRequestDto.toEntity());
+            } catch (Exception e) {
+                throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_CART);
+            }
         }
         return new SuccessResponseDto(HttpStatus.OK);
     }
