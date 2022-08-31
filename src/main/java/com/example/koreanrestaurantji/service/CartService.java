@@ -74,7 +74,6 @@ public class CartService {
 
         try {
             cart.setCartQuantity(cartQuantity);
-            cart.setCartDishPrice(cart.getDish().getDishPrice() * cartQuantity);
             cartRepository.save(cart);
         } catch (Exception e) {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_CART);
