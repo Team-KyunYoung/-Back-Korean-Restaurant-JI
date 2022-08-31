@@ -72,11 +72,11 @@ public class QuestionController {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.findFNQList());
     }
 
-    @ApiOperation(value = "FNQ 게시글 단건 확인", notes = "해당 FNQ 게시글 데이터를 리턴 합니다.")
-    @GetMapping("/find/public/fnq/{questionNumber}")
-    public BaseResponse<QuestionPostResponseDto> findFNQPost(@ApiParam(value = "questionNumber 질문 게시글 일련번호", required = true) @PathVariable long questionNumber) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.findFNQPost(questionNumber));
-    }
+//    @ApiOperation(value = "FNQ 게시글 단건 확인", notes = "해당 FNQ 게시글 데이터를 리턴 합니다.")
+//    @GetMapping("/find/public/fnq/{questionNumber}")
+//    public BaseResponse<QuestionPostResponseDto> findFNQPost(@ApiParam(value = "questionNumber 질문 게시글 일련번호", required = true) @PathVariable long questionNumber) throws Exception {
+//        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.findFNQPost(questionNumber));
+//    }
 
     @ApiImplicitParams({
             @ApiImplicitParam(
