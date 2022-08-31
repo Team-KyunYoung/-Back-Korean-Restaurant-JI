@@ -11,11 +11,11 @@ import java.time.format.DateTimeFormatter;
 public class FNQResponseDto {
     private final Long questionNumber;
     private final String questionTitle;
-    private final String writeDate;
+    private final String questionContents;
 
     public FNQResponseDto(QuestionBoard questionBoard){
         this.questionNumber = questionBoard.getQuestionNumber();
         this.questionTitle = questionBoard.getQuestionTitle();
-        this.writeDate = questionBoard.getWriteDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
+        this.questionContents = questionBoard.getQuestionContents();
     }
 }

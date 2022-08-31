@@ -91,9 +91,9 @@ public class QuestionService {
         }
     }
 
-    public QuestionPostResponseDto findFNQPost(long questionNumber){
-        return new QuestionPostResponseDto(findQuestionBoardByQuestionNumber(questionNumber));
-    }
+//    public QuestionPostResponseDto findFNQPost(long questionNumber){
+//        return new QuestionPostResponseDto(findQuestionBoardByQuestionNumber(questionNumber));
+//    }
 
     public SuccessResponseDto updateQNAPost(long questionNumber, QNAUpdateRequestDto qnaUpdateRequestDto){
         User user = findUserByToken();
