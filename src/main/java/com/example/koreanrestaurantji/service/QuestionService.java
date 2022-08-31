@@ -41,16 +41,16 @@ public class QuestionService {
         return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public SuccessResponseDto createFNQ(FNQCreateRequestDto fnqCreateRequestDto) {
+    public SuccessResponseDto createFAQ(FAQCreateRequestDto faqCreateRequestDto) {
         User user = findUserByToken();
         if(user.isRole()) {
-            QuestionCreateDto questionCreateDto = new QuestionCreateDto(user, fnqCreateRequestDto.getQuestionTitle(),
-                    fnqCreateRequestDto.getQuestionContents(), false, false);
+            QuestionCreateDto questionCreateDto = new QuestionCreateDto(user, faqCreateRequestDto.getQuestionTitle(),
+                    faqCreateRequestDto.getQuestionContents(), false, false);
 
             try {
                 questionRepository.save(questionCreateDto.toEntity());
             } catch (Exception e) {
-                throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_FNQ);
+                throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_FAQ);
             }
         } else {
             throw new BaseException(BaseResponseCode.METHOD_NOT_ALLOWED);
@@ -65,10 +65,10 @@ public class QuestionService {
                 .collect(Collectors.toList());
     }
 
-    public List<FNQResponseDto> findFNQList() {
+    public List<FAQResponseDto> findFAQList() {
         return questionRepository.findByIsQNAIsFalseOrderByWriteDateAsc()
                 .stream()
-                .map(FNQResponseDto::new)
+                .map(FAQResponseDto::new)
                 .collect(Collectors.toList());
     }
 
@@ -91,7 +91,7 @@ public class QuestionService {
         }
     }
 
-//    public QuestionPostResponseDto findFNQPost(long questionNumber){
+//    public QuestionPostResponseDto findFAQPost(long questionNumber){
 //        return new QuestionPostResponseDto(findQuestionBoardByQuestionNumber(questionNumber));
 //    }
 
@@ -110,15 +110,15 @@ public class QuestionService {
         return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public SuccessResponseDto updateFNQPost(long questionNumber, FNQUpdateRequestDto fnqUpdateRequestDto){
+    public SuccessResponseDto updateFAQPost(long questionNumber, FAQUpdateRequestDto faqUpdateRequestDto){
         User user = findUserByToken();
 
         if(user.isRole()) {
             try {
-                questionRepository.updateFNQPost(questionNumber, fnqUpdateRequestDto.getQuestionTitle(), fnqUpdateRequestDto.getQuestionContents());
+                questionRepository.updateFAQPost(questionNumber, faqUpdateRequestDto.getQuestionTitle(), faqUpdateRequestDto.getQuestionContents());
             } catch (Exception e) {
                 System.out.println(e);
-                throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_FNQ);
+                throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_FAQ);
             }
         } else {
             throw new BaseException(BaseResponseCode.METHOD_NOT_ALLOWED);

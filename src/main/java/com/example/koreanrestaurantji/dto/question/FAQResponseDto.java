@@ -4,16 +4,14 @@ import com.example.koreanrestaurantji.domain.QuestionBoard;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.format.DateTimeFormatter;
-
 @Getter
 @AllArgsConstructor
-public class FNQResponseDto {
+public class FAQResponseDto {
     private final Long questionNumber;
     private final String questionTitle;
     private final String questionContents;
 
-    public FNQResponseDto(QuestionBoard questionBoard){
+    public FAQResponseDto(QuestionBoard questionBoard){
         this.questionNumber = questionBoard.getQuestionNumber();
         this.questionTitle = questionBoard.getQuestionTitle();
         this.questionContents = questionBoard.getQuestionContents();
