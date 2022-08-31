@@ -12,14 +12,14 @@ public class CartResponseDto {
         private String dishImage;
         private String dishName;
         private int cartQuantity;
-        private int cartDishPrice;
+        private int dishPrice;
 
-    public CartResponseDto(Cart cart){
+    public CartResponseDto(Cart cart) {
         this.cartNumber = cart.getCartNumber();
         this.dishNumber = cart.getDish().getDishNumber();
         this.dishImage = cart.getDish().getDishPhoto();
         this.dishName = cart.getDish().getDishName();
         this.cartQuantity = cart.getCartQuantity();
-        this.cartDishPrice = cart.getCartDishPrice();
+        this.dishPrice = cart.getDish().getDishPrice();
     }
 }

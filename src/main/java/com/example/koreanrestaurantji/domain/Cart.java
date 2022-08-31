@@ -36,23 +36,14 @@ public class Cart {
     @ColumnDefault("1")
     private int cartQuantity;
 
-    @ApiModelProperty(value = "총액")
-    @Column(name = "cart_dish_price", nullable = false)
-    private int cartDishPrice;
-
     @Builder
     public Cart(User user, Dish dish, int cartQuantity, int cartDishPrice) {
         this.user = user;
         this.dish = dish;
         this.cartQuantity = cartQuantity;
-        this.cartDishPrice = cartDishPrice;
     }
 
     public void setCartQuantity(int cartQuantity) {
         this.cartQuantity = cartQuantity;
-    }
-
-    public void setCartDishPrice(int cartDishPrice) {
-        this.cartDishPrice = cartDishPrice;
     }
 }

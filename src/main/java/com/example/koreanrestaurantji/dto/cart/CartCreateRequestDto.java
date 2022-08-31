@@ -12,13 +12,11 @@ public class CartCreateRequestDto {
     private User user;
     private Dish dish;
     private int cartQuantity;
-    private int cartDishPrice;
 
     public CartCreateRequestDto(User user, Dish dish, int cartQuantity){
         this.user = user;
         this.dish = dish;
         this.cartQuantity = cartQuantity;
-        this.cartDishPrice = dish.getDishPrice()*cartQuantity;
     }
 
     public Cart toEntity() {
@@ -26,7 +24,6 @@ public class CartCreateRequestDto {
                 .user(user)
                 .dish(dish)
                 .cartQuantity(cartQuantity)
-                .cartDishPrice(cartDishPrice)
                 .build();
     }
 }
