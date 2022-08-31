@@ -24,8 +24,8 @@ public class JwtTokenProvider {
 
     private final UserDetailService userDetailService;
 
-    // 토큰 유효시간 30분
-    private long tokenValidTime = 30 * 60 * 1000L;
+    // 토큰 유효시간 6시간
+    private long tokenValidTime = 6 * 60 * 60 * 1000L;
 
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
     public JwtTokenProvider(@Value("&{security.jwt.token.secret-key}") String secretKey, UserDetailService userDetailService, @Value("${security.jwt.token.expire-length}") long tokenValidTime) {
