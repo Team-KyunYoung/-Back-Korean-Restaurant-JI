@@ -36,10 +36,10 @@ public class QuestionController {
                     value = "로그인 성공 후 AccessToken",
                     required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "FNQ 게시글 추가", notes = "FNQ 게시글 데이터를 추가 합니다.")
-    @PostMapping("/create/fnq")
-    public BaseResponse createFNQ(@ApiParam(value = "게시글 데이터를 갖는 객체", required = true) @RequestBody FNQCreateRequestDto fnqCreateRequestDto) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.createFNQ(fnqCreateRequestDto));
+    @ApiOperation(value = "FAQ 게시글 추가", notes = "FAQ 게시글 데이터를 추가 합니다.")
+    @PostMapping("/create/faq")
+    public BaseResponse createFAQ(@ApiParam(value = "게시글 데이터를 갖는 객체", required = true) @RequestBody FAQCreateRequestDto faqCreateRequestDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.createFAQ(faqCreateRequestDto));
     }
 
     @ApiOperation(value = "QNA 게시글 전체 확인", notes = "모든 게시글 데이터 목록을 리턴 합니다.")
@@ -66,16 +66,16 @@ public class QuestionController {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.findQNAPrivatePost(questionNumber));
     }
 
-    @ApiOperation(value = "FNQ 게시글 전체 확인", notes = "모든 게시글 데이터 목록을 리턴 합니다.")
-    @GetMapping("/find/public/fnq")
-    public BaseResponse<List<FNQResponseDto>> findFNQList() throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.findFNQList());
+    @ApiOperation(value = "FAQ 게시글 전체 확인", notes = "모든 게시글 데이터 목록을 리턴 합니다.")
+    @GetMapping("/find/public/faq")
+    public BaseResponse<List<FAQResponseDto>> findFAQList() throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.findFAQList());
     }
 
-//    @ApiOperation(value = "FNQ 게시글 단건 확인", notes = "해당 FNQ 게시글 데이터를 리턴 합니다.")
-//    @GetMapping("/find/public/fnq/{questionNumber}")
-//    public BaseResponse<QuestionPostResponseDto> findFNQPost(@ApiParam(value = "questionNumber 질문 게시글 일련번호", required = true) @PathVariable long questionNumber) throws Exception {
-//        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.findFNQPost(questionNumber));
+//    @ApiOperation(value = "FAQ 게시글 단건 확인", notes = "해당 FAQ 게시글 데이터를 리턴 합니다.")
+//    @GetMapping("/find/public/faq/{questionNumber}")
+//    public BaseResponse<QuestionPostResponseDto> findFAQPost(@ApiParam(value = "questionNumber 질문 게시글 일련번호", required = true) @PathVariable long questionNumber) throws Exception {
+//        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.findFAQPost(questionNumber));
 //    }
 
     @ApiImplicitParams({
@@ -97,11 +97,11 @@ public class QuestionController {
                     value = "로그인 성공 후 AccessToken",
                     required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "FNQ 게시글 수정", notes = "FNQ 게시글 제목/내용 데이터를 수정합니다.")
-    @PutMapping("/update/fnq/{questionNumber}")
-    public BaseResponse updateFNQPost(@ApiParam(value = "questionNumber 질문 게시글 일련번호", required = true) @PathVariable long questionNumber,
-                               @ApiParam(value = "수정된 게시글 제목과 내용을 담는 객체", required = true) @RequestBody FNQUpdateRequestDto updateRequestDto) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", questionService.updateFNQPost(questionNumber, updateRequestDto));
+    @ApiOperation(value = "FAQ 게시글 수정", notes = "FAQ 게시글 제목/내용 데이터를 수정합니다.")
+    @PutMapping("/update/faq/{questionNumber}")
+    public BaseResponse updateFAQPost(@ApiParam(value = "questionNumber 질문 게시글 일련번호", required = true) @PathVariable long questionNumber,
+                               @ApiParam(value = "수정된 게시글 제목과 내용을 담는 객체", required = true) @RequestBody FAQUpdateRequestDto updateRequestDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", questionService.updateFAQPost(questionNumber, updateRequestDto));
     }
 
     @ApiImplicitParams({

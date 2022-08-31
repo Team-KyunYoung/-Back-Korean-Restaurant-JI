@@ -51,7 +51,7 @@ public class SecurityConfig{
                 .antMatchers("/exception/**", "/item/**", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll() // For Swagger
                 .antMatchers("/api/user/signup/**", "/api/user/login/**", "/api/user/checknickname", "/api/user/signup/emailAuth", "/api/user/find/emailAuth", "/api/user/find/update/password").permitAll() // 로그인, 회원가입은 누구나 접근 가능
                 .antMatchers("/api/dish/find/**", "/api/course/find/**").permitAll()  // 음식 조회
-                .antMatchers("/api/question/find/public/**").permitAll()  // QNA(FNQ) 공개 게시글 조회
+                .antMatchers("/api/question/find/public/**").permitAll()  // QNA(FAQ) 공개 게시글 조회
                 .antMatchers("/api/qna/comment/exists/**").permitAll()  // 댓글 여부 조회
                 .antMatchers("/api/event/find/**").permitAll()  // 이벤트 게시글 조회
                 .antMatchers("/api/dish/create", "/api/dish/delete/**", "/api/course/create", "/api/course/delete/**",

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FNQCreateRequestDto {
+public class FAQCreateRequestDto {
     private String questionTitle;
     private String questionContents;
 }

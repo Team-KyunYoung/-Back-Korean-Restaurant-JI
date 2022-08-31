@@ -25,7 +25,7 @@ public interface QuestionRepository extends JpaRepository<QuestionBoard, Long> {
     @Transactional
     @Modifying  //(clearAutomatically = true)
     @Query("update QUESTION_BOARD p set p.questionTitle = :title, p.questionContents = :contents where p.questionNumber = :questionNumber")
-    void updateFNQPost(long questionNumber, String title, String contents);
+    void updateFAQPost(long questionNumber, String title, String contents);
 
 
 
