@@ -7,6 +7,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @ApiModel(value = "전체 사용자 예약 정보", description = "테이블 예약 정보를 가진 Class")
 @Entity(name = "RESERVATION")
@@ -42,7 +44,7 @@ public class Reservation {
 
     @ApiModelProperty(value = "예약 날짜")
     @Column(name = "reservation_date", nullable = false)
-    private String reservationDate;
+    private LocalDate reservationDate;
 
     @ApiModelProperty(value = "예약 시간")
     @Column(name = "reservation_time", nullable = false)
@@ -58,7 +60,7 @@ public class Reservation {
 
     @Builder(builderMethodName = "createBuilder")
     public Reservation(User user, String reservationName, String reservationPhoneNumber,
-                       String reservationRoomName, String reservationDate, String reservationTime,
+                       String reservationRoomName, LocalDate reservationDate, String reservationTime,
                        String reservationHeadCount, String reservationRequest) {
         this.user = user;
         this.reservationName = reservationName;
@@ -67,6 +69,6 @@ public class Reservation {
         this.reservationDate = reservationDate;
         this.reservationTime = reservationTime;
         this.reservationHeadCount = reservationHeadCount;
-        this.reservationRequest = reservationRequest == "" ? "요청사항 없음" : reservationRequest;
+        this.reservationRequest = reservationRequest == "" || reservationRequest == null ? "요청사항 없음" : reservationRequest;
     }
 }
