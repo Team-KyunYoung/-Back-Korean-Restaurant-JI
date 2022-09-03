@@ -44,7 +44,7 @@ public class QuestionBoard {
     private String questionTitle;
 
     @ApiModelProperty(value = "글 내용")
-    @Column(name = "question_contents")
+    @Column(name = "question_contents", length = 500)
     private String questionContents;
 
     // QNA or FNQ
