@@ -53,7 +53,7 @@ public class Reservation {
     private String reservationHeadCount;
 
     @ApiModelProperty(value = "요청 사항")
-    @Column(name = "reservation_request")
+    @Column(name = "reservation_request", length = 100)
     private String reservationRequest;
 
     @Builder(builderMethodName = "createBuilder")
