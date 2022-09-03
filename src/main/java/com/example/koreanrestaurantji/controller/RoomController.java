@@ -4,9 +4,7 @@ import com.example.koreanrestaurantji.dto.room.*;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.service.RoomService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class RoomController {
     private final RoomService roomService;
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "객실 추가", notes = "객실 데이터를 추가 합니다.")
     @PostMapping("/create")
     public BaseResponse createRoom(@ApiParam(value = "객실 이름,이미지를 담는 객체", required = true) @RequestBody RoomRequestDto roomRequestDto) throws Exception {
@@ -49,6 +53,12 @@ public class RoomController {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), roomService.roomRemaining(roomNumber, roomStatusTimeRequestDto));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "객실 삭제", notes = "객실 정보를 폐기합니다.")
     @DeleteMapping("/delete/{roomNumber}")
     public BaseResponse deleteCourse(@ApiParam(value = "roomNumber 객실 일련번호", required = true) @PathVariable Long roomNumber) throws Exception {

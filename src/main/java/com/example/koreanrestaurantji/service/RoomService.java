@@ -2,14 +2,17 @@ package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.Room;
 import com.example.koreanrestaurantji.domain.RoomStatus;
+import com.example.koreanrestaurantji.domain.User;
 import com.example.koreanrestaurantji.dto.SuccessResponseDto;
 import com.example.koreanrestaurantji.dto.room.*;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.repository.RoomRepository;
 import com.example.koreanrestaurantji.repository.RoomStatusRepository;
+import com.example.koreanrestaurantji.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +23,24 @@ import java.util.stream.Collectors;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final RoomStatusRepository roomStatusRepository;
+    private final UserRepository userRepository;
+
+    public User findUserByToken(){
+        return userRepository.findByUserEmail(SecurityContextHolder.getContext()
+                .getAuthentication().getName())
+                .orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+    }
 
     public SuccessResponseDto create(RoomRequestDto roomRequestDto) {
-        try {
-            roomRepository.save(roomRequestDto.toEntity());
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_ROOM);
+        User user = findUserByToken();
+        if(user.isRole()) {
+            try {
+                roomRepository.save(roomRequestDto.toEntity());
+            } catch (Exception e) {
+                throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_ROOM);
+            }
+        } else {
+            throw new BaseException(BaseResponseCode.METHOD_NOT_ALLOWED);
         }
         return new SuccessResponseDto(HttpStatus.OK);
     }
@@ -76,8 +91,13 @@ public class RoomService {
     }
 
     public SuccessResponseDto delete(Long roomNumber){
-        Room room = findRoomByRoomNumber(roomNumber);
-        roomRepository.delete(room);
+        User user = findUserByToken();
+        if(user.isRole()) {
+            Room room = findRoomByRoomNumber(roomNumber);
+            roomRepository.delete(room);
+        } else {
+            throw new BaseException(BaseResponseCode.METHOD_NOT_ALLOWED);
+        }
 
         return new SuccessResponseDto(HttpStatus.OK);
     }

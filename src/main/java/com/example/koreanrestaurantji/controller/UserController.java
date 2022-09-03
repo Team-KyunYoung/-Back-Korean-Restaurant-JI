@@ -66,7 +66,7 @@ public class UserController {
     @ApiOperation(value = "비밀번호 변경", notes = "사용자 비밀번호를 변경합니다.")
     @PutMapping("/find/update/password")
     public BaseResponse<UserSuccessResponseDto> findUpdatePassword(@ApiParam(value = "변경할 패스워드", required = true) @RequestBody UserFindUpdatePwdRequestDto userFindUpdatePwdRequestDto) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.fineUpdatePassword(userFindUpdatePwdRequestDto));
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findUpdatePassword(userFindUpdatePwdRequestDto));
     }
 
     @ApiImplicitParams({
