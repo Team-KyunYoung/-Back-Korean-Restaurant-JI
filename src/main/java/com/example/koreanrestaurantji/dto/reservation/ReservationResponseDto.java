@@ -11,6 +11,7 @@ public class ReservationResponseDto {
     private String reservationRoomName;
     private String reservationName;
     private String reservationPhoneNumber;
+    private String reservationRequest;
     private String reservationDate;
     private String reservationTime;
     private String reservationHeadCount;
@@ -20,6 +21,7 @@ public class ReservationResponseDto {
         this.reservationRoomName = reservation.getReservationRoomName();
         this.reservationName = reservation.getReservationName();
         this.reservationPhoneNumber = reservation.getReservationPhoneNumber();
+        this.reservationRequest = reservation.getReservationRequest();
         this.reservationDate = reservation.getReservationDate();
         this.reservationTime = reservation.getReservationTime();
         this.reservationHeadCount = reservation.getReservationHeadCount();

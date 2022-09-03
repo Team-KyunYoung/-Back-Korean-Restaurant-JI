@@ -16,12 +16,14 @@ public class ReservationCreateRequestDto {
     private String reservationDate;
     private String reservationTime;
     private String reservationHeadCount;
+    private String reservationRequest;
 
     public ReservationCreateRequestDto(User user, ReservationRequestDto reservationRequestDto, String reservationRoomName) {
         this.user = user;
         this.reservationName = reservationRequestDto.getReservationName();
         this.reservationPhoneNumber = reservationRequestDto.getReservationPhoneNumber();
         this.reservationRoomName = reservationRoomName;
+        this.reservationRequest = reservationRequestDto.getReservationRequest();
         this.reservationDate = reservationRequestDto.getReservationDate();
         this.reservationTime = reservationRequestDto.getReservationTime();
         switch (reservationRequestDto.getReservationTableCount()) {
@@ -41,6 +43,7 @@ public class ReservationCreateRequestDto {
                 .user(user)
                 .reservationName(reservationName)
                 .reservationPhoneNumber(reservationPhoneNumber)
+                .reservationRequest(reservationRequest)
                 .reservationRoomName(reservationRoomName)
                 .reservationDate(reservationDate)
                 .reservationTime(reservationTime)

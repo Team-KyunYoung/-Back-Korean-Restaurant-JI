@@ -9,6 +9,7 @@ public class ReservationRequestDto {
     private long reservationRoomNumber;
     private String reservationName;
     private String reservationPhoneNumber;
+    private String reservationRequest;
     private String reservationDate;
     private String reservationTime;
     private int reservationTableCount;

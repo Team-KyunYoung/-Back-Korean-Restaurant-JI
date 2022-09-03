@@ -3,6 +3,7 @@ package com.example.koreanrestaurantji.domain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -51,10 +52,14 @@ public class Reservation {
     @Column(name = "reservation_headCount", nullable = false)
     private String reservationHeadCount;
 
+    @ApiModelProperty(value = "요청 사항")
+    @Column(name = "reservation_request")
+    private String reservationRequest;
+
     @Builder(builderMethodName = "createBuilder")
     public Reservation(User user, String reservationName, String reservationPhoneNumber,
                        String reservationRoomName, String reservationDate, String reservationTime,
-                       String reservationHeadCount) {
+                       String reservationHeadCount, String reservationRequest) {
         this.user = user;
         this.reservationName = reservationName;
         this.reservationPhoneNumber = reservationPhoneNumber;
@@ -62,5 +67,6 @@ public class Reservation {
         this.reservationDate = reservationDate;
         this.reservationTime = reservationTime;
         this.reservationHeadCount = reservationHeadCount;
+        this.reservationRequest = reservationRequest == "" ? "요청사항 없음" : reservationRequest;
     }
 }
