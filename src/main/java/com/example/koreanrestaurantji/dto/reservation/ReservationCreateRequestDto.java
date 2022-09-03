@@ -2,9 +2,12 @@ package com.example.koreanrestaurantji.dto.reservation;
 
 import com.example.koreanrestaurantji.domain.Reservation;
 import com.example.koreanrestaurantji.domain.User;
-import com.example.koreanrestaurantji.repository.RoomRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @NoArgsConstructor
@@ -13,18 +16,19 @@ public class ReservationCreateRequestDto {
     private String reservationRoomName;
     private String reservationName;
     private String reservationPhoneNumber;
-    private String reservationDate;
+    private LocalDate reservationDate;
     private String reservationTime;
     private String reservationHeadCount;
     private String reservationRequest;
 
-    public ReservationCreateRequestDto(User user, ReservationRequestDto reservationRequestDto, String reservationRoomName) {
+    public ReservationCreateRequestDto(User user, ReservationRequestDto reservationRequestDto, String reservationRoomName) throws ParseException {
         this.user = user;
         this.reservationName = reservationRequestDto.getReservationName();
         this.reservationPhoneNumber = reservationRequestDto.getReservationPhoneNumber();
         this.reservationRoomName = reservationRoomName;
         this.reservationRequest = reservationRequestDto.getReservationRequest();
-        this.reservationDate = reservationRequestDto.getReservationDate();
+        LocalDate reservationDate = LocalDate.parse(reservationRequestDto.getReservationDate(), DateTimeFormatter.ISO_DATE);
+        this.reservationDate = reservationDate;
         this.reservationTime = reservationRequestDto.getReservationTime();
         switch (reservationRequestDto.getReservationTableCount()) {
             case 1:

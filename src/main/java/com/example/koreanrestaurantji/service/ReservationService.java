@@ -15,6 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,11 +45,11 @@ public class ReservationService {
         return reservationRepository.findByReservationNumber(reservationNumber).orElseThrow(() -> new BaseException(BaseResponseCode.RESERVATION_NOT_FOUND));
     }
 
-    public RoomStatus findRoomStatusByStatus(Room room, String reservationDate, String reservationTime) {
+    public RoomStatus findRoomStatusByStatus(Room room, LocalDate reservationDate, String reservationTime) {
         return roomStatusRepository.findByRoomAndReservationDateAndReservationTime(room, reservationDate, reservationTime).orElseThrow(() -> new BaseException(BaseResponseCode.ROOM_STATUS_NOT_FOUND));
     }
 
-    public SuccessResponseDto create(ReservationRequestDto reservationRequestDto) {
+    public SuccessResponseDto create(ReservationRequestDto reservationRequestDto) throws ParseException {
         User user = findUserByToken();
         String roomName = findRoomByRoomNumber(reservationRequestDto.getReservationRoomNumber()).getRoomName();
         ReservationCreateRequestDto reservationCreateRequestDto = new ReservationCreateRequestDto(user, reservationRequestDto, roomName);
@@ -58,7 +62,7 @@ public class ReservationService {
 
         //예약 데이터 등록 성공 시, 객실 예약 현황 데이터도 수정 필요
         Room room = findRoomByRoomNumber(reservationRequestDto.getReservationRoomNumber());
-        String reservationDate = reservationRequestDto.getReservationDate();
+        LocalDate reservationDate = LocalDate.parse(reservationRequestDto.getReservationDate(), DateTimeFormatter.ISO_DATE);
         String reservationTime = reservationRequestDto.getReservationTime();
         int reservationTableCount = reservationRequestDto.getReservationTableCount();
 
@@ -83,9 +87,17 @@ public class ReservationService {
         return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public List<ReservationResponseDto> findReservationByUser() {
+    public List<ReservationResponseDto> findByUserBeforeDate() {
         User user = findUserByToken();
-        return reservationRepository.findByUserOrderByReservationDateAsc(user)
+        return reservationRepository.findByUserAndReservationDateIsBeforeOrderByReservationDateDesc(user, LocalDate.now())
+                .stream()
+                .map(ReservationResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<ReservationResponseDto> findByUserAfterDate() {
+        User user = findUserByToken();
+        return reservationRepository.findByUserAndReservationDateIsGreaterThanEqualOrderByReservationDateAsc(user, LocalDate.now())
                 .stream()
                 .map(ReservationResponseDto::new)
                 .collect(Collectors.toList());
@@ -123,7 +135,7 @@ public class ReservationService {
     public SuccessResponseDto update(Long reservationNumber, ReservationUpdateRequestDto reservationUpdateRequestDto){
         //Reservation
         Reservation reservation = findReservationByReservationNumber(reservationNumber);
-        String reservationDate = reservationUpdateRequestDto.getReservationDate();
+        LocalDate reservationDate = LocalDate.parse(reservationUpdateRequestDto.getReservationDate(), DateTimeFormatter.ISO_DATE);
         String reservationTime = reservationUpdateRequestDto.getReservationTime();
         int reservationTableCount = reservationUpdateRequestDto.getReservationTableCount();
 

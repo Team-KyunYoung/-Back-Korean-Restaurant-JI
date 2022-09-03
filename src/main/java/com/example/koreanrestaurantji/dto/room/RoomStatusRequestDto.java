@@ -4,14 +4,16 @@ import com.example.koreanrestaurantji.domain.Room;
 import com.example.koreanrestaurantji.domain.RoomStatus;
 import lombok.Builder;
 
+import java.time.LocalDate;
+
 public class RoomStatusRequestDto {
     private Room room;
-    private String reservationDate;
+    private LocalDate reservationDate;
     private String reservationTime;
     private int roomRemaining;
 
     @Builder
-    public RoomStatusRequestDto (Room room, String reservationDate, String reservationTime, int roomRemaining) {
+    public RoomStatusRequestDto (Room room, LocalDate reservationDate, String reservationTime, int roomRemaining) {
         this.room = room;
         this.reservationDate = reservationDate;
         this.reservationTime = reservationTime;

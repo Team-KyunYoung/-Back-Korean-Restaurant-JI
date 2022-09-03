@@ -9,6 +9,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @ApiModel(value = "객실 예약 상태 정보", description = "객실 예약 상태 정보를 가진 Class")
 @Entity(name = "ROOM_STATUS")
@@ -30,7 +31,7 @@ public class RoomStatus {
 
     @ApiModelProperty(value = "예약 날짜")
     @Column(name = "reservation_date", nullable = false)
-    private String reservationDate;
+    private LocalDate reservationDate;
 
     @ApiModelProperty(value = "예약 시간")
     @Column(name = "reservation_time", nullable = false)
@@ -42,7 +43,7 @@ public class RoomStatus {
     private int roomRemaining;
 
     @Builder
-    public RoomStatus(Room room, String reservationDate, String reservationTime, int roomRemaining) {
+    public RoomStatus(Room room, LocalDate reservationDate, String reservationTime, int roomRemaining) {
         this.room = room;
         this.reservationDate = reservationDate;
         this.reservationTime = reservationTime;

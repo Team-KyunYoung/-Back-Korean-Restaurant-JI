@@ -22,7 +22,7 @@ public class ReservationResponseDto {
         this.reservationName = reservation.getReservationName();
         this.reservationPhoneNumber = reservation.getReservationPhoneNumber();
         this.reservationRequest = reservation.getReservationRequest();
-        this.reservationDate = reservation.getReservationDate();
+        this.reservationDate = reservation.getReservationDate().toString();
         this.reservationTime = reservation.getReservationTime();
         this.reservationHeadCount = reservation.getReservationHeadCount();
     }
