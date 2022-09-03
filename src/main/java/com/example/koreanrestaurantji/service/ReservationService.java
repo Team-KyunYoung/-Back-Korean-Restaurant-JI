@@ -12,7 +12,6 @@ import com.example.koreanrestaurantji.repository.RoomStatusRepository;
 import com.example.koreanrestaurantji.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 

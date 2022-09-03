@@ -50,13 +50,11 @@ public class SecurityConfig{
                 // 인증 필요 없는 기능에 접근 할 수 있도록 설정(Controller에 정의된 url 넣으면 된다)
                 .antMatchers("/exception/**", "/item/**", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll() // For Swagger
                 .antMatchers("/api/user/signup/**", "/api/user/login/**", "/api/user/checknickname", "/api/user/signup/emailAuth", "/api/user/find/emailAuth", "/api/user/find/update/password").permitAll() // 로그인, 회원가입은 누구나 접근 가능
-                .antMatchers("/api/dish/find/**", "/api/course/find/**").permitAll()  // 음식 조회
+                .antMatchers("/api/dish/find/**", "/api/course/find/**").permitAll()  // 음식,코스 조회
+                .antMatchers("/api/room/find/**").permitAll() //객실 조회(객실 예약 상태 조회)
                 .antMatchers("/api/question/find/public/**").permitAll()  // QNA(FAQ) 공개 게시글 조회
                 .antMatchers("/api/qna/comment/exists/**").permitAll()  // 댓글 여부 조회
                 .antMatchers("/api/event/find/**").permitAll()  // 이벤트 게시글 조회
-                .antMatchers("/api/dish/create", "/api/dish/delete/**", "/api/course/create", "/api/course/delete/**",
-                        "/api/room/create", "/api/room/delete/**" ).permitAll() //관리자만 가능하게 변경해야됨
-                .antMatchers("/api/room/find/**").permitAll() //추후 삭제
                 .anyRequest().authenticated() //이 외에는 인증이 필요하도록 한다.
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

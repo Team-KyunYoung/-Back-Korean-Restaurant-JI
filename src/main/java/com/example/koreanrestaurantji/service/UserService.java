@@ -72,11 +72,15 @@ public class UserService {
         return authCode;
     }
 
+    public User findUserByEmail(String userEmail){     //orElseThrow() : userRepository.findByUserEmail()의 값이 없으면 ()안의 함수 실행
+        return userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+    }
+
     // return 될 데이터 셋이 UserLoginResponseDto에 명시되어 있으므로, 함수 유형이 UserLoginResponseDto.
     //UserLoginRequestDto 명시된 데이터 셋 : email, pwd. 즉, login 함수에 이 데이터 셋이 전달된다.
     public UserLoginResponseDto login(UserLoginRequestDto userLoginRequestDto) {
-                                                                                     //orElseThrow() : userRepository.findByUserEmail()의 값이 없으면 ()안의 함수 실행
-        User user = userRepository.findByUserEmail(userLoginRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+
+        User user = findUserByEmail(userLoginRequestDto.getUserEmail());
         // passwordEncoder.matches() : 제출된 인코딩 되지 않은 패스워드(로그인)와 인코딩 된 패스워드(db)의 일치 여부를 확인. 반환 타입은 boolean.
         if (!passwordEncoder.matches(userLoginRequestDto.getUserPassword(), user.getUserPassword())) //User.java에서 @Getter의 사용으로 getUserPassword() 자동 생성.
             throw new BaseException(BaseResponseCode.INVALID_PASSWORD);
@@ -85,11 +89,14 @@ public class UserService {
         return new UserLoginResponseDto(HttpStatus.OK, token);
     }
 
+    public User findUserByToken(){
+        return userRepository.findByUserEmail(SecurityContextHolder.getContext()
+                .getAuthentication().getName())
+                .orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+    }
+
     public UserResponseDto findByUser() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        String userEmail = context.getAuthentication().getName();
-        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
-        return new UserResponseDto(user);
+        return new UserResponseDto(findUserByToken());
     }
 
     public String findEmailAuth(String userEmail) {
@@ -110,9 +117,7 @@ public class UserService {
     }
 
     public SuccessResponseDto updateNickname(UserUpdateNameRequestDto userUpdateNameDto) {
-        SecurityContext context = SecurityContextHolder.getContext();
-        String userEmail = context.getAuthentication().getName();
-        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        User user = findUserByToken();
 
         user.setUserNickname(userUpdateNameDto.getUserNickname());
         userRepository.save(user);
@@ -120,8 +125,8 @@ public class UserService {
         return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public SuccessResponseDto fineUpdatePassword(UserFindUpdatePwdRequestDto userFindUpdatePwdRequestDto) {
-        User user = userRepository.findByUserEmail(userFindUpdatePwdRequestDto.getUserEmail()).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+    public SuccessResponseDto findUpdatePassword(UserFindUpdatePwdRequestDto userFindUpdatePwdRequestDto) {
+        User user = findUserByEmail(userFindUpdatePwdRequestDto.getUserEmail());
 
         user.setUserPassword(passwordEncoder.encode(userFindUpdatePwdRequestDto.getUserPassword()));
         userRepository.save(user);
@@ -130,9 +135,7 @@ public class UserService {
     }
 
     public SuccessResponseDto verifyPassword(UserUpdatePwdRequestDto userUpdatePwdDto) {
-        SecurityContext context = SecurityContextHolder.getContext();
-        String userEmail = context.getAuthentication().getName();
-        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        User user = findUserByToken();
 
         if (!passwordEncoder.matches(userUpdatePwdDto.getUserPassword(), user.getUserPassword()))
             throw new BaseException(BaseResponseCode.INVALID_PASSWORD);
@@ -141,9 +144,7 @@ public class UserService {
     }
 
     public SuccessResponseDto updatePassword(UserUpdatePwdRequestDto userUpdatePwdDto) {
-        SecurityContext context = SecurityContextHolder.getContext();
-        String userEmail = context.getAuthentication().getName();
-        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        User user = findUserByToken();
 
         user.setUserPassword(passwordEncoder.encode(userUpdatePwdDto.getUserPassword()));
         userRepository.save(user);
@@ -152,21 +153,13 @@ public class UserService {
     }
 
     public SuccessResponseDto deleteUser(){
-        SecurityContext context = SecurityContextHolder.getContext();
-        String userEmail = context.getAuthentication().getName();
-        //삭제하려는 아이디 userRepository에서 찾기
-        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        User user = findUserByToken();
         userRepository.delete(user);
 
         return new SuccessResponseDto(HttpStatus.OK);
     }
 
     public boolean userAdminCheck(){
-        SecurityContext context = SecurityContextHolder.getContext();
-        String userEmail = context.getAuthentication().getName();
-        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
-
-        System.out.println(user.isRole());
-        return user.isRole();
+        return findUserByToken().isRole();
     }
 }

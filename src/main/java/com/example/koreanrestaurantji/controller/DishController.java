@@ -5,9 +5,7 @@ import com.example.koreanrestaurantji.dto.dish.DishResponseDto;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.service.DishService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +19,12 @@ public class DishController {
 
     private final DishService dishService;
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "요리 추가", notes = "음식 데이터를 추가 합니다.")
     @PostMapping("/create")
     public BaseResponse dishCreate(@ApiParam(value = "음식 정보를 갖는 객체", required = true) @RequestBody DishCreateRequestDto dishCreateRequestDto) throws Exception {
@@ -39,6 +43,12 @@ public class DishController {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), dishService.findDish(number));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "음식 삭제", notes = "음식 정보를 폐기합니다.")
     @DeleteMapping("/delete/{number}")
     public BaseResponse deleteDish(@ApiParam(value = "DishNumber 음식 일련번호", required = true) @PathVariable Long number) throws Exception {
