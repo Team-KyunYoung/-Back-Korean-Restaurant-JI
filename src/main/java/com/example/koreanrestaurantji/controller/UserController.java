@@ -1,6 +1,7 @@
 package com.example.koreanrestaurantji.controller;
 
 
+import com.example.koreanrestaurantji.dto.SuccessResponseDto;
 import com.example.koreanrestaurantji.dto.user.*;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
@@ -26,7 +27,7 @@ public class UserController {
 
     @ApiOperation(value = "닉네임 체크", notes = "닉네임 중복 여부 체크")
     @PostMapping("/checknickname")
-    public BaseResponse<UserSuccessResponseDto> nicknameCheck(@ApiParam(value = "회원가입 닉네임", required = true) @RequestBody UserCheckNameRequestDto userCheckNameRequestDto) throws Exception {
+    public BaseResponse<SuccessResponseDto> nicknameCheck(@ApiParam(value = "회원가입 닉네임", required = true) @RequestBody UserCheckNameRequestDto userCheckNameRequestDto) throws Exception {
         return new BaseResponse(userService.nicknameCheck(userCheckNameRequestDto.getUserNickname()).getStatus(), "요청 성공했습니다.", userService.nicknameCheck(userCheckNameRequestDto.getUserNickname()));
     }
 
@@ -65,7 +66,7 @@ public class UserController {
 
     @ApiOperation(value = "비밀번호 변경", notes = "사용자 비밀번호를 변경합니다.")
     @PutMapping("/find/update/password")
-    public BaseResponse<UserSuccessResponseDto> findUpdatePassword(@ApiParam(value = "변경할 패스워드", required = true) @RequestBody UserFindUpdatePwdRequestDto userFindUpdatePwdRequestDto) throws Exception {
+    public BaseResponse<SuccessResponseDto> findUpdatePassword(@ApiParam(value = "변경할 패스워드", required = true) @RequestBody UserFindUpdatePwdRequestDto userFindUpdatePwdRequestDto) throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findUpdatePassword(userFindUpdatePwdRequestDto));
     }
 
@@ -77,7 +78,7 @@ public class UserController {
     })
     @ApiOperation(value = "닉네임 변경", notes = "사용자 닉네임을 변경합니다.")
     @PutMapping("/update/nickname")
-    public BaseResponse<UserSuccessResponseDto> updateNickname(@ApiParam(value = "변경할 닉네임", required = true) @RequestBody UserUpdateNameRequestDto userUpdateNameDto) throws Exception {
+    public BaseResponse<SuccessResponseDto> updateNickname(@ApiParam(value = "변경할 닉네임", required = true) @RequestBody UserUpdateNameRequestDto userUpdateNameDto) throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.updateNickname(userUpdateNameDto));
     }
 
@@ -89,7 +90,7 @@ public class UserController {
     })
     @ApiOperation(value = "비밀번호 확인", notes = "사용자 비밀번호가 맞는지 확인합니다.")
     @PostMapping("/verify/password")
-    public BaseResponse<UserSuccessResponseDto> verifyPassword(@ApiParam(value = "확인 할 패스워드", required = true) @RequestBody UserUpdatePwdRequestDto userUpdatePwdDto) throws Exception {
+    public BaseResponse<SuccessResponseDto> verifyPassword(@ApiParam(value = "확인 할 패스워드", required = true) @RequestBody UserUpdatePwdRequestDto userUpdatePwdDto) throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.verifyPassword(userUpdatePwdDto));
     }
 
@@ -101,7 +102,7 @@ public class UserController {
     })
     @ApiOperation(value = "비밀번호 변경", notes = "사용자 비밀번호를 변경합니다.")
     @PutMapping("/update/password")
-    public BaseResponse<UserSuccessResponseDto> updatePassword(@ApiParam(value = "변경할 패스워드", required = true) @RequestBody UserUpdatePwdRequestDto userUpdatePwdDto) throws Exception {
+    public BaseResponse<SuccessResponseDto> updatePassword(@ApiParam(value = "변경할 패스워드", required = true) @RequestBody UserUpdatePwdRequestDto userUpdatePwdDto) throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.updatePassword(userUpdatePwdDto));
     }
 
@@ -114,7 +115,7 @@ public class UserController {
     //사용자 삭제
     @ApiOperation(value = "회원 삭제", notes = "회원 정보를 폐기합니다.")
     @DeleteMapping("/delete")
-    public BaseResponse<UserSuccessResponseDto> deleteUser() throws Exception {
+    public BaseResponse<SuccessResponseDto> deleteUser() throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", userService.deleteUser());
     }
 
@@ -126,7 +127,7 @@ public class UserController {
     })
     @ApiOperation(value = "로그인한 유저가 관리자인지 확인", notes = "로그인한 유저가 관리자인지 여부를 반환합니다.")
     @GetMapping("/isadmin")
-    public BaseResponse<UserSuccessResponseDto> userAdminCheck() throws Exception {
+    public BaseResponse<SuccessResponseDto> userAdminCheck() throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", userService.userAdminCheck());
     }
 }
