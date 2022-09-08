@@ -1,6 +1,7 @@
 package com.example.koreanrestaurantji.controller;
 
 import com.example.koreanrestaurantji.dto.dish.DishCreateRequestDto;
+import com.example.koreanrestaurantji.dto.dish.DishNutritionFactsRequestDto;
 import com.example.koreanrestaurantji.dto.dish.DishResponseDto;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
@@ -27,8 +28,9 @@ public class DishController {
     })
     @ApiOperation(value = "요리 추가", notes = "음식 데이터를 추가 합니다.")
     @PostMapping("/create")
-    public BaseResponse dishCreate(@ApiParam(value = "음식 정보를 갖는 객체", required = true) @RequestBody DishCreateRequestDto dishCreateRequestDto) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), dishService.create(dishCreateRequestDto));
+    public BaseResponse dishCreate(@ApiParam(value = "음식 정보를 갖는 객체", required = true) @RequestBody DishCreateRequestDto dishCreateRequestDto,
+                                   @ApiParam(value = "음식 영양성분 정보를 갖는 객체", required = true) @RequestBody DishNutritionFactsRequestDto dishNutritionFactsRequestDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), dishService.create(dishCreateRequestDto, dishNutritionFactsRequestDto));
     }
 
     @ApiOperation(value = "음식 정보 전체 조회", notes = "음식 정보를 전부 조회합니다.")
