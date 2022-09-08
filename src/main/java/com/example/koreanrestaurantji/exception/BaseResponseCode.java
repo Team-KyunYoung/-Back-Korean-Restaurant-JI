@@ -26,6 +26,7 @@ public enum BaseResponseCode {
      */
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
     DISH_NOT_FOUND(HttpStatus.NOT_FOUND, "음식을 찾을 수 없습니다."),
+    DISH_NUTRITION_FACTS_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 음식의 영양 성분 데이터를 찾을 수 없습니다."),
     COURSE_NOT_FOUND(HttpStatus.NOT_FOUND, "코스를 찾을 수 없습니다."),
     ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "객실을 찾을 수 없습니다."),
     ROOM_STATUS_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 객실 현황 데이터가 없습니다."),
@@ -43,6 +44,7 @@ public enum BaseResponseCode {
      */
     FAILED_TO_SAVE_USER(HttpStatus.NOT_FOUND, "사용자 등록에 실패했습니다."),
     FAILED_TO_SAVE_DISH(HttpStatus.NOT_FOUND, "음식 등록에 실패했습니다."),
+    FAILED_TO_SAVE_ORDER_DISH_NUTRITION_FACTS(HttpStatus.NOT_FOUND, "음식 영양 성분 등록에 실패했습니다."),
     FAILED_TO_SAVE_COURSE(HttpStatus.NOT_FOUND, "코스 등록에 실패했습니다."),
     FAILED_TO_SAVE_ROOM(HttpStatus.NOT_FOUND, "객실 등록에 실패했습니다."),
     FAILED_TO_SAVE_ROOM_STATUS(HttpStatus.NOT_FOUND, "객실 현황 정보 등록에 실패했습니다."),

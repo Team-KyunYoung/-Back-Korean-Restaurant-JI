@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @ApiModel(value = "음식 정보", description = "음식 이름, 가격, 사진 등의 정보를 가진 Class")
 @Entity(name = "DISH")
@@ -42,6 +44,9 @@ public class Dish {
     @ApiModelProperty(value = "음식 상세정보")
     @Column(name = "dish_description")
     private String dishDescription;
+
+    @OneToOne(mappedBy = "dish", cascade = CascadeType.ALL, targetEntity=DishNutritionFacts.class)
+    private DishNutritionFacts dishNutritionFacts;
 
     @Builder
     public Dish(String dishName, String dishPhoto, int dishPrice, String dishCategory , String dishDescription) {
