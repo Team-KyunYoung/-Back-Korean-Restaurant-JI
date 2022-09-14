@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,6 +96,20 @@ public class RoomService {
         if(user.isRole()) {
             Room room = findRoomByRoomNumber(roomNumber);
             roomRepository.delete(room);
+        } else {
+            throw new BaseException(BaseResponseCode.METHOD_NOT_ALLOWED);
+        }
+
+        return new SuccessResponseDto(HttpStatus.OK);
+    }
+
+    public SuccessResponseDto deleteBeforeToday(){
+        if(findUserByToken().isRole()) {
+            try {
+                roomStatusRepository.deleteAllByReservationDateBefore(LocalDate.now());
+            } catch (Exception e) {
+                throw new BaseException(BaseResponseCode.BAD_REQUEST);
+            }
         } else {
             throw new BaseException(BaseResponseCode.METHOD_NOT_ALLOWED);
         }
