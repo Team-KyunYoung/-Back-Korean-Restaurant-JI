@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -121,12 +123,31 @@ public class OrderService {
         Orders orders = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new BaseException(BaseResponseCode.ORDER_NOT_FOUND));
 
         try {
-            orderRepository.delete(orders);
+
+            //현재 삭제하려고 하는 테이블 또는 행이 다른 곳에서 참조하고 있기 때문에 에러가 날 수 있으므로,
+            //참조하는 데이터 먼저 삭제하도록 한다.
             for(OrderDish orderDish : orderDishRepository.findByOrders(orders)) {
                 orderDishRepository.delete(orderDish);
             }
+            orderRepository.delete(orders);
         } catch (Exception e) {
             throw new BaseException(BaseResponseCode.BAD_REQUEST);
+        }
+        return new SuccessResponseDto(HttpStatus.OK);
+    }
+
+    public SuccessResponseDto deleteBeforeDate(){
+        if(findUserByToken().isRole()) {
+            LocalDateTime limitDate = LocalDateTime.now().minusMonths(6);
+            List<Orders> orders = orderRepository.findAllByCreatedDateBefore(limitDate);
+            try {
+                orderDishRepository.deleteAllByDate(orders);
+                orderRepository.deleteAllByDate(orders);
+            } catch (Exception e) {
+                throw new BaseException(BaseResponseCode.BAD_REQUEST);
+            }
+        } else {
+            throw new BaseException(BaseResponseCode.METHOD_NOT_ALLOWED);
         }
         return new SuccessResponseDto(HttpStatus.OK);
     }

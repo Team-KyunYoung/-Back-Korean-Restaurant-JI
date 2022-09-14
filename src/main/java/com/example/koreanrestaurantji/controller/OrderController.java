@@ -79,4 +79,16 @@ public class OrderController {
     public BaseResponse deleteOrder(@ApiParam(value = "orderNumber 주문 일련번호", required = true) @PathVariable Long orderNumber) throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", orderService.delete(orderNumber));
     }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "지난 주문 삭제", notes = "6개월 이상 지난 주문 정보를 폐기합니다.")
+    @DeleteMapping("/delete/beforeLimtDate")
+    public BaseResponse deleteOrderBeforeLimitDate() throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", orderService.deleteBeforeDate());
+    }
 }
