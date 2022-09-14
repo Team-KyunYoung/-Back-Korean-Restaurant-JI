@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -212,9 +211,25 @@ public class ReservationService {
         try {
             roomStatusRepository.save(roomStatus);
         } catch (Exception e) {
-            throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_ROOM_STATUS);
+            throw new BaseException(BaseResponseCode.BAD_REQUEST);
         }
 
        return new SuccessResponseDto(HttpStatus.OK);
+    }
+
+    public SuccessResponseDto deleteBeforeDate(){
+        if(findUserByToken().isRole()) {
+            LocalDate limitDate = LocalDate.now().minusMonths(6);
+
+            try {
+                reservationRepository.deleteAllByReservationDateBefore(limitDate);
+            } catch (Exception e) {
+                throw new BaseException(BaseResponseCode.BAD_REQUEST);
+            }
+        } else {
+            throw new BaseException(BaseResponseCode.METHOD_NOT_ALLOWED);
+        }
+
+        return new SuccessResponseDto(HttpStatus.OK);
     }
 }
