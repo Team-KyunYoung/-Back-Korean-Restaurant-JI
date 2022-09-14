@@ -61,7 +61,19 @@ public class RoomController {
     })
     @ApiOperation(value = "객실 삭제", notes = "객실 정보를 폐기합니다.")
     @DeleteMapping("/delete/{roomNumber}")
-    public BaseResponse deleteCourse(@ApiParam(value = "roomNumber 객실 일련번호", required = true) @PathVariable Long roomNumber) throws Exception {
+    public BaseResponse deleteRoom(@ApiParam(value = "roomNumber 객실 일련번호", required = true) @PathVariable Long roomNumber) throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", roomService.delete(roomNumber));
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "지난 객실 예약 데이터 삭제", notes = "오늘 이전의 객실 예약 데이터를 폐기합니다.")
+    @DeleteMapping("/delete/beforeToday")
+    public BaseResponse deleteRoomBeforeToday() throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", roomService.deleteBeforeToday());
     }
 }
