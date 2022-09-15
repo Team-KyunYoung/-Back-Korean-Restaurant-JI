@@ -1,5 +1,6 @@
 package com.example.koreanrestaurantji.controller;
 
+import com.example.koreanrestaurantji.dto.comment.CommentRequestDto;
 import com.example.koreanrestaurantji.dto.comment.CommentResponseDto;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
@@ -27,7 +28,7 @@ public class CommentController {
     @ApiOperation(value = "해당 게시글에 Comment 추가", notes = "해당 게시글의 Comment 데이터를 추가 합니다.")
     @PostMapping("/create/{questionNumber}")
     public BaseResponse createComment(@ApiParam(value = "questionNumber 게시글 일련번호", required = true) @PathVariable long questionNumber,
-                                      @ApiParam(value = "댓글 데이터", required = true) @RequestBody String comment) throws Exception {
+                                      @ApiParam(value = "댓글 데이터", required = true) @RequestBody CommentRequestDto comment) throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), commentService.create(questionNumber, comment));
     }
 
