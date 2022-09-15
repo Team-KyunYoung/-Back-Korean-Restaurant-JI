@@ -31,12 +31,6 @@ public class CommentController {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), commentService.create(questionNumber, comment));
     }
 
-    @ApiOperation(value = "해당 게시글에 Comment 유/무 확인", notes = "해당 게시글에 Comment 데이터가 있는지 확인하여 true/false를 리턴합니다.")
-    @GetMapping("/exists/{questionNumber}")
-    public BaseResponse<Boolean> existsComment(@ApiParam(value = "questionNumber 게시글 일련번호", required = true) @PathVariable long questionNumber) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), commentService.existsComment(questionNumber));
-    }
-
     @ApiImplicitParams({
             @ApiImplicitParam(
                     name = "X-AUTH-TOKEN",
