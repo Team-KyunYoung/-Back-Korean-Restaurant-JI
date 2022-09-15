@@ -3,6 +3,7 @@ package com.example.koreanrestaurantji.service;
 import com.example.koreanrestaurantji.domain.Comment;
 import com.example.koreanrestaurantji.domain.QuestionBoard;
 import com.example.koreanrestaurantji.dto.SuccessResponseDto;
+import com.example.koreanrestaurantji.dto.comment.CommentRequestDto;
 import com.example.koreanrestaurantji.dto.comment.CommentResponseDto;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
@@ -34,10 +35,10 @@ public class CommentService {
         return questionRepository.findByQuestionNumber(questionNumber).orElseThrow(() -> new BaseException(BaseResponseCode.QNA_NOT_FOUND));
     }
 
-    public SuccessResponseDto create(long questionNumber, String comment) {
+    public SuccessResponseDto create(long questionNumber, CommentRequestDto comment) {
         if(findUserByTokenIsRole()) {
             try {
-                commentRepository.save(new Comment(findQNAByquestionNumber(questionNumber), comment));
+                commentRepository.save(new Comment(findQNAByquestionNumber(questionNumber), comment.getComment()));
             } catch (Exception e) {
                 throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_COMMENT);
             }
