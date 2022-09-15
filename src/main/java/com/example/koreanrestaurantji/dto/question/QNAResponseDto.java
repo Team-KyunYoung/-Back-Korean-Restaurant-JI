@@ -14,6 +14,7 @@ public class QNAResponseDto {
     private final String writeDate;
     private final String writer;
     private boolean isPrivate;
+    private String isComment;
 
     public QNAResponseDto(QuestionBoard questionBoard){
         this.questionNumber = questionBoard.getQuestionNumber();
@@ -21,5 +22,9 @@ public class QNAResponseDto {
         this.writeDate = questionBoard.getWriteDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.writer = questionBoard.getUser().getUserNickname();
         this.isPrivate = questionBoard.isPrivate();
+        if(questionBoard.getComments().size() == 0)
+            this.isComment = "미답변";
+        else
+            this.isComment = "답변완료";
     }
 }

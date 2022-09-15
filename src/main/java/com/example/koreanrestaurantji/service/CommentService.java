@@ -47,10 +47,6 @@ public class CommentService {
         return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public Boolean existsComment(long questionNumber) {
-        return commentRepository.existsByQuestionBoard(findQNAByquestionNumber(questionNumber));
-    }
-
     public List<CommentResponseDto> findCommentList(long questionNumber) {
         return commentRepository.findByQuestionBoardOrderByWriteDateDesc(findQNAByquestionNumber(questionNumber))
                 .stream()
