@@ -87,7 +87,7 @@ public class ReservationController {
                     required = true, dataType = "String", paramType = "header")
     })
     @ApiOperation(value = "지난 예약 삭제", notes = "6개월 이상 지난 예약 정보를 폐기합니다.")
-    @DeleteMapping("/delete/beforeLimtDate")
+    @DeleteMapping("/delete/beforeLimitDate")
     public BaseResponse deleteReservationBeforeLimitDate() throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), "요청 성공했습니다.", reservationService.deleteBeforeDate());
     }
