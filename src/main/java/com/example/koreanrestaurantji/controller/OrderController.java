@@ -49,6 +49,18 @@ public class OrderController {
                     value = "로그인 성공 후 AccessToken",
                     required = true, dataType = "String", paramType = "header")
     })
+    @ApiOperation(value = "'수령완료', '주문 취소'가 아닌 주문 전체 확인", notes = "주문 상태별 데이터를 리턴 합니다.")
+    @GetMapping("/findbystatus")
+    public BaseResponse<List<OrderResponseDto>> findOrderByStatus() throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), orderService.findOrderByStatus());
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "주문 확인", notes = "사용자별 주문 데이터를 리턴 합니다.")
     @GetMapping("/find")
     public BaseResponse<List<OrderResponseDto>> findOrderByUser() throws Exception {

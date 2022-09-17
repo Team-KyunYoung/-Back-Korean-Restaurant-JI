@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,6 +89,22 @@ public class OrderService {
         }
 
         return new SuccessResponseDto(HttpStatus.OK);
+    }
+
+    public List<OrderResponseDto> findOrderByStatus() {
+        List<OrderResponseDto> responseDtoList = new ArrayList<>();
+        if(findUserByToken().isRole()) {
+            List<Orders> userOrdersList = orderRepository.findByOrderStatusNot(Arrays.asList("수령완료", "주문취소"));
+
+            for(Orders userOrders : userOrdersList) {
+                List<OrderDishDetailResponse> orderDishList = orderDishRepository.findByOrders(userOrders)
+                        .stream()
+                        .map(OrderDishDetailResponse::new)
+                        .collect(Collectors.toList());
+                responseDtoList.add(new OrderResponseDto(userOrders, orderDishList));
+            }
+        }
+        return responseDtoList;
     }
 
     public List<OrderResponseDto> findOrderByUser() {
