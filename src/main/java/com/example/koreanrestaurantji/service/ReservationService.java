@@ -94,6 +94,13 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
+    public  List<ReservationResponseDto> findByToday() {
+        return reservationRepository.findByReservationDateIs(LocalDate.now())
+                .stream()
+                .map(ReservationResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     public List<ReservationResponseDto> findByUserAfterDate() {
         User user = findUserByToken();
         return reservationRepository.findByUserAndReservationDateIsGreaterThanEqualOrderByReservationDateAsc(user, LocalDate.now())
