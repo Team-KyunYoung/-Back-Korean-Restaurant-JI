@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     Optional<Reservation> findByReservationNumber(Long reservationNumber);
     List<Reservation> findByUserAndReservationDateIsBeforeOrderByReservationDateDesc(User user, LocalDate now);
+    List<Reservation> findByReservationDateIs(LocalDate now);
     List<Reservation> findByUserAndReservationDateIsGreaterThanEqualOrderByReservationDateAsc(User user, LocalDate now);
     @Transactional
     void deleteAllByReservationDateBefore(LocalDate limitDate);
