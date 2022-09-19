@@ -49,6 +49,18 @@ public class ReservationController {
                     value = "로그인 성공 후 AccessToken",
                     required = true, dataType = "String", paramType = "header")
     })
+    @ApiOperation(value = "오늘 예약 확인", notes = "오늘 예약된 데이터를 모두 리턴 합니다.")
+    @GetMapping("/find/today")
+    public BaseResponse<List<ReservationResponseDto>> findByToday() throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), reservationService.findByToday());
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "오늘 이후 예약 확인", notes = "사용자별 예약 데이터를 리턴 합니다.")
     @GetMapping("/find/after")
     public BaseResponse<List<ReservationResponseDto>> findByUserAfterDate() throws Exception {

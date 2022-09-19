@@ -2,13 +2,9 @@ package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.Dish;
 import com.example.koreanrestaurantji.domain.DishNutritionFacts;
-import com.example.koreanrestaurantji.domain.OrderDish;
 import com.example.koreanrestaurantji.domain.User;
 import com.example.koreanrestaurantji.dto.SuccessResponseDto;
-import com.example.koreanrestaurantji.dto.dish.DishCreateRequestDto;
-import com.example.koreanrestaurantji.dto.dish.DishNutritionFactsRequestDto;
-import com.example.koreanrestaurantji.dto.dish.DishResponseDto;
-import com.example.koreanrestaurantji.dto.order.OrderDishDetailRequest;
+import com.example.koreanrestaurantji.dto.dish.*;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
 import com.example.koreanrestaurantji.repository.DishNutritionFactsRepository;
@@ -68,10 +64,22 @@ public class DishService {
         return new DishResponseDto(dish);
     }
 
+    public List<DishSearchResponseDto> searchDish(DishSearchRequestDto dishSearchRequestDto) {
+        List<Dish> dishs = dishRepository.findByDishNameContaining(dishSearchRequestDto.getInput());
+        if(dishs.isEmpty() || dishs == null){
+            throw new BaseException(BaseResponseCode.DISH_NOT_FOUND);
+        } else {
+            return dishs.stream().map(DishSearchResponseDto::new).collect(Collectors.toList());
+        }
+    }
+
     public SuccessResponseDto delete(Long number){
         User user = findUserByToken();
         if(user.isRole()) {
             Dish dish = dishRepository.findByDishNumber(number).orElseThrow(() -> new BaseException(BaseResponseCode.DISH_NOT_FOUND));
+            for( DishNutritionFacts dishNutritionFacts : dishNutritionFactsRepository.findByDish(dish)) {
+                dishNutritionFactsRepository.delete(dishNutritionFacts);
+            }
             dishRepository.delete(dish);
         } else {
             throw new BaseException(BaseResponseCode.METHOD_NOT_ALLOWED);

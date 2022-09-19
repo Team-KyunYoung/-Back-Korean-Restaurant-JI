@@ -76,6 +76,15 @@ public class CourseService {
         return new CourseResponseDto(course);
     }
 
+    public List<CourseSearchResponseDto> searchCourse(CourseSearchRequestDto courseSearchRequestDto) {
+        List<Course> courses = courseRepository.findByCourseNameContaining(courseSearchRequestDto.getInput());
+        if(courses.isEmpty() || courses == null){
+            throw new BaseException(BaseResponseCode.COURSE_NOT_FOUND);
+        } else {
+            return courses.stream().map(CourseSearchResponseDto::new).collect(Collectors.toList());
+        }
+    }
+
     public SuccessResponseDto update(CourseUpdateRequestDto courseUpdateRequestDto) {
         Course course = courseRepository.findByCourseNumber(courseUpdateRequestDto.getCourseNumber()).orElseThrow(() -> new BaseException(BaseResponseCode.COURSE_NOT_FOUND));
 

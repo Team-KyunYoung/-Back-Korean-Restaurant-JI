@@ -1,5 +1,7 @@
 package com.example.koreanrestaurantji.controller;
 
+import com.example.koreanrestaurantji.dto.course.CourseSearchRequestDto;
+import com.example.koreanrestaurantji.dto.course.CourseSearchResponseDto;
 import com.example.koreanrestaurantji.dto.room.*;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
@@ -7,6 +9,8 @@ import com.example.koreanrestaurantji.service.RoomService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Api(tags = {"4. Room"})
@@ -31,6 +35,18 @@ public class RoomController {
     @GetMapping("/find/room")
     public BaseResponse<RoomDataResponseDto> roomAllStatus() throws Exception {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), roomService.roomAllName());
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "객실 검색", notes = "검색어에 해당하는 객실 데이터를 반환합니다.")
+    @PostMapping("/search")
+    public BaseResponse<List<RoomSearchResponseDto>> searchRoom(@ApiParam(value = "검색어", required = true) @RequestBody RoomSearchRequestDto roomSearchRequestDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), roomService.searchRoom(roomSearchRequestDto));
     }
 
     @ApiOperation(value = "객실별 예약 현황 전체 조회", notes = "객실 별 모든 날짜, 시간별 예약 현황을 리턴합니다.")
