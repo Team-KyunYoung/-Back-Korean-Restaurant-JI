@@ -53,6 +53,15 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
+    public List<RoomSearchResponseDto> searchRoom(RoomSearchRequestDto roomSearchRequestDto) {
+        List<Room> rooms = roomRepository.findByRoomNameContaining(roomSearchRequestDto.getInput());
+        if(rooms.isEmpty() || rooms == null){
+            throw new BaseException(BaseResponseCode.ROOM_NOT_FOUND);
+        } else {
+            return rooms.stream().map(RoomSearchResponseDto::new).collect(Collectors.toList());
+        }
+    }
+
     public Room findRoomByRoomNumber(long roomNumber) {
         return roomRepository.findByRoomNumber(roomNumber).orElseThrow(() -> new BaseException(BaseResponseCode.ROOM_NOT_FOUND));
     }
@@ -95,6 +104,9 @@ public class RoomService {
         User user = findUserByToken();
         if(user.isRole()) {
             Room room = findRoomByRoomNumber(roomNumber);
+            for(RoomStatus roomStatus : roomStatusRepository.findByRoom(room)){
+                roomStatusRepository.delete(roomStatus);
+            }
             roomRepository.delete(room);
         } else {
             throw new BaseException(BaseResponseCode.METHOD_NOT_ALLOWED);
