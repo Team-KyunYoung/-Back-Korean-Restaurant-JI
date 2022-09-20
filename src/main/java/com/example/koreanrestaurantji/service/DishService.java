@@ -31,7 +31,7 @@ public class DishService {
                 .orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
     }
 
-    public SuccessResponseDto create(DishCreateRequestDto dishCreateRequestDto, DishNutritionFactsRequestDto dishNutritionFactsRequestDto) {
+    public SuccessResponseDto create(DishCreateRequestDto dishCreateRequestDto) {
         User user = findUserByToken();
         if(user.isRole()) {
             Dish dish;
@@ -42,7 +42,7 @@ public class DishService {
             }
 
             try {
-                dishNutritionFactsRepository.save(new DishNutritionFacts(dish, dishNutritionFactsRequestDto));
+                dishNutritionFactsRepository.save(new DishNutritionFacts(dish, dishCreateRequestDto.getNutritionFacts()));
             } catch (Exception e) {
                 throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_ORDER_DISH_NUTRITION_FACTS);
             }
