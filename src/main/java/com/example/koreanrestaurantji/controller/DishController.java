@@ -25,10 +25,9 @@ public class DishController {
                     required = true, dataType = "String", paramType = "header")
     })
     @ApiOperation(value = "요리 추가", notes = "음식 데이터를 추가 합니다.")
-    @PostMapping("/create")
-    public BaseResponse dishCreate(@ApiParam(value = "음식 정보를 갖는 객체", required = true) @RequestBody DishCreateRequestDto dishCreateRequestDto,
-                                   @ApiParam(value = "음식 영양성분 정보를 갖는 객체", required = true) @RequestBody DishNutritionFactsRequestDto dishNutritionFactsRequestDto) throws Exception {
-        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), dishService.create(dishCreateRequestDto, dishNutritionFactsRequestDto));
+    @PostMapping("/create")                                                             //RequestBody는 하나밖에 못쓴다. 따라서 해당 RequestBody에 영양 성분 데이타를 받도록 수정.
+    public BaseResponse dishCreate(@ApiParam(value = "음식 정보를 갖는 객체", required = true) @RequestBody DishCreateRequestDto dishCreateRequestDto) throws Exception {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), dishService.create(dishCreateRequestDto));
     }
 
     @ApiOperation(value = "음식 정보 전체 조회", notes = "음식 정보를 전부 조회합니다.")

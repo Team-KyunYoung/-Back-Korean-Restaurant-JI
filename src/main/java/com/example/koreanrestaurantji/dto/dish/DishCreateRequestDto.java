@@ -1,6 +1,7 @@
 package com.example.koreanrestaurantji.dto.dish;
 
 import com.example.koreanrestaurantji.domain.Dish;
+import com.example.koreanrestaurantji.domain.DishNutritionFacts;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class DishCreateRequestDto {
     private int dishPrice;
     private String dishCategory;
     private String dishDescription;
+    private DishNutritionFactsRequestDto nutritionFacts;
 
     public Dish toEntity() {
         return Dish.builder()
@@ -24,6 +26,13 @@ public class DishCreateRequestDto {
                 .dishPrice(dishPrice)
                 .dishCategory(dishCategory)
                 .dishDescription(dishDescription)
+                .nutritionFacts(toNutritionFactsEntity())
+                .build();
+    }
+
+    public DishNutritionFacts toNutritionFactsEntity() {
+        return DishNutritionFacts.builder()
+                .dishNutritionFactsRequestDto(nutritionFacts)
                 .build();
     }
 }

@@ -49,11 +49,12 @@ public class Dish {
     private DishNutritionFacts dishNutritionFacts;
 
     @Builder
-    public Dish(String dishName, String dishPhoto, int dishPrice, String dishCategory , String dishDescription) {
+    public Dish(String dishName, String dishPhoto, int dishPrice, String dishCategory, String dishDescription, DishNutritionFacts nutritionFacts) {
         this.dishName = dishName;
         this.dishPhoto = dishPhoto;
         this.dishPrice = dishPrice;
         this.dishCategory = dishCategory;
         this.dishDescription = dishDescription;
+        this.dishNutritionFacts = nutritionFacts;
     }
 }
