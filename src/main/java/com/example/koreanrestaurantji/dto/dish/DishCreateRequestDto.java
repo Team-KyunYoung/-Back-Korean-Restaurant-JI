@@ -26,13 +26,6 @@ public class DishCreateRequestDto {
                 .dishPrice(dishPrice)
                 .dishCategory(dishCategory)
                 .dishDescription(dishDescription)
-                .nutritionFacts(toNutritionFactsEntity())
-                .build();
-    }
-
-    public DishNutritionFacts toNutritionFactsEntity() {
-        return DishNutritionFacts.builder()
-                .dishNutritionFactsRequestDto(nutritionFacts)
                 .build();
     }
 }
