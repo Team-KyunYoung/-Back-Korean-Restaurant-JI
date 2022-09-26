@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface RoomStatusRepository extends JpaRepository<RoomStatus, Long> {
     List<RoomStatus> findByRoom(Room room);
     List<RoomStatus> findByRoomAndReservationDate(Room room, LocalDate reservationDate);
-    Optional<RoomStatus> findByRoomAndReservationDateAndReservationTime(Room room, LocalDate reservationDate, String reservationTime);
+    RoomStatus findByRoomAndReservationDateAndReservationTime(Room room, LocalDate reservationDate, String reservationTime);
     Boolean existsByRoomAndReservationDateAndReservationTime(Room room, LocalDate reservationDate, String reservationTime);
     @Transactional
     void deleteAllByReservationDateBefore(LocalDate now);

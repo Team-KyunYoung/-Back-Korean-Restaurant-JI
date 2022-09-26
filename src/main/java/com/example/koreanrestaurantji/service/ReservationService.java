@@ -45,7 +45,7 @@ public class ReservationService {
     }
 
     public RoomStatus findRoomStatusByStatus(Room room, LocalDate reservationDate, String reservationTime) {
-        return roomStatusRepository.findByRoomAndReservationDateAndReservationTime(room, reservationDate, reservationTime).orElseThrow(() -> new BaseException(BaseResponseCode.ROOM_STATUS_NOT_FOUND));
+        return roomStatusRepository.findByRoomAndReservationDateAndReservationTime(room, reservationDate, reservationTime);
     }
 
     public SuccessResponseDto create(ReservationRequestDto reservationRequestDto) throws ParseException {

@@ -81,8 +81,8 @@ public class RoomService {
         Room room = findRoomByRoomNumber(roomNumber);
         List<RoomStatus> roomStatus = roomStatusRepository.findByRoomAndReservationDate(room,
                 roomStatusDateRequestDto.getReservationDate());
-        if(roomStatus.size() == 0)
-            throw new BaseException(BaseResponseCode.ROOM_STATUS_NOT_FOUND);
+//        if(roomStatus.size() == 0)
+//            throw new BaseException(BaseResponseCode.ROOM_STATUS_NOT_FOUND);
 
         RoomResponseDto roomResponseDto = new RoomResponseDto(room, roomStatus);
 
@@ -93,9 +93,12 @@ public class RoomService {
         Room room = findRoomByRoomNumber(roomNumber);
         RoomStatus roomStatus = roomStatusRepository.findByRoomAndReservationDateAndReservationTime(room,
                 roomStatusTimeRequestDto.getReservationDate(),
-                roomStatusTimeRequestDto.getReservationTime()).orElseThrow(() -> new BaseException(BaseResponseCode.ROOM_STATUS_NOT_FOUND));;
+                roomStatusTimeRequestDto.getReservationTime());
 
-        String roomRemaining = String.valueOf(roomStatus.getRoomRemaining());
+        String roomRemaining = String.valueOf(15);
+        if(roomStatus != null){
+            roomRemaining = String.valueOf(roomStatus.getRoomRemaining());
+        }
 
         return roomRemaining;
     }
