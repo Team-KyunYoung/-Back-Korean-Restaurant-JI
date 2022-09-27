@@ -125,6 +125,8 @@ public class OrderService {
     }
 
     public SuccessResponseDto update(long orderNumber, String orderStatus){
+        orderStatus = orderStatus.replace("\"", "");
+        System.out.println(orderStatus);
         Orders orders = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new BaseException(BaseResponseCode.ORDER_NOT_FOUND));
 
         try {
@@ -140,7 +142,6 @@ public class OrderService {
         Orders orders = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new BaseException(BaseResponseCode.ORDER_NOT_FOUND));
 
         try {
-
             //현재 삭제하려고 하는 테이블 또는 행이 다른 곳에서 참조하고 있기 때문에 에러가 날 수 있으므로,
             //참조하는 데이터 먼저 삭제하도록 한다.
             for(OrderDish orderDish : orderDishRepository.findByOrders(orders)) {
