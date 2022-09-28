@@ -2,6 +2,7 @@ package com.example.koreanrestaurantji.service;
 
 import com.example.koreanrestaurantji.domain.User;
 import com.example.koreanrestaurantji.dto.SuccessResponseDto;
+import com.example.koreanrestaurantji.dto.room.RoomDataResponseDto;
 import com.example.koreanrestaurantji.dto.user.*;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
@@ -13,6 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service //내부에서 자바 로직을 처리
 @RequiredArgsConstructor
@@ -92,6 +96,17 @@ public class UserService {
         return userRepository.findByUserEmail(SecurityContextHolder.getContext()
                 .getAuthentication().getName())
                 .orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+    }
+
+    public List<UserAdminResponseDto> findAll() {
+        if (findUserByToken().isRole()) {
+            return userRepository.findAll()
+                    .stream()
+                    .map(UserAdminResponseDto::new)
+                    .collect(Collectors.toList());
+        } else {
+            throw new BaseException(BaseResponseCode.BAD_REQUEST);
+        }
     }
 
     public UserResponseDto findByUser() {

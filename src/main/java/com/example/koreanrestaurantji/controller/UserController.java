@@ -10,6 +10,8 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController //(@Controller + @ResponseBody)  Json 형태로 객체 데이터를 반환하는 컨트롤러
 @Api(tags = {"1. User"})  //Swagger 리소스(대표 제목) 명시
 @RequestMapping(value = "/api/user")  //특정 url을 요청을 수행하도록 mapping (이 클래스의 모든 mapper는 /user로 시작한다)
@@ -44,6 +46,18 @@ public class UserController {
         // ^ : BaseResponse 형식으로 리턴되므로 함수 형식이 BaseResponse이며, BaseResponse<T>의 T는 data의 형식을 정의한다.
         // 이때, T의 형식은 userService.login()의 리턴 데이터의 형식과 같아야 한다.
         return new BaseResponse(userService.login(userLoginDto).getStatus(), "요청 성공했습니다.", userService.login(userLoginDto));
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "X-AUTH-TOKEN",
+                    value = "로그인 성공 후 AccessToken",
+                    required = true, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "전체 사용자 정보 조회", notes = "사용자 정보 전체 조회")
+    @GetMapping("/find/all")
+    public BaseResponse<List<UserAdminResponseDto>> findAll() {
+        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), userService.findAll());
     }
 
     @ApiImplicitParams({
