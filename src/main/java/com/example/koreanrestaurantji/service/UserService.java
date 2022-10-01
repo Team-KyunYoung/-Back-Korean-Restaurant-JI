@@ -168,7 +168,22 @@ public class UserService {
 
     public SuccessResponseDto deleteUser(){
         User user = findUserByToken();
-        userRepository.delete(user);
+        try {
+            userRepository.delete(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return new SuccessResponseDto(HttpStatus.OK);
+    }
+
+    public SuccessResponseDto deleteUserByNumber(Long userNumber){
+        User user = userRepository.findByUserNumber(userNumber).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
+        try {
+            userRepository.delete(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         return new SuccessResponseDto(HttpStatus.OK);
     }
