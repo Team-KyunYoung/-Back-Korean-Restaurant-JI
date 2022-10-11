@@ -16,6 +16,7 @@ import java.util.Optional;
 @Repository
 public interface OrderRepository extends JpaRepository<Orders, Long> {
     Optional<Orders> findByOrderNumber(Long number);
+    List<Orders> findByUser(User user);
     @Query( value = "SELECT o FROM ORDERS o WHERE o.orderStatus NOT IN (:status)")
     List<Orders> findByOrderStatusNot(List<String> status);
     List<Orders> findByUserOrderByCreatedDateDesc(User user);

@@ -14,6 +14,7 @@ import java.util.Optional;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     Optional<Comment> findByCommentNumber(Long commentNumber);
+    List<Comment> findByQuestionBoard(QuestionBoard questionBoard);
     List<Comment> findByQuestionBoardOrderByWriteDateDesc(QuestionBoard questionBoard);
 
     @Transactional

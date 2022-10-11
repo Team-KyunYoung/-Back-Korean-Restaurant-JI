@@ -213,12 +213,11 @@ public class ReservationService {
             roomStatusRepository.delete(roomStatus);
         } else {
             roomStatus.setRoomRemaining(roomRemaining);
-        }
-
-        try {
-            roomStatusRepository.save(roomStatus);
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseCode.BAD_REQUEST);
+            try {
+                roomStatusRepository.save(roomStatus);
+            } catch (Exception e) {
+                throw new BaseException(BaseResponseCode.BAD_REQUEST);
+            }
         }
 
        return new SuccessResponseDto(HttpStatus.OK);

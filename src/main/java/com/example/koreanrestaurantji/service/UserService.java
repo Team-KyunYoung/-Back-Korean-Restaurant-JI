@@ -1,12 +1,11 @@
 package com.example.koreanrestaurantji.service;
 
-import com.example.koreanrestaurantji.domain.User;
+import com.example.koreanrestaurantji.domain.*;
 import com.example.koreanrestaurantji.dto.SuccessResponseDto;
-import com.example.koreanrestaurantji.dto.room.RoomDataResponseDto;
 import com.example.koreanrestaurantji.dto.user.*;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
-import com.example.koreanrestaurantji.repository.UserRepository;
+import com.example.koreanrestaurantji.repository.*;
 import com.example.koreanrestaurantji.util.JwtTokenProvider;
 import com.example.koreanrestaurantji.util.SendEmailUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +20,19 @@ import java.util.stream.Collectors;
 @Service //내부에서 자바 로직을 처리
 @RequiredArgsConstructor
 public class UserService {
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final SendEmailUtil sendEmailUtil;
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final UserRepository userRepository;
+    private final CartRepository cartRepository;
+    private final OrderRepository orderRepository;
+    private final OrderDishRepository orderDishRepository;
+    private final ReservationRepository reservationRepository;
+    private final RoomRepository roomRepository;
+    private final RoomStatusRepository roomStatusRepository;
+    private final QuestionRepository questionRepository;
+    private final CommentRepository commentRepository;
 
     //UserSignupRequestDto에 명시된 데이터 셋 : email, nickname, pwd. 즉, signUp 함수에 이 데이터 셋이 전달된다.
     public Long signUp(UserSignupRequestDto userSignupRequestDto) throws BaseException {
@@ -166,9 +174,66 @@ public class UserService {
         return new SuccessResponseDto(HttpStatus.OK);
     }
 
-    public SuccessResponseDto deleteUser(){
-        User user = findUserByToken();
+    public int headCountToTableCount(String reservationHeadCount) {
+        if(reservationHeadCount.equals("2~4인")) {
+            return 1;
+        } else if(reservationHeadCount.equals("5~8인")) {
+            return 2;
+        } else if(reservationHeadCount.equals("9~12인")) {
+            return 3;
+        } else {
+            throw new BaseException(BaseResponseCode.BAD_REQUEST);
+        }
+    }
+
+    public SuccessResponseDto deleteAllUserData(User user){
+        List<Cart> cartList = cartRepository.findByUser(user);
+        List<Orders> orderList = orderRepository.findByUser(user);
+        List<Reservation> reservList = reservationRepository.findByUser(user);
+        List<QuestionBoard> questionBoardList = questionRepository.findByUser(user);
+
         try {
+            if(cartList.size() != 0) {
+                for (Cart cart : cartList) { cartRepository.delete(cart); }
+            }
+            if(orderList.size() != 0) {
+                for (Orders order : orderList) {
+                    for(OrderDish orderDish : orderDishRepository.findByOrders(order)) {
+                        orderDishRepository.delete(orderDish);
+                    }
+                    orderRepository.delete(order);
+                }
+            }
+            if(reservList.size() != 0) {
+                for (Reservation reservation : reservList) {
+                    Room room = roomRepository.findByRoomName(reservation.getReservationRoomName()).orElseThrow(() -> new BaseException(BaseResponseCode.ROOM_NOT_FOUND));
+                    RoomStatus roomStatus = roomStatusRepository.findByRoomAndReservationDateAndReservationTime(room, reservation.getReservationDate(), reservation.getReservationTime());
+
+                    int roomRemaining = roomStatus.getRoomRemaining() + headCountToTableCount(reservation.getReservationHeadCount());
+                    if(roomRemaining >= 15){
+                        roomStatusRepository.delete(roomStatus);
+                    } else {
+                        roomStatus.setRoomRemaining(roomRemaining);
+                        try {
+                            roomStatusRepository.save(roomStatus);
+                        } catch (Exception e) {
+                            throw new BaseException(BaseResponseCode.BAD_REQUEST);
+                        }
+                    }
+                    reservationRepository.delete(reservation);
+                }
+            }
+            if(questionBoardList.size() != 0) {
+                for (QuestionBoard questionBoard : questionBoardList) {
+                    List<Comment> commentList = commentRepository.findByQuestionBoard(questionBoard);
+                    if(commentList.size() != 0) {
+                        for (Comment comment : commentList) {
+                            commentRepository.delete(comment);
+                        }
+                    }
+                    questionRepository.delete(questionBoard);
+                }
+            }
             userRepository.delete(user);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -177,15 +242,14 @@ public class UserService {
         return new SuccessResponseDto(HttpStatus.OK);
     }
 
+    public SuccessResponseDto deleteUser(){
+        User user = findUserByToken();
+        return deleteAllUserData(user);
+    }
+
     public SuccessResponseDto deleteUserByNumber(Long userNumber){
         User user = userRepository.findByUserNumber(userNumber).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
-        try {
-            userRepository.delete(user);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return new SuccessResponseDto(HttpStatus.OK);
+        return deleteAllUserData(user);
     }
 
     public boolean userAdminCheck(){

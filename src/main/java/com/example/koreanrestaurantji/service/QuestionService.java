@@ -1,11 +1,13 @@
 package com.example.koreanrestaurantji.service;
 
+import com.example.koreanrestaurantji.domain.Comment;
 import com.example.koreanrestaurantji.domain.QuestionBoard;
 import com.example.koreanrestaurantji.domain.User;
 import com.example.koreanrestaurantji.dto.SuccessResponseDto;
 import com.example.koreanrestaurantji.dto.question.*;
 import com.example.koreanrestaurantji.exception.BaseException;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;
+import com.example.koreanrestaurantji.repository.CommentRepository;
 import com.example.koreanrestaurantji.repository.QuestionRepository;
 import com.example.koreanrestaurantji.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
     public User findUserByToken(){
@@ -132,6 +135,14 @@ public class QuestionService {
 
         if(user == questionBoard.getUser() || user.isRole()) {
             try {
+                if(questionBoard.isQNA()){
+                    List<Comment> commentList = commentRepository.findByQuestionBoard(questionBoard);
+                    if(commentList.size() != 0) {
+                        for (Comment comment : commentList) {
+                            commentRepository.delete(comment);
+                        }
+                    }
+                }
                 questionRepository.delete(questionBoard);
             } catch (Exception e) {
                 throw new BaseException(BaseResponseCode.BAD_REQUEST);

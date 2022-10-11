@@ -13,6 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     Optional<Reservation> findByReservationNumber(Long reservationNumber);
+    List<Reservation> findByUser(User user);
     List<Reservation> findByUserAndReservationDateIsBeforeOrderByReservationDateDesc(User user, LocalDate now);
     List<Reservation> findByReservationDateIs(LocalDate now);
     List<Reservation> findByUserAndReservationDateIsGreaterThanEqualOrderByReservationDateAsc(User user, LocalDate now);

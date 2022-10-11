@@ -1,6 +1,7 @@
 package com.example.koreanrestaurantji.repository;
 
 import com.example.koreanrestaurantji.domain.QuestionBoard;
+import com.example.koreanrestaurantji.domain.User;
 import com.example.koreanrestaurantji.dto.question.QuestionPostResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<QuestionBoard, Long> {
+    List<QuestionBoard> findByUser(User user);
     List<QuestionBoard> findByIsQNAIsTrueOrderByWriteDateDesc();
     List<QuestionBoard> findByIsQNAIsFalseOrderByWriteDateAsc();
     Optional<QuestionBoard> findByQuestionNumber(long questionNumber);
