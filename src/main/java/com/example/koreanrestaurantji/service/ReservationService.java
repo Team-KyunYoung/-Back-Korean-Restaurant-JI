@@ -167,6 +167,7 @@ public class ReservationService {
         reservation.setReservationRoomName(reservationUpdateRequestDto.getReservationRoomName());
         reservation.setReservationName(reservationUpdateRequestDto.getReservationName());
         reservation.setReservationPhoneNumber(reservationUpdateRequestDto.getReservationPhoneNumber());
+        reservation.setReservationRequest(reservationUpdateRequestDto.getReservationRequest());
         reservation.setReservationDate(reservationDate);
         reservation.setReservationTime(reservationTime);
         reservation.setReservationHeadCount(tableCountToHeadCount(reservationTableCount));
