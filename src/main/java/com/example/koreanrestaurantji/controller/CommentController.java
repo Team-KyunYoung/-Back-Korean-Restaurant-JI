@@ -32,12 +32,6 @@ public class CommentController {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), commentService.create(questionNumber, comment));
     }
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(
-                    name = "X-AUTH-TOKEN",
-                    value = "로그인 성공 후 AccessToken",
-                    required = true, dataType = "String", paramType = "header")
-    })
     @ApiOperation(value = "해당 게시글의 댓글 조회", notes = "해당 게시글의 댓글 데이터 전체를 리턴 합니다.")
     @GetMapping("/find/{questionNumber}")
     public BaseResponse<List<CommentResponseDto>> findCommentList(@ApiParam(value = "questionNumber 게시글 일련번호", required = true) @PathVariable long questionNumber) throws Exception {

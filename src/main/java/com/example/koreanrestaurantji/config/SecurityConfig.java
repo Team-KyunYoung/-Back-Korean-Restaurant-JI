@@ -53,7 +53,7 @@ public class SecurityConfig{
                 .antMatchers("/api/dish/find/**", "/api/course/find/**").permitAll()  // 음식,코스 조회
                 .antMatchers("/api/room/find/**").permitAll() //객실 조회(객실 예약 상태 조회)
                 .antMatchers("/api/question/find/public/**").permitAll()  // QNA(FAQ) 공개 게시글 조회
-                .antMatchers("/api/qna/comment/exists/**").permitAll()  // 댓글 여부 조회
+                .antMatchers("/api/qna/comment/find/**").permitAll()  // 댓글 조회
                 .antMatchers("/api/event/find/**").permitAll()  // 이벤트 게시글 조회
                 .antMatchers("/api/review/find/**").permitAll()  // 리뷰 조회
                 .anyRequest().authenticated() //이 외에는 인증이 필요하도록 한다.
