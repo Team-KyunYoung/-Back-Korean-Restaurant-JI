@@ -11,12 +11,14 @@ import lombok.NoArgsConstructor;
 public class OrderDishDetailResponse {
     Long dishNumber;
     String dishName;
+    String dishImg;
     int orderQuantity;
     int orderDishPrice;
 
     public OrderDishDetailResponse(OrderDish orderDish) {
         this.dishNumber = orderDish.getDish().getDishNumber();
         this.dishName = orderDish.getDish().getDishName();
+        this.dishImg = orderDish.getDish().getDishPhoto();
         this.orderQuantity = orderDish.getOrderQuantity();
         this.orderDishPrice = orderDish.getOrderDishPrice();
     }
