@@ -13,12 +13,14 @@ Swagger : http://localhost:8080/swagger-ui.html
 ## :pushpin: Feature
 - 기본 로그인/회원가입 및 소셜로그인
 - JWT 토큰을 이용한 인증 방식 (Spring Security)
-- 지도 api 활용
 - 식당 예약 시스템
-- 음식 포장 주문 시스템
-- ChatBot을 이용한 채팅 시스템
-- Q&A 게시판 CRUD
-- Admin만 Q&A 게시판 댓글 접근 허용
+- 음식 포장 주문 시스템(주문, 장바구니 기능)
+- 사용자 정보 변경 기능
+- 식당 예약, 주문 수정/삭제 기능
+- ChatBot을 이용한 채팅 안내 시스템
+- Q&A, FAQ, 이벤트 게시판 (+Q&A 댓글)
+- 관리자(Admin) 전용 페이지 (사이트 데이터 관리 등)
+- 구글 드라이브를 활용하여 이미지 저장/불러오기
 
 <br>
 
@@ -30,6 +32,7 @@ Swagger : http://localhost:8080/swagger-ui.html
 <img src="https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=Gradle&logoColor=white" />
 <img src="https://img.shields.io/badge/Lombok-02303A?style=flat-square&logo=Lombok&logoColor=white" />  
 <img src="https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=Swagger&logoColor=white" />
+<img src="https://img.shields.io/badge/JWT-006600?style=flat-square&logo=JWT&logoColor=white" />
 </div>
 
 <br>
@@ -40,6 +43,6 @@ Swagger : http://localhost:8080/swagger-ui.html
 <br>
 
 ## :open_file_folder: DB ERD
-![image](https://user-images.githubusercontent.com/82142527/179343011-7370b77b-0aad-45cf-bb46-6f965553428f.png)
+![image](https://user-images.githubusercontent.com/82142527/196112910-4a4c3868-0203-41e5-bfea-4df1d101c05a.png)
 
 <br>
