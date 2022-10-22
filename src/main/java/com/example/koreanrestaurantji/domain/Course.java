@@ -7,11 +7,11 @@ import lombok.*;
 import javax.persistence.*;
 
 @ApiModel(value = "코스 정보", description = "전식, 본식, 후식 Dish 정보를 가진 Class")
-@Entity(name = "COURESE")
+@Entity(name = "COURSE")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "COURESE")
+@Table(name = "COURSE")
 public class Course {
 
     @ApiModelProperty(value = "일련번호")
