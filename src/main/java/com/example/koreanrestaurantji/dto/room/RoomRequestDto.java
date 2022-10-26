@@ -3,7 +3,6 @@ package com.example.koreanrestaurantji.dto.room;
 import com.example.koreanrestaurantji.domain.Room;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor

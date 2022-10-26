@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Entity(name = "ROOM_STATUS")
 @Getter
 @NoArgsConstructor
-@DynamicUpdate //실제 값이 변경된 컬럼으로만 update 쿼리를 만드는 기능. 몇몇개의 컬럼만 자주 업데이트 하는 경우에 사용한다.
+@DynamicUpdate
 public class RoomStatus {
 
     @ApiModelProperty(value = "일련번호")

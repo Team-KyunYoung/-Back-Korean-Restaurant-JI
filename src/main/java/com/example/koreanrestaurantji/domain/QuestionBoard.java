@@ -47,13 +47,11 @@ public class QuestionBoard {
     @Column(name = "question_contents", length = 500)
     private String questionContents;
 
-    // QNA or FNQ
     @ApiModelProperty(value = "True=QNA, False=FNQ")
     @Column(name = "is_qna", nullable = false)
     @ColumnDefault("true")
     private boolean isQNA;
 
-    // 게시글 공개or비공개
     @ApiModelProperty(value = "True=private, False=public")
     @Column(name = "is_private", nullable = false)
     @ColumnDefault("false")

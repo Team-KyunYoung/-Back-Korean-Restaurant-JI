@@ -9,7 +9,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
 
-@Component //Bean Configuration 파일에 Bean을 따로 등록하지 않아도 사용할 수 있다. 빈 등록자체를 빈 클래스 자체에다가 할 수 있다는 의미
+@Component
 @RequiredArgsConstructor
 public class SendEmailUtil {
     private final JavaMailSender emailSender;
@@ -20,8 +20,8 @@ public class SendEmailUtil {
 
         ePw = createKey();
         String code = ePw;
-        message.addRecipients(MimeMessage.RecipientType.TO, to); //보내는 대상
-        message.setSubject("[智] 이메일 인증 코드 전송드립니다." ); //제목
+        message.addRecipients(MimeMessage.RecipientType.TO, to);
+        message.setSubject("[智] 이메일 인증 코드 전송드립니다." );
 
         String msg="";
         msg += "<h1 style=\"font-size: 30px; padding-right: 30px; padding-left: 30px;\">이메일 코드 확인</h1>";
@@ -31,13 +31,12 @@ public class SendEmailUtil {
         msg += "</td></tr></tbody></table></div>";
         msg += "<a href=\"http://localhost:3000/fnq\" style=\"text-decoration: none; color: #434245;\" rel=\"noreferrer noopener\" target=\"_blank\">Team.KY Technologies, Inc</a>";
 
-        message.setText(msg, "utf-8", "html"); //내용
-        message.setFrom(new InternetAddress("KoreanRestaurantJI <koreanrestaurantji@naver.com>")); //보내는 사람
+        message.setText(msg, "utf-8", "html");
+        message.setFrom(new InternetAddress("KoreanRestaurantJI <koreanrestaurantji@naver.com>"));
 
         return message;
     }
 
-    // 인증코드 만들기
     public static String createKey() {
         StringBuffer key = new StringBuffer();
         Random rnd = new Random();
@@ -50,7 +49,7 @@ public class SendEmailUtil {
 
     public String sendSimpleMessage(String to)throws Exception {
         MimeMessage message = createMessage(to);
-        try{//예외처리
+        try{
             emailSender.send(message);
         }catch(MailException es){
             es.printStackTrace();

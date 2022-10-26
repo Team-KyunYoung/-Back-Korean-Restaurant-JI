@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -110,8 +109,6 @@ public class OrderService {
     public List<OrderResponseDto> findOrderByUser() {
         User user = findUserByToken();
         List<Orders> userOrdersList = orderRepository.findByUserOrderByCreatedDateDesc(user);
-//        if(userOrdersList == null || userOrdersList.size() == 0)
-//            throw new BaseException(BaseResponseCode.ORDER_NOT_FOUND);
 
         List<OrderResponseDto> responseDtoList = new ArrayList<>();
         for(Orders userOrders : userOrdersList) {
@@ -142,8 +139,6 @@ public class OrderService {
         Orders orders = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new BaseException(BaseResponseCode.ORDER_NOT_FOUND));
 
         try {
-            //현재 삭제하려고 하는 테이블 또는 행이 다른 곳에서 참조하고 있기 때문에 에러가 날 수 있으므로,
-            //참조하는 데이터 먼저 삭제하도록 한다.
             for(OrderDish orderDish : orderDishRepository.findByOrders(orders)) {
                 orderDishRepository.delete(orderDish);
             }

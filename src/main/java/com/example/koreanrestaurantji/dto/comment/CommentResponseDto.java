@@ -1,7 +1,6 @@
 package com.example.koreanrestaurantji.dto.comment;
 
 import com.example.koreanrestaurantji.domain.Comment;
-import com.example.koreanrestaurantji.domain.EventBoard;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

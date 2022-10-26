@@ -19,7 +19,7 @@ import java.util.List;
 @Entity(name = "ORDERS")
 @Getter
 @DynamicUpdate
-@DynamicInsert //default 값이 들어가도록 한다.
+@DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ORDERS")
@@ -36,7 +36,6 @@ public class Orders {
     @JoinColumn(name = "user_number", foreignKey = @ForeignKey(name = "FK_user_order"))
     private User user;
 
-    // 날짜-시간 설정 : https://dev-coco.tistory.com/117
     @ApiModelProperty(value = "주문 시간")
     @Column(name = "order_time", nullable = false)
     private LocalDateTime createdDate;

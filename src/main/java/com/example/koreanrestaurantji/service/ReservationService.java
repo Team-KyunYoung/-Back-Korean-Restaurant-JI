@@ -59,21 +59,18 @@ public class ReservationService {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_RESERVATION);
         }
 
-        //예약 데이터 등록 성공 시, 객실 예약 현황 데이터도 수정 필요
         Room room = findRoomByRoomNumber(reservationRequestDto.getReservationRoomNumber());
         LocalDate reservationDate = LocalDate.parse(reservationRequestDto.getReservationDate(), DateTimeFormatter.ISO_DATE);
         String reservationTime = reservationRequestDto.getReservationTime();
         int reservationTableCount = reservationRequestDto.getReservationTableCount();
 
-        //이미 해당 객실-날짜-시간에 예약자가 존재하면, 남은 좌석 수 카운트
         int roomRemainingDefault = 15;
         if(roomStatusRepository.existsByRoomAndReservationDateAndReservationTime(room, reservationDate, reservationTime)){
             RoomStatus roomStatus = findRoomStatusByStatus(room, reservationDate, reservationTime);
-            //update(남은 좌석 수 - 예약 좌석 수)
             roomRemainingDefault = roomStatus.getRoomRemaining();
             roomStatus.setRoomRemaining(roomRemainingDefault-reservationTableCount);
             roomStatusRepository.save(roomStatus);
-        } else { // 처음 등록된다면, 새 RoomStatus 생성(이때 roomRemaining = default - 예약 좌석 수)
+        } else {
             RoomStatusRequestDto roomStatusRequestDto = RoomStatusRequestDto.builder()
                     .room(room)
                     .reservationDate(reservationDate)
@@ -139,17 +136,14 @@ public class ReservationService {
     }
 
     public SuccessResponseDto update(Long reservationNumber, ReservationUpdateRequestDto reservationUpdateRequestDto){
-        //Reservation
         Reservation reservation = findReservationByReservationNumber(reservationNumber);
         LocalDate reservationDate = LocalDate.parse(reservationUpdateRequestDto.getReservationDate(), DateTimeFormatter.ISO_DATE);
         String reservationTime = reservationUpdateRequestDto.getReservationTime();
         int reservationTableCount = reservationUpdateRequestDto.getReservationTableCount();
 
-        //RoomStatus
         Room room = findRoomByRoomName(reservation.getReservationRoomName());
         RoomStatus roomStatus = findRoomStatusByStatus(room, reservation.getReservationDate(), reservation.getReservationTime());
 
-        //RoomStatus 수정
         int roomRemaining = roomStatus.getRoomRemaining() + headCountToTableCount(reservation.getReservationHeadCount());
         if(roomRemaining >= 15){
             roomStatusRepository.delete(roomStatus);
@@ -163,7 +157,6 @@ public class ReservationService {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_ROOM_STATUS);
         }
 
-        //Reservation 수정
         reservation.setReservationRoomName(reservationUpdateRequestDto.getReservationRoomName());
         reservation.setReservationName(reservationUpdateRequestDto.getReservationName());
         reservation.setReservationPhoneNumber(reservationUpdateRequestDto.getReservationPhoneNumber());
@@ -178,17 +171,14 @@ public class ReservationService {
             throw new BaseException(BaseResponseCode.FAILED_TO_SAVE_RESERVATION);
         }
 
-        //Reservation 수정에 따른 RoomStatus 수정
-        //이미 해당 객실-날짜-시간에 예약자가 존재하면, 남은 좌석 수 카운트
         int roomRemainingDefault = 15;
         room = findRoomByRoomName(reservationUpdateRequestDto.getReservationRoomName());
         if(roomStatusRepository.existsByRoomAndReservationDateAndReservationTime(room, reservationDate, reservationTime)){
             roomStatus = findRoomStatusByStatus(room, reservationDate, reservationTime);
-            //update(남은 좌석 수 - 예약 좌석 수)
             roomRemainingDefault = roomStatus.getRoomRemaining();
             roomStatus.setRoomRemaining(roomRemainingDefault-reservationTableCount);
             roomStatusRepository.save(roomStatus);
-        } else { // 처음 등록된다면, 새 RoomStatus 생성(이때 roomRemaining = default - 예약 좌석 수)
+        } else {
             RoomStatusRequestDto roomStatusRequestDto = RoomStatusRequestDto.builder()
                     .room(room)
                     .reservationDate(reservationDate)
@@ -205,7 +195,6 @@ public class ReservationService {
         Reservation reservation = findReservationByReservationNumber(reservationNumber);
         reservationRepository.delete(reservation);
 
-        //RoomStatus 수정
         Room room = findRoomByRoomName(reservation.getReservationRoomName());
         RoomStatus roomStatus = findRoomStatusByStatus(room, reservation.getReservationDate(), reservation.getReservationTime());
 

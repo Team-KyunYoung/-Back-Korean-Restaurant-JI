@@ -94,10 +94,6 @@ public class QuestionService {
         }
     }
 
-//    public QuestionPostResponseDto findFAQPost(long questionNumber){
-//        return new QuestionPostResponseDto(findQuestionBoardByQuestionNumber(questionNumber));
-//    }
-
     public SuccessResponseDto updateQNAPost(long questionNumber, QNAUpdateRequestDto qnaUpdateRequestDto){
         User user = findUserByToken();
 

@@ -1,6 +1,5 @@
 package com.example.koreanrestaurantji.dto.dish;
 
-import com.example.koreanrestaurantji.domain.Dish;
 import com.example.koreanrestaurantji.domain.DishNutritionFacts;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

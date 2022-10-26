@@ -72,12 +72,6 @@ public class QuestionController {
         return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.findFAQList());
     }
 
-//    @ApiOperation(value = "FAQ 게시글 단건 확인", notes = "해당 FAQ 게시글 데이터를 리턴 합니다.")
-//    @GetMapping("/find/public/faq/{questionNumber}")
-//    public BaseResponse<QuestionPostResponseDto> findFAQPost(@ApiParam(value = "questionNumber 질문 게시글 일련번호", required = true) @PathVariable long questionNumber) throws Exception {
-//        return new BaseResponse(BaseResponseCode.OK.getHttpStatus(), BaseResponseCode.OK.getMessage(), questionService.findFAQPost(questionNumber));
-//    }
-
     @ApiImplicitParams({
             @ApiImplicitParam(
                     name = "X-AUTH-TOKEN",

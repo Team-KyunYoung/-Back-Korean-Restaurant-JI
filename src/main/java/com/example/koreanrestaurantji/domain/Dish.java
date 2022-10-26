@@ -6,8 +6,6 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @ApiModel(value = "음식 정보", description = "음식 이름, 가격, 사진 등의 정보를 가진 Class")
 @Entity(name = "DISH")

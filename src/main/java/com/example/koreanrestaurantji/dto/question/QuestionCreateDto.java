@@ -5,8 +5,6 @@ import com.example.koreanrestaurantji.domain.User;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @NoArgsConstructor
 public class QuestionCreateDto {
     private User user;

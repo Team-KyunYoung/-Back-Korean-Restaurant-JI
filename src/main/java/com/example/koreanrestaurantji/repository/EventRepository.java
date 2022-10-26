@@ -14,12 +14,12 @@ public interface EventRepository extends JpaRepository<EventBoard, Long> {
     Optional<EventBoard> findByEventNumberOrderByWriteDateDesc(Long eventNumber);
 
     @Transactional
-    @Modifying  //(clearAutomatically = true) // bulk연산이 실행된 후 1차캐시를 비워주는 속성. default=false
+    @Modifying
     @Query("update EVENT_BOARD p set p.eventTitle = :title, p.eventImage = :image, p.eventContents = :contents where p.eventNumber = :eventNumber")
     void updatePost(long eventNumber, String title, String image, String contents);
 
     @Transactional
-    @Modifying  //(clearAutomatically = true) // bulk연산이 실행된 후 1차캐시를 비워주는 속성. default=false
+    @Modifying
     @Query("update EVENT_BOARD p set p.eventView = p.eventView+1 where p.eventNumber = :eventNumber")
     void updateViewCount(long eventNumber);
 }

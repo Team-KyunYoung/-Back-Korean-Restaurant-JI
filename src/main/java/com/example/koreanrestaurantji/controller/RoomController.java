@@ -1,7 +1,5 @@
 package com.example.koreanrestaurantji.controller;
 
-import com.example.koreanrestaurantji.dto.course.CourseSearchRequestDto;
-import com.example.koreanrestaurantji.dto.course.CourseSearchResponseDto;
 import com.example.koreanrestaurantji.dto.room.*;
 import com.example.koreanrestaurantji.exception.BaseResponse;
 import com.example.koreanrestaurantji.exception.BaseResponseCode;

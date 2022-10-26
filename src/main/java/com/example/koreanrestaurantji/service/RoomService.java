@@ -81,8 +81,6 @@ public class RoomService {
         Room room = findRoomByRoomNumber(roomNumber);
         List<RoomStatus> roomStatus = roomStatusRepository.findByRoomAndReservationDate(room,
                 roomStatusDateRequestDto.getReservationDate());
-//        if(roomStatus.size() == 0)
-//            throw new BaseException(BaseResponseCode.ROOM_STATUS_NOT_FOUND);
 
         RoomResponseDto roomResponseDto = new RoomResponseDto(room, roomStatus);
 
