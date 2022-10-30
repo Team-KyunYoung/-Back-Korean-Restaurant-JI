@@ -36,10 +36,16 @@ jobs:
 
     # (3) Gradle build (Test 제외)
     - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      run: chmod +x ./gradlew
+      shell: bash
 
     - name: Build with Gradle
-      run: ./gradlew clean build -x test
+      run: ./gradlew build -x test
+      shell: bash
+
+    - name: Make zip file
+      run: zip -r ./$GITHUB_SHA.zip .
+      shell: bash
 
     # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
     - name: Configure AWS credentials
