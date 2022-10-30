@@ -27,34 +27,18 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    # (2) JDK 11 세팅
-    - name: Set up JDK 18
+    # (2) JDK 17 세팅
+    - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
-        java-version: '18'
+        java-version: '17'
 
     # (3) Gradle build (Test 제외)
     - name: Build with Gradle
       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
       with:
         arguments: clean build -x test
-
-    - name: Make Directory
-      run: mkdir -p deploy
-
-    - name: Copy Jar
-      run: cp ./build/libs/*.jar ./deploy
-
-    - name: Copy appspec.yml
-      run: cp appspec.yml ./deploy
-
-    - name: Copy script
-      run: cp ./scripts/*.sh ./deploy
-
-    - name: Make zip file
-      run: zip -r ./{{zip 파일 이름}}.zip ./deploy
-      shell: bash
 
     # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
     - name: Configure AWS credentials
