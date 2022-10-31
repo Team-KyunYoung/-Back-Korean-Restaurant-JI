@@ -34,7 +34,17 @@ jobs:
         distribution: 'zulu'
         java-version: '13'
 
-    # (3) Gradle build (Test 제외)
+    # (3-1) application-auth.properties 추가
+    - name: make application-auth.properties
+      run:
+        echo "touch application-auth.properties" |
+        cd ./src/main/resources |
+        touch ./application-auth.properties |
+        echo "copy properties" |
+        echo "${{ secrets.AUTH_DATA }}" > ./application-auth.properties
+      shell: bash
+
+      # (3-2) Gradle build (Test 제외)
     - name: Build with Gradle
       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
       with:

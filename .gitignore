@@ -49,4 +49,4 @@ out/
 .DS_Store
 
 # Not upload personal information file.
-application.properties
+application-auth.properties
