@@ -38,10 +38,9 @@ jobs:
     - name: make application-auth.properties
       run:
         echo "touch application-auth.properties" |
-        cd ./src/main/resources |
-        touch ./application-auth.properties |
+        touch ./src/main/resources/application-auth.properties |
         echo "copy properties" |
-        echo "${{ secrets.AUTH_DATA }}" > ./application-auth.properties
+        echo "${{ secrets.AUTH_DATA }}" > ./src/main/resources/application-auth.properties
       shell: bash
 
       # (3-2) Gradle build (Test 제외)
