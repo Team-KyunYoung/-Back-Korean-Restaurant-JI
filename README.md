@@ -52,3 +52,7 @@
 ![image](https://user-images.githubusercontent.com/82142527/196112910-4a4c3868-0203-41e5-bfea-4df1d101c05a.png)
 
 <br>
+
+##  :trident: API
+![image](https://user-images.githubusercontent.com/82142527/201630140-c8f65949-a85a-4c9b-8c0a-5cc3485e20ac.png)
+
