@@ -1,5 +1,11 @@
 #	:stew: [BackEnd]Korean Restaurant 智
 
+기본 url : https://www.koreanrestaurantji.ml<br/>
+
+공유 계정을 통해 체험 가능합니다.   
+ 아이디 : testuser<hi>@test.com  
+ 비밀번호 : testuser1!<br/>
+
 <br>
 
 ## :point_right: Info
