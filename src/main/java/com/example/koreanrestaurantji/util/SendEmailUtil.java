@@ -29,7 +29,7 @@ public class SendEmailUtil {
         msg += "<div style=\"padding-right: 30px; padding-left: 30px; margin: 32px 0 40px;\"><table style=\"border-collapse: collapse; border: 0; background-color: #F4F4F4; height: 70px; table-layout: fixed; word-wrap: break-word; border-radius: 6px;\"><tbody><tr><td style=\"text-align: center; vertical-align: middle; font-size: 30px;\">";
         msg += code;
         msg += "</td></tr></tbody></table></div>";
-        msg += "<a href=\"http://localhost:3000/fnq\" style=\"text-decoration: none; color: #434245;\" rel=\"noreferrer noopener\" target=\"_blank\">Team.KY Technologies, Inc</a>";
+        msg += "<a href=\"https://www.koreanrestaurantji.ml/FAQBoard\" style=\"text-decoration: none; color: #434245;\" rel=\"noreferrer noopener\" target=\"_blank\">Team.KY Technologies, Inc</a>";
 
         message.setText(msg, "utf-8", "html");
         message.setFrom(new InternetAddress("KoreanRestaurantJI <koreanrestaurantji@naver.com>"));

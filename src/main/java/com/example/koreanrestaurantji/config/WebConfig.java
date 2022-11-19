@@ -9,6 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
+                                //AWS CloudFront 주소                     //대체 도메인
                 .allowedOrigins("https://d33eeenzlmjw0a.cloudfront.net", "https://www.koreanrestaurantji.ml")
                 .allowedMethods("*")
                 .allowedHeaders("*")

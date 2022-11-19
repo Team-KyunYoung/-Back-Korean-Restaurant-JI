@@ -3,12 +3,9 @@ package com.example.koreanrestaurantji.domain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @ApiModel(value = "전체 사용자 예약 정보", description = "테이블 예약 정보를 가진 Class")
 @Entity(name = "RESERVATION")

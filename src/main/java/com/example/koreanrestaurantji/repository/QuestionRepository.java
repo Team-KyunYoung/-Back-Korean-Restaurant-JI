@@ -28,6 +28,4 @@ public interface QuestionRepository extends JpaRepository<QuestionBoard, Long> {
     @Query("update QUESTION_BOARD p set p.questionTitle = :title, p.questionContents = :contents where p.questionNumber = :questionNumber")
     void updateFAQPost(long questionNumber, String title, String contents);
 
-
-
 }
